@@ -106,7 +106,7 @@ class User
             $query->bindValue(':login', $login);
             $query->bindValue(':password', md5($password));
             $query->bindValue(':email', $this->email());
-            $query->bindValue(':rank', $this->rank());
+            $query->bindValue(':rank', $this->rank()->id(), PDO::PARAM_INT);
             $query->execute();
             if ($db->errorCode() > 0)
                 throw new Exception($db->errorCode());

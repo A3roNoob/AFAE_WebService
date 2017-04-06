@@ -40,20 +40,24 @@ if (isset($_SESSION['userobject'])) {
             if (!(is_null($user->id())))
                 $_SESSION['userobject'] = $user;
         } catch (Exception $e) {
-            echo "<div class='messagebox'><h1>" . $e->getMessage() . "</h1></div>";
+            echo "<div class='alert alert-danger'><h1>" . $e->getMessage() . "</h1></div>";
         }
         if (!isset($_SESSION['userobject']))
+        {
+            $loginErr="Login/Mot de passe erron&eacute;";
             include(TEMPLATES_PATH . '/frmLogin.php');
-        else ?>
+        }
+        else { ?>
             <div class="messagebox">
-            <h1>Vous &ecirc;tes connect&eacute;, <?php echo $user->name() . " " . $user->fname(); ?></h1>
-            <script>
-                setTimeout(function () {
-                    window.location.replace("index.php");
-                }, 200);
-            </script>
-        </div>
+                <h1>Vous &ecirc;tes connect&eacute;, <?php echo $user->name() . " " . $user->fname(); ?></h1>
+                <script>
+                    setTimeout(function () {
+                        window.location.replace("index.php");
+                    }, 200);
+                </script>
+            </div>
         <?php
+        }
     } else {
         include(TEMPLATES_PATH . '/frmLogin.php');
     }
