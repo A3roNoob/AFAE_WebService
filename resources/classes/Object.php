@@ -20,8 +20,9 @@ class Object
     private $_vendu;
     private $_taille;
     private $_nbItems;
+    private $_verrou;
 
-    public static function createObject($user, $idfoire, $desc, $baisse, $prix, $vendu, $taille, $nbItems)
+    public static function createObject($user, $idfoire, $desc, $baisse, $prix, $vendu, $taille, $nbItems, $verrou)
     {
         $obj = new self();
         $obj->setUtilisateur($user);
@@ -33,6 +34,7 @@ class Object
         $obj->setVendu($vendu);
         $obj->setTaille($taille);
         $obj->setNbItems($nbItems);
+        $obj->setVerrou($verrou);
         return $obj;
     }
 
@@ -86,6 +88,11 @@ class Object
         return $this->_nbItems;
     }
 
+    public function verrou()
+    {
+        return $this->_verrou;
+    }
+
     public function hydrate(array $data)
     {
         if (isset($data['idobjet']))
@@ -108,6 +115,8 @@ class Object
             $this->setTaille($data['taille']);
         if (isset($data['nbitem']))
             $this->setNbItems($data['nbitem']);
+        if (isset($data['verrou']))
+            $this->setVerrou($data['verrou']);
     }
 
     public function setIdObjet($idObjet)
@@ -160,46 +169,44 @@ class Object
 
     public function setNbItems($nbitems)
     {
-        $nbitems = (int)$nbitems;
-        $this->_nbItems = $nbitems;
+        $this->_nbItems = (int)$nbitems;
     }
 
     public function setNumItem($num)
     {
-        $num = (int) $num;
-        $this->_numItem = $num;
+        $this->_numItem = (int)$num;
     }
 
     public function createNumItem()
     {
-        $objMan = new ObjectManager($this->user());
-
+        $objMan = new ObjectManager();
+        $objMan->loadObjectsFromUser($this->user());
         $this->_numItem = $objMan->getLastItem() + 1;
+    }
+
+    public function setVerrou($v)
+    {
+        $this->_verrou = (bool)$v;
     }
 
     public static function loadObjectFromId($idObjet)
     {
 
         $db = connectToDb();
-        $query = $db->query("SELECT idobjet, numitem, idfoire, idutilisateur, description, baisse, prix, vendu, taille, nbitem FROM objet WHERE idobjet=" . $idObjet);
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data))
-            throw new Exception("Erreur lors de l'execution de la requ&egrave;te sur la table objet. <br> Function name : loadObjectFromId");
+        $query = $db->prepare("SELECT idobjet, numitem, idfoire, idutilisateur, description, baisse, prix, vendu, taille, nbitem, verrou FROM objet WHERE idobjet=:idobj");
+        $query->bindValue(':idobj', $idObjet, PDO::PARAM_INT);
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        $query->closeCursor();
 
         $objet = new self();
         $objet->hydrate($data);
         return $objet;
 
-    }
-
-    public function deleteObject()
-    {
-        $db = connectToDb();
-        $obj = Object::loadObjectFromId($this->idObjet());
-        $query = $db->prepare("DELETE FROM objet WHERE idobjet=" . $this->idObjet());
-        $query->execute();
-        $obj->goUpInTable($db);
-        $query->closeCursor();
     }
 
     public function goUpInTable($db)
@@ -224,7 +231,7 @@ class Object
     {
 
         $db = connectToDb();
-        $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, vendu, taille) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :vendu, :taille)');
+        $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, vendu, taille, verrou) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :vendu, :taille, :verrou)');
         $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
         $query->bindValue(':numitem', $this->numItem(), PDO::PARAM_INT);
         $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
@@ -233,6 +240,7 @@ class Object
         $query->bindValue(':prix', $this->prix());
         $query->bindValue(':vendu', $this->vendu(), PDO::PARAM_BOOL);
         $query->bindValue(':taille', $this->taille());
+        $query->bindValue(':verrou', $this->verrou());
         $query->execute();
 
     }

@@ -12,9 +12,9 @@ global $config;
 $config = array(
     "db" => array(
         "dbname" => "afae",
-        "username" => "root",
-        "password" => "",
-        "host" => "127.0.0.1"
+        "username" => "afae",
+        "password" => "afae",
+        "host" => "localhost"
     ),
     "default_user" => "1"
 );

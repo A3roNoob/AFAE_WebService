@@ -24,7 +24,7 @@ class User
     private $_email;
     private $_password;
 
-    private function hydrate(array $data)
+    public function hydrate(array $data)
     {
         if (isset($data['idutilisateur']))
             $this->setId($data['idutilisateur']);
@@ -55,33 +55,38 @@ class User
     public static function loadFromBd($login, $password)
     {
         $db = connectTodb();
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE login=:login");
+        $query->bindValue(':login', $login);
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
         $user = new self();
-        $query = $db->query("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE login='$login'");
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data) || md5($password) != $data['motdepasse']) {
-            $data['nomutilisateur'] = "wrong";
-            $query->closeCursor();
-            throw new Exception("Erreur: Identifiant/Mot de passe erroné");
-        } else
+        if(md5($password)==$data['motdepasse'])
             $user->hydrate($data);
-
         $query->closeCursor();
+
         return $user;
     }
 
     public static function loadUserWithId($id)
     {
         $db = connectTodb();
-        $user = new self();
-        $query = $db->query("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE idutilisateur='$id'");
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data)) {
-            $query->closeCursor();
-            throw new Exception("Erreur: ID invalide");
-        } else
-            $user->hydrate($data);
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE idutilisateur=:id");
+        $query->bindValue(':id', $id, PDO::PARAM_INT);
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
 
         $query->closeCursor();
+        $user = new self();
+        $user->hydrate($data);
         return $user;
     }
 
@@ -132,9 +137,17 @@ class User
     public function checkUser()
     {
         $db = connectToDb();
-        $query = $db->query("SELECT idutilisateur, nomutilisateur, email, adresse, motdepasse FROM utilisateur WHERE idutilisateur=" . $this->id() . " AND motdepasse='" . $this->_password . "'");
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data) /*|| is_null($data['idutilisateur'])|| $data['nomutilisateur'] != $this->name() || $data['email'] != $this->email() || $data['adresse'] != $this->address() || $data['motdepasse'] != $this->_password*/) {
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, email, adresse, motdepasse FROM utilisateur WHERE idutilisateur=:id AND motdepasse=:pwd");
+        $query->bindValue(':id', $this->id(), PDO::PARAM_INT);
+        $query->bindValue(':pwd', $this->_password);
+        $data = null;
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        if (is_bool($data) || $query->rowCount() == 0) {
             session_destroy();
         }
         $query->closeCursor();
@@ -143,11 +156,8 @@ class User
 
     public function checkRank($rank)
     {
-        if (is_a($rank, "Rank")) {
-            if ($this->rank()->id() >= $rank->id())
-                return true;
-        }
-        return false;
+        if (is_a($rank, "Rank"))
+            return ($this->rank()->id() >= $rank->id());
     }
 
     public function id()

@@ -6,9 +6,8 @@
  * Time: 13:12
  */
 $pagetitle = 'Inscription';
-
 require_once("resources/config.php");
-require(CLASS_PATH . "/User.php");
+require_once("resources/functions.php");
 session_start();
 
 $nameBool = true;
@@ -21,7 +20,7 @@ $cpBool = true;
 $cityBool = true;
 $phoneBool = true;
 
-require_once(TEMPLATES_PATH . '/header.php');
+include_once(TEMPLATES_PATH . '/header.php');
 
 
 if (isset($_SESSION['userobject']) || isset($_SESSION['inscrit']) && $_SESSION['inscrit'] == true) {
@@ -33,14 +32,14 @@ if (isset($_SESSION['userobject']) || isset($_SESSION['inscrit']) && $_SESSION['
 } else {
     //On échappe les éventuelles balises html que l'utilisateur aurait pu entrer
     if (isset($_POST['name'])) {
-        $_POST['name'] = htmlspecialchars($_POST['name']);
-        $_POST['firstname'] = htmlspecialchars($_POST['firstname']);
-        $_POST['login'] = htmlspecialchars($_POST['login']);
-        $_POST['password'] = htmlspecialchars($_POST['password']);
-        $_POST['email'] = htmlspecialchars($_POST['email']);
-        $_POST['address'] = htmlspecialchars($_POST['address']);
-        $_POST['cp'] = htmlspecialchars($_POST['cp']);
-        $_POST['city'] = htmlspecialchars($_POST['city']);
+        $_POST['name'] = test_input($_POST['name']);
+        $_POST['firstname'] = test_input($_POST['firstname']);
+        $_POST['login'] = test_input($_POST['login']);
+        $_POST['password'] = test_input($_POST['password']);
+        $_POST['email'] = test_input($_POST['email']);
+        $_POST['address'] = test_input($_POST['address']);
+        $_POST['cp'] = test_input($_POST['cp']);
+        $_POST['city'] = test_input($_POST['city']);
     }
 
 
@@ -53,7 +52,7 @@ if (isset($_SESSION['userobject']) || isset($_SESSION['inscrit']) && $_SESSION['
     if (isset($_POST['password']))
         $passwordBool = (!empty($_POST['password']));
     if (isset($_POST['email']))
-        $emailBool = (!empty($_POST['email']));
+        $emailBool = (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL));
     if (isset($_POST['address']))
         $addressBool = (!empty($_POST['address']));
     if (isset($_POST['cp']))
@@ -174,4 +173,4 @@ function wrong($field)
 
 }
 
-require_once(TEMPLATES_PATH . '/footer.php');
+include_once(TEMPLATES_PATH . '/footer.php');

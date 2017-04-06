@@ -31,7 +31,7 @@ html, body {
     background-color: lightslategray;
     display: table;
     text-align: center;
-    left: 40%;
+    left: 30%;
     top: 30%;
 
     position:relative;
@@ -47,14 +47,14 @@ html, body {
     position: relative;
     display: table;
     text-align: center;
-    left: 40%;
+    left: 30%;
 }
 
 #inscription-form {
     position: relative;
     display: table;
     text-align: center;
-    left: 40%;
+    left: 30%;
 }
 
 #inscription-form label, #inscription-form input
@@ -92,4 +92,8 @@ label.wrong{
 
 #container tr:nth-child(even) {
     background-color: #dddddd;
+}
+
+.error {
+    color: red;
 }
