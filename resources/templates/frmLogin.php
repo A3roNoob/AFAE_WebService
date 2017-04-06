@@ -1,11 +1,22 @@
-<div class="messagebox">
-    <form action="#" method="post">
+   <form action="#" method="post" class="col-xs-3">
+       <div class="form-group">
         <label for="login">Identifiant : </label>
-        <span class="error">* <?php echo $loginErr ;?></span><br/>
-        <input type="text" name="login"/><br/>
+           <?php
+           $class = '';
+           if(!empty($loginErr)) $class = 'alert alert-danger';
+           echo '<p class="'.$class.'" style="color: red;" role="alert">* '.$loginErr.'</p>';
+           ?>
+        <input type="text" class="form-control" name="login" placeholder="Identifiant"/>
+       </div>
+
+       <div class="form-group">
         <label for="password">Mot de passe : </label>
-        <span class="error">* <?php echo $passwordErr;?></span><br/>
-        <input type="password" name="password"/><br/>
-        <input type="submit" value="Connexion"><br/>
+           <?php
+           if(!empty($passwordErr)) $class = 'alert alert-danger';
+           echo '<p class="'.$class.'" style="color:red;" role="alert">* '.$passwordErr.'</p>';
+           ?>
+        <input type="password" class="form-control" name="password" placeholder="Mot de passe"/>
+       </div>
+
+        <button type="submit" class="btn btn-default">Connexion</button>
     </form>
-</div>
