@@ -28,8 +28,7 @@ function hasError($b)
 $foire = null;
 if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Vendeur'))) {
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire'])) {
-        $idFoire = test_input($_GET['foire']);
-        $foire = Foire::loadFromDbParticipant($idFoire, $_SESSION['userobject']->id());
+
         ?>
         <form action="saisirobjet.php" method="GET" class="form-inline">
             <div class="form-group">
@@ -47,6 +46,8 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
         </form>
         <?php
+        $idFoire = test_input($_GET['foire']);
+        $foire = Foire::loadFromDb($idFoire);
         if (!is_null($foire)) {
             echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
             include(TEMPLATES_PATH . '/frmSaisirObjet.php');
@@ -110,11 +111,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             }
 
 
-        } else {
-            if (!is_null($foire)) {
-                echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
-                include(TEMPLATES_PATH . '/frmSaisirObjet.php');
-            }
         }
     }
 } else {
