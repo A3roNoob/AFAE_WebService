@@ -18,8 +18,8 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
     $objMan = new ObjectManager();
     $objMan->loadObjectsFromUserFoire($_SESSION['userobject'], Foire::loadFromDb(1));
     ?>
-    <div id="container">
-        <table>
+    <div class="table-responsive">
+        <table class="table table-striped">
             <tr>
                 <th>Num Objet</th>
                 <th>Description</th>

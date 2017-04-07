@@ -48,10 +48,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         ?>
         <div id="container">
             <form action="saisiefoire.php" method="POST">
-                <div>
+                <div class="form-group">
                     <label for="name">Nom de la foire&nbsp;:</label>
                     <span class="error">* <?php echo $foireNameErr;?></span>
-                    <input type="text" name="name" id="name"/>
+                    <input type="text" class="form-control" name="name" id="name"/>
                 </div>
 
                 <?php
@@ -62,9 +62,9 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $userList = new UserManager();
 
                     ?>
-                    <div>
+                    <div class="form-group">
                         <label for="idassoc">Association&nbsp;:</label>
-                        <select id="idassoc" name="idassoc">
+                        <select id="idassoc" class="form-control" name="idassoc">
                             <?php
                             foreach ($assocList->assoc() as $assoc) {
                                 echo '<option value="' . $assoc->idAssoc() . '">' . (is_null($assoc->sigle()) ? $assoc->nomAssoc() : $assoc->sigle()) . '</option>';
@@ -72,9 +72,9 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                             ?>
                         </select>
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="idadmin">Administrateur&nbsp;:</label>
-                        <select id="idadmin" name="idadmin">
+                        <select id="idadmin" class="form-control" name="idadmin">
                             <?php
                             $userList->loadSuperAdmins();
                             foreach ($userList->users() as $user) {
@@ -111,7 +111,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     <label for="datefin">Date fin&nbsp;:</label>
                     <input type="datetime-local" id="datefin" name="datefin"/>
                 </div>
-                <input type="submit" value="Cr&eacute;er foire"/>
+                <input type="submit" class="btn btn-default" value="Cr&eacute;er foire"/>
             </form>
         </div>
         <?php

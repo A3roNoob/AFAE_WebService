@@ -6,7 +6,7 @@
  * Time: 21:08
  */
 ?>
-<form action="inscription.php" method="POST" class="col-xs-6">
+<form action="inscription.php" method="POST" class="col-xs-6 ">
     <div class="<?php hasError($nameErr); ?> has-feedback form-group">
         <label class="col-sm-12 control-label" for="name">Nom&nbsp;:</label>
         <div class="col-sm-12">

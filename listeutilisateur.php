@@ -14,11 +14,12 @@ session_start();
 
 $pagetitle = 'Liste des utilisateurs';
 include_once(TEMPLATES_PATH . '/header.php');
-if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Administrateur de foire'))) {
+$idFoire = 0;
+if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Administrateur de foire'))) {
     $userList = new UserManager();
 //Si l'utilisateur est superAdmin:
     ?>
-    <div id="container">
+    <div class="table-responsive">
     <?php
     if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur'))) {
         $userList->loadUsersFromDb();
@@ -28,28 +29,49 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
         $foireList->loadFoiresFromFoireAdmin($_SESSION['userobject']);
         ?>
 
-        <form action="listeutilisateur.php" method="POST">
-            <label for="foire">Sélectionner une foire&nbsp;:</label>
-            <select name="foire" id="foire">
-                <?php
-                foreach ($foireList->foires() as $foire) {
-                    echo "<option value='" . $foire->idFoire() . "'>" . $foire->nomFoire() . "</option>";
-                }
-                ?>
-            </select>
-            <input type="submit" value="Selectionner"/>
+        <form class="form-inline" action="listeutilisateur.php" method="POST">
+            <div class="form-group">
+                <label for="foire">Sélectionner une foire&nbsp;:</label>
+                <select name="foire" id="foire">
+                    <?php
+                    foreach ($foireList->foires() as $foire) {
+                        echo "<option value='" . $foire->idFoire() . "'>" . $foire->nomFoire() . "</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-default" value="Selectionner"/>
         </form>
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $foire = test_input($_POST['foire']);
             $userList->loadUsersFromFoire($foire);
-            $f=Foire::loadFromDb($foire);
+            $f = Foire::loadFromDb($foire);
             echo "<span id='nomfoire'>" . (is_null($f)) ? "" : $f->nomFoire() . "</span>";
+            $idFoire = $f->idFoire();
+            $_SESSION['userlist'] = $userList;
+        }
+        if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['idfoire']) && isset($_GET['iduser']))
+        {
+            $idUser = test_input($_GET['iduser']);
+            $idFoire = test_input($_GET['idfoire']);
+            if(Participant::validerPart($idUser, $idFoire))
+            {
+                echo '<div class="alert alert-success">Vendeur autoris&eacute; dans cette foire.</div>';
+            }
+            else
+            {
+                echo '<div class="alert alert-danger">Erreur lors de l\'autorisation du vendeur. <br />Veuillez r&eacute;essayer plus tard.</div>';
+            }
+            if(isset($_SESSION['userlist']))
+            {
+                $userList = $_SESSION['userlist'];
+            }
         }
     }
     if ($userList->users() != NULL) {
         ?>
-        <table>
+        <table class="table table-striped">
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
@@ -59,7 +81,10 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
                 <th>Code Postal</th>
                 <th>T&eacute;l&eacute;phone</th>
                 <th>E-mail</th>
-                <?php if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur'))) echo '<th>Modifier</th>'; ?>
+                <?php if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur')))
+                    echo '<th>Modifier</th>';
+                else
+                    echo '<th>Valider</th>' ?>
             </tr>
             <?php
             foreach ($userList->users() as $user) {
@@ -99,8 +124,25 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
 
                 if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur'))) {
                     echo "<td>";
-                    echo '<input type="button" value="Modifier"/>';
+                    echo '<input type="button" class="btn btn-default" value="Modifier"/>';
                     echo "</td>";
+                } else {
+                    if ($idFoire != 0) {
+
+                        echo '<td>';
+                        $part = Participant::loadFromDb($idFoire, $user->id());
+                        if (!$part->valide()) {
+                            echo '<form method="GET" action="listeutilisateur.php">
+                                <input name="iduser" value="' . $user->id() . '" type="hidden"/>
+                                <input name="idfoire" value="' . $idFoire . '" type="hidden" />
+                                <input type="submit" class="btn btn-default" value="Valider"/>
+                          </form>';
+                        }else
+                        {
+                            echo 'Valid&eacute;';
+                        }
+                        echo '</td>';
+                    }
                 }
 
                 echo "</tr>";
@@ -111,9 +153,7 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
         </div>
         <?php
     }
-}
-else
-{
+} else {
     accessForbidden();
 }
 include_once(TEMPLATES_PATH . '/footer.php');
