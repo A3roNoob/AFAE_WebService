@@ -14,7 +14,8 @@ $pagetitle = 'Liste des objets';
 include_once(TEMPLATES_PATH . '/header.php');
 if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromId(1))) {
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire'])) {
-
+        $idFoire = test_input($_GET['foire']);
+        $foire = Foire::loadFromDb($idFoire);
         ?>
         <form action="listeobjet.php" method="GET" class="form-inline">
             <div class="form-group">
@@ -32,15 +33,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
         </form>
         <?php
-        $idFoire = test_input($_GET['foire']);
-        $foire = Foire::loadFromDb($idFoire);
         if (!is_null($foire)) {
             echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
-
-
+        }
+        
         $objMan = new ObjectManager();
         $objMan->loadObjectsFromUserFoire($_SESSION['userobject'], $foire);
-
         ?>
 
         <div class="table-responsive">
@@ -61,6 +59,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 global $objMan;
                 foreach ($objMan->objets() as $userObject) {
                     echo "<tr>";
+
                     echo "<td>";
                     echo $userObject->numItem();
                     echo "</td>";
@@ -108,7 +107,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         </div>
 
         <?php
-        }
     } else {
         ?>
         <form action="listeobjet.php" method="GET" class="form-inline">
