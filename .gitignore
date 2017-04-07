@@ -58,3 +58,5 @@ modules.xml
 *.ipr
 
 # End of https://www.gitignore.io/api/intellij+iml
+.idea/workspace.xml
+.idea/workspace.xml

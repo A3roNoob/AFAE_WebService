@@ -46,11 +46,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
     }
     else{
         ?>
-        <div id="container">
-            <form action="saisiefoire.php" method="POST">
+            <form action="saisiefoire.php" method="POST" class="col-xs-6">
                 <div class="form-group">
                     <label for="name">Nom de la foire&nbsp;:</label>
-                    <span class="error">* <?php echo $foireNameErr;?></span>
+                    <span class="alert alert-danger">* <?php echo $foireNameErr;?></span>
                     <input type="text" class="form-control" name="name" id="name"/>
                 </div>
 
@@ -63,7 +62,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
                     ?>
                     <div class="form-group">
-                        <label for="idassoc">Association&nbsp;:</label>
+                        <label for="idassoc" class="control-label">Association&nbsp;:</label>
                         <select id="idassoc" class="form-control" name="idassoc">
                             <?php
                             foreach ($assocList->assoc() as $assoc) {
@@ -73,7 +72,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="idadmin">Administrateur&nbsp;:</label>
+                        <label for="idadmin" class="control-label">Administrateur&nbsp;:</label>
                         <select id="idadmin" class="form-control" name="idadmin">
                             <?php
                             $userList->loadSuperAdmins();
@@ -104,16 +103,33 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 }
                 ?>
                 <div>
-                <label for="datedebut">Date d&eacute;but&nbsp;:</label>
-                <input type="datetime-local" id="datedebut" name="datedebut" />
+                    <label for="datedebut">Date d&eacute;but&nbsp;:</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" class="form-control" id="datedebut" name="datedebut">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="datefin">Date fin&nbsp;:</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <input type="text" class="form-control" id="datefin" name="datefin">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <!--<div>
+                    <label for="datedebut">Date d&eacute;but&nbsp;:</label>
+                    <input type="datetime-local" id="datedebut" name="datedebut" />
                 </div>
                 <div>
                     <label for="datefin">Date fin&nbsp;:</label>
                     <input type="datetime-local" id="datefin" name="datefin"/>
-                </div>
+                </div>-->
                 <input type="submit" class="btn btn-default" value="Cr&eacute;er foire"/>
             </form>
-        </div>
         <?php
     }
 } else {
