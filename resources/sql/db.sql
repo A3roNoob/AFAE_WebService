@@ -72,7 +72,7 @@ CREATE TABLE objet (
   idutilisateur INT,
   description   VARCHAR(255)  NOT NULL,
   baisse        BOOLEAN       NOT NULL          DEFAULT 0,
-  prix          DECIMAL(5, 2) NOT NULL,
+  prix          DECIMAL(10, 2) NOT NULL,
   vendu         BOOLEAN       NOT NULL          DEFAULT 0,
   taille        VARCHAR(32),
   nbitem        INT           NOT NULL,
