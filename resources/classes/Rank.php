@@ -47,17 +47,19 @@ class Rank
     //Get a rank from db with its name
     public static function loadFromName($name)
     {
-        $rank = new self();
-        global $config;
-        $db = connectToDb($config);
-        $query = $db->query("SELECT idrang, nomrang FROM rang WHERE nomrang='" . $name . "'");
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data)) {
-            $query->closeCursor();
-            throw new Exception("Erreur lors de la requête sur la table rang.");
-        } else
-            $rank->hydrate($data);
+        $db = connectToDb();
 
+        $query = $db->prepare("SELECT idrang, nomrang FROM rang WHERE nomrang=:nom");
+        $query->bindValue(':nom', $name);
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
+        $rank = new self();
+        $rank->hydrate($data);
         $query->closeCursor();
 
         return $rank;
@@ -66,16 +68,20 @@ class Rank
     //Get a rank from db with its name
     public static function loadFromId($id)
     {
+
+        $db = connectToDb();
+        $query = $db->prepare("SELECT idrang, nomrang FROM rang WHERE idrang=:id");
+        $query->bindValue(':id', $id, PDO::PARAM_INT);
+        try {
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+
         $rank = new self();
-        global $config;
-        $db = connectToDb($config);
-        $query = $db->query("SELECT idrang, nomrang FROM rang WHERE idrang=" . $id);
-        $data = $query->fetch(PDO::FETCH_ASSOC);
-        if (is_bool($data)) {
-            $query->closeCursor();
-            throw new Exception("Erreur lors de la requête sur la table rang.");
-        } else
-            $rank->hydrate($data);
+        $rank->hydrate($data);
         $query->closeCursor();
 
         return $rank;

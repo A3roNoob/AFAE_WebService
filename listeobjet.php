@@ -7,77 +7,87 @@
  */
 require_once("resources/config.php");
 require_once("resources/functions.php");
-require(CLASS_PATH."/User.php");
 session_start();
 
 $pagetitle = 'Liste des objets';
-$level = Rank::loadFromName("Vendeur");
 
-require_once(TEMPLATES_PATH.'/header.php');
-$objMan = new ObjectManager($_SESSION['userobject']);
-$userObjects = $objMan->objets();
-//var_dump($userObjects);
-?>
-<div id="container">
-    <table>
-        <tr>
-            <th>Num Objet</th>
-            <th>Description</th>
-            <th>Taille</th>
-            <th>Nb Items</th>
-            <th>Prix</th>
-            <th>Baisse autorisée</th>
-            <th>Vendu</th>
-            <th>Prix Vendu</th>
-        </tr>
-        <?php
-        global $userObjects;
-        foreach($userObjects as $userObject)
-        {
-            echo "<tr>";
+include_once(TEMPLATES_PATH . '/header.php');
+if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromId(1))) {
 
-            echo "<td>";
-            echo $userObject['numitem'];
-            echo "</td>";
 
-            echo "<td>";
-            echo $userObject['description'];
-            echo "</td>";
+    $objMan = new ObjectManager();
+    $objMan->loadObjectsFromUserFoire($_SESSION['userobject'], Foire::loadFromDb(1));
+    ?>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>Num Objet</th>
+                <th>Description</th>
+                <th>Taille</th>
+                <th>Nb Items</th>
+                <th>Prix</th>
+                <th>Baisse autorisée</th>
+                <th>Vendu</th>
+                <th>Prix Vendu</th>
+                <th>Modifier</th>
+                <th>Supprimer</th>
+            </tr>
+            <?php
+            global $objMan;
+            foreach ($objMan->objets() as $userObject) {
+                echo "<tr>";
 
-            echo "<td>";
-            echo $userObject['taille'];
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->numItem();
+                echo "</td>";
 
-            echo "<td>";
-            echo $userObject['nbitem'];
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->desc();
+                echo "</td>";
 
-            echo "<td>";
-            echo $userObject['prix'];
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->taille();
+                echo "</td>";
 
-            echo "<td>";
-            echo $userObject['baisse'] ? "oui" : "non";
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->nbItems();
+                echo "</td>";
 
-            echo "<td>";
-            echo $userObject['vendu'] ? "oui" : "non";
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->prix();
+                echo "</td>";
 
-            echo "<td>";
-            if ($userObject['vendu'])
-                echo "Pas implémenté";
-            else
-                echo "Non Vendu";
-            echo "</td>";
+                echo "<td>";
+                echo $userObject->baisse() ? "oui" : "non";
+                echo "</td>";
 
-            echo "</tr>";
-        }
+                echo "<td>";
+                echo $userObject->vendu() ? "oui" : "non";
+                echo "</td>";
 
-        ?>
-    </table>
-</div>
+                echo "<td>";///Prix Vendu
+                echo ($userObject->vendu()) ? "Pas implémenté" : "Non Vendu";
+                echo "</td>";
 
-<?php
-require_once(TEMPLATES_PATH.'/footer.php');
+                echo "<td>";
+                echo ($userObject->verrou()) ? "" : "<button type='button' class='btn btn-primary'>Modifier</button>";
+                echo "</td>";
+
+                echo "<td>";
+                echo  ($userObject->verrou()) ? "" : "<button type='button' class='btn btn-primary'>Supprimer</button>";
+                echo "</td>";
+                echo "</tr>";
+            }
+
+            ?>
+        </table>
+    </div>
+
+    <?php
+}
+else
+{
+    accessForbidden();
+}
+include_once(TEMPLATES_PATH . '/footer.php');
 ?>

@@ -7,16 +7,20 @@
  */
 require_once("resources/config.php");
 require_once("resources/functions.php");
-require(CLASS_PATH."/User.php");
+require(CLASS_PATH . "/User.php");
 session_start();
 
 $pagetitle = 'Saisie des objets';
 $level = Rank::loadFromName("Vendeur");
 
-require_once(TEMPLATES_PATH.'/header.php');
-?>
+include_once(TEMPLATES_PATH . '/header.php');
+if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Vendeur'))) {
+    ?>
 
 
-<?php
-require_once(TEMPLATES_PATH.'/footer.php');
+    <?php
+} else {
+    accessForbidden();
+}
+include_once(TEMPLATES_PATH . '/footer.php');
 ?>

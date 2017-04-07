@@ -18,5 +18,14 @@ function connectToDb()
     }
     return $db;
 }
+function accessForbidden()
+{
+    echo "<div class='messagebox'>Acc&egrave;s interdit</div>";
+}
 
-?>
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}

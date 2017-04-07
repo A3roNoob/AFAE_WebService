@@ -11,16 +11,28 @@ require(CLASS_PATH . "/Rank.php");
 require(CLASS_PATH."/Object.php");
 session_start();
 
-/*
-for($i = 1; $i< 10; $i++)
+
+for($i = 0; $i< 10; $i++)
 {
-    $objet = Object::createObject($_SESSION['userobject']->id(), 1, "petite robe noire $i", false, $i+ 0.20, false, $i." ans", 1);
+    $objet = Object::createObject($_SESSION['userobject']->id(), 1, "petite robe noire $i", false, $i+ 0.20, false, $i." ans", 1, false);
     $objet->insertObjectIntoDb();
-}*/
+}
 
+/*
+$objet = Object::loadObjectFromId(2);
+try
+{
+    $objet->deleteObject();
 
-//$objet = Object::loadObjectFromId(50);
-//$objet->deleteObject();
+}
+catch (PDOException $e)
+{
+    echo $e->getMessage();
+}
+catch (Exception $e)
+{
+    echo $e->getMessage();
+}
 
 //$objMan = new ObjectManager($_SESSION['userobject']);
 /*
