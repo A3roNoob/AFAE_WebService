@@ -16,7 +16,9 @@ $config = array(
         "password" => "afae",
         "host" => "localhost"
     ),
-    "default_user" => "1"
+    "default_user" => "1",
+    "max_object_user" => 15,
+    "max_object_assoc" => 200
 );
 
 define("TEMPLATES_PATH", realpath(dirname(__FILE__). '/templates'));

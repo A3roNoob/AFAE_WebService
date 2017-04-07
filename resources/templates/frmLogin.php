@@ -1,4 +1,4 @@
-<form action="#" method="post" class="col-xs-3">
+<form action="#" method="post" class="col-xs-6">
     <div class="form-group">
         <label for="login">Identifiant&nbsp;: </label>
         <?php

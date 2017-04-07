@@ -6,8 +6,7 @@
  * Date: 03/04/2017
  * Time: 10:18
  */
-require_once('User.php');
-
+require_once(dirname(__FILE__) . "/../config.php");
 class Object
 {
     private $_idObjet;
@@ -127,8 +126,12 @@ class Object
 
     public function setUtilisateur($user)
     {
-        $user = (int)$user;
-        $this->_utilisateur = User::loadUserWithId($user);
+        if(is_a($user, "User"))
+            $this->_utilisateur = $user;
+        else{
+            $user = (int)$user;
+            $this->_utilisateur = User::loadUserWithId($user);
+        }
     }
 
     public function setDesc($desc)
@@ -179,6 +182,7 @@ class Object
 
     public function createNumItem()
     {
+
         $objMan = new ObjectManager();
         $objMan->loadObjectsFromUser($this->user());
         $this->_numItem = $objMan->getLastItem() + 1;
@@ -229,19 +233,54 @@ class Object
 
     public function insertObjectIntoDb()
     {
-
+        global $config;
         $db = connectToDb();
-        $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, vendu, taille, verrou) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :vendu, :taille, :verrou)');
-        $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
-        $query->bindValue(':numitem', $this->numItem(), PDO::PARAM_INT);
-        $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
-        $query->bindValue(':descr', $this->desc());
-        $query->bindValue(':baisse', $this->baisse(), PDO::PARAM_BOOL);
-        $query->bindValue(':prix', $this->prix());
-        $query->bindValue(':vendu', $this->vendu(), PDO::PARAM_BOOL);
-        $query->bindValue(':taille', $this->taille());
-        $query->bindValue(':verrou', $this->verrou());
-        $query->execute();
 
+        $query = $db->prepare("SELECT COUNT(numitem) AS NbItems FROM objet WHERE idfoire=:idfoire AND idutilisateur=:iduser");
+        $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
+        $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
+        $data = null;
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            return $e->getMessage();
+        }
+
+        $assoc = Association::loadFromAdmin($this->user()->id());
+        if(!is_bool($assoc))
+            $max = $config['max_object_assoc'];
+        else
+            $max = $config['max_object_user'];
+
+        if((int)$data['NbItems'] < $max) {
+
+            $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, vendu, taille, verrou) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :vendu, :taille, :verrou)');
+            $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
+            $query->bindValue(':numitem', $this->numItem(), PDO::PARAM_INT);
+            $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
+            $query->bindValue(':descr', $this->desc());
+            $query->bindValue(':baisse', $this->baisse(), PDO::PARAM_BOOL);
+            $query->bindValue(':prix', $this->prix());
+            $query->bindValue(':vendu', $this->vendu(), PDO::PARAM_BOOL);
+            $query->bindValue(':taille', $this->taille());
+            $query->bindValue(':verrou', $this->verrou());
+            try {
+                $query->execute();
+            } catch (PDOException $e) {
+                return $e->getMessage();
+            }
+        }
+        else
+        {
+            return '<div class="alert alert-warning">'.$this.' non ins&eacute;s&eacute;r&eacute;. Vous avez atteint le quota pour cette foire.';
+        }
+        return true;
+    }
+
+    public function __toString()
+    {
+        return "Objet&nbsp;:&nbsp;".$this->desc()." Prix&nbsp;:&nbsp;".$this->prix();
     }
 }

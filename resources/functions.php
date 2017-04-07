@@ -20,7 +20,7 @@ function connectToDb()
 }
 function accessForbidden()
 {
-    echo "<div class='messagebox'>Acc&egrave;s interdit</div>";
+    echo "<div class='alert alert-danger'>Acc&egrave;s interdit</div>";
 }
 
 function test_input($data) {

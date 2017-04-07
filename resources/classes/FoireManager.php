@@ -76,4 +76,27 @@ class FoireManager
         }
     }
 
+    public function loadFromDbParticipant($idpart)
+    {
+        $foireList = array();
+        $db = connectToDb();
+        $query = $db->prepare("SELECT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND P.idutilisateur=:iduser && P.valide=TRUE");
+        $query->bindValue(':iduser', $idpart, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+        }
+
+        foreach ($data as $value) {
+            $foire = new Foire();
+            $foire->hydrate($value);
+            array_push($foireList, $foire);
+        }
+        $this->setFoires($foireList);
+        $query->closeCursor();
+    }
 }

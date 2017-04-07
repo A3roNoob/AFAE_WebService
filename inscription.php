@@ -78,7 +78,7 @@ if (isset($_SESSION['userobject'])) {
         if (!$nameErr && !$fNameErr && !$loginErr && !$passwordErr && !$addressErr && !$cpErr && !$cityErr && !$phoneErr && !$emailErr) {
             $user = User::createUser($name, $fName, $address, $cp, $city, $phone, false, false, $config['default_user'], $email);
             try {
-                $user->insertIntoDb($_POST['login'], $_POST['password']);
+                $user->insertIntoDb($login, $password);
             } catch (Exception $e) {
                 //ON essaye d'entrer un login/email déjà existant
                 if ($e->getCode() == 23000) {

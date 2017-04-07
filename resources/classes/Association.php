@@ -111,6 +111,10 @@ class Association
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+
+        if(is_bool($data))
+            return false;
+
         $obj = new self();
         $obj->hydrate($data);
         $query->closeCursor();

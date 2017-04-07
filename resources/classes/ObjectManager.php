@@ -43,6 +43,8 @@ class ObjectManager
         }
         $query->closeCursor();
 
+        if (is_bool($data))
+            return false;
 
         global $arrObject;
         $arrObject = array();
@@ -84,7 +86,7 @@ class ObjectManager
 
     public function getLastItem()
     {
-        if (is_array($this->_objets))
+        if (is_array($this->_objets) && !is_bool(end($this->_objets)))
             return end($this->_objets)->numItem();
     }
 

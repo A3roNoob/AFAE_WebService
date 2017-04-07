@@ -165,4 +165,5 @@ class Foire
     {
         return $this->nomFoire();
     }
+
 }

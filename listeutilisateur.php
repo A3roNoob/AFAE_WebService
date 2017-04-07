@@ -43,7 +43,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             <input type="submit" class="btn btn-default" value="Selectionner"/>
         </form>
         <?php
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['foire'])) {
             $foire = test_input($_POST['foire']);
             $userList->loadUsersFromFoire($foire);
             $f = Foire::loadFromDb($foire);
