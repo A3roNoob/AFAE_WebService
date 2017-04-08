@@ -14,6 +14,8 @@ $pagetitle = 'Liste des objets';
 include_once(TEMPLATES_PATH . '/header.php');
 if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromId(1))) {
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire'])) {
+        $foireMan = new FoireManager();
+        $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
 
         ?>
         <form action="listeobjet.php" method="GET" class="form-inline">
@@ -21,8 +23,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <label for="foire">S&eacute;lectionner&nbsp;: </label>
                 <select id="foire" name="foire" class="form-control">
                     <?php
-                    $foireMan = new FoireManager();
-                    $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
+
                     foreach ($foireMan->foires() as $foire) {
                         echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
                     }
@@ -40,7 +41,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
         $objMan = new ObjectManager();
         $objMan->loadObjectsFromUserFoire($_SESSION['userobject'], $foire);
-
         ?>
 
         <div class="table-responsive">
@@ -110,23 +110,31 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         <?php
         }
     } else {
-        ?>
-        <form action="listeobjet.php" method="GET" class="form-inline">
-            <div class="form-group">
-                <label for="foire">S&eacute;lectionner&nbsp;: </label>
-                <select id="foire" name="foire" class="form-control">
-                    <?php
-                    $foireMan = new FoireManager();
-                    $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
-                    foreach ($foireMan->foires() as $foire) {
-                        echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-            <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
-        </form>
-        <?php
+        $foireMan = new FoireManager();
+        $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
+        if(!empty($foireMan->foires())) {
+
+
+            ?>
+            <form action="listeobjet.php" method="GET" class="form-inline">
+                <div class="form-group">
+                    <label for="foire">S&eacute;lectionner&nbsp;: </label>
+                    <select id="foire" name="foire" class="form-control">
+                        <?php
+
+                        foreach ($foireMan->foires() as $foire) {
+                            echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
+            </form>
+            <?php
+        }else {
+            echo '<div class="alert alert-info">Vous n\'&ecirc;tes inscrit/accept&eacute; dans aucune foire. <br />Revenez plus tard si vous attendez une confirmation.</div>';
+        }
+
     }
 } else {
     accessForbidden();
