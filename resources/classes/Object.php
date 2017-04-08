@@ -74,7 +74,7 @@ class Object
 
     public function vendu()
     {
-        return $this->_vendu;
+        return (bool)$this->_vendu;
     }
 
     public function taille()
@@ -109,7 +109,7 @@ class Object
         if (isset($data['prix']))
             $this->setPrix($data['prix']);
         if (isset($data['vendu']))
-            $this->setVendu(['vendu']);
+            $this->setVendu($data['vendu']);
         if (isset($data['taille']))
             $this->setTaille($data['taille']);
         if (isset($data['nbitem']))
