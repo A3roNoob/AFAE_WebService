@@ -99,4 +99,27 @@ class FoireManager
         $this->setFoires($foireList);
         $query->closeCursor();
     }
+
+    public function loadFromDbNonParticipant($idpart)
+    {
+        $foireList = array();
+        $db = connectToDb();
+        $query = $db->prepare("SELECT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND :iduser NOT IN (SELECT idutilisateur FROM participant H WHERE H.idfoire=F.idfoire)");
+        $query->bindValue(':iduser', $idpart, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+        }
+        foreach ($data as $value) {
+            $foire = new Foire();
+            $foire->hydrate($value);
+            array_push($foireList, $foire);
+        }
+        $this->setFoires($foireList);
+        $query->closeCursor();
+    }
 }

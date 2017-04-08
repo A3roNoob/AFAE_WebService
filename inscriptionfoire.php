@@ -26,23 +26,31 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
         }
 
     }else{
-        ?>
-        <form action="inscriptionfoire.php" method="POST" class="form-inline">
-            <div class="form-group">
-                <label for="foire">S'inscrire &agrave;&nbsp;: </label>
-                <select id="foire" name="foire" class="form-control">
-                    <?php
-                    $foireMan = new FoireManager();
-                    $foireMan->loadFoiresFromDb();
-                    foreach ($foireMan->foires() as $foire) {
-                        echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
-                    }
-                    ?>
-                </select>
-            </div>
-            <input type="submit" class="btn btn-default" value="S'inscrire"/>
-        </form>
-        <?php
+        $foireMan = new FoireManager();
+        $foireMan->loadFromDbNonParticipant($_SESSION['userobject']->id());
+        if(!empty($foireMan->foires())) {
+
+            ?>
+            <form action="inscriptionfoire.php" method="POST" class="form-inline">
+                <div class="form-group">
+                    <label for="foire">S'inscrire &agrave;&nbsp;: </label>
+                    <select id="foire" name="foire" class="form-control">
+                        <?php
+
+                        foreach ($foireMan->foires() as $foire) {
+                            echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-default" value="S'inscrire"/>
+            </form>
+            <?php
+        }
+        else
+        {
+            echo '<div class="alert alert-info">Vous &ecirc;tes inscrits &agrave toutes les foires.<br/> Si elle n\'apparaissent pas, veuillez attendre d\'&ecirc;tre autoris&eacute; par les administrateurs des foires en question.</div>';
+        }
     }
 }
 else
