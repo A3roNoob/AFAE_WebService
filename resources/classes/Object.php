@@ -256,13 +256,14 @@ class Object
 
         if((int)$data['NbItems'] < $max) {
 
-            $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, vendu, taille, verrou) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :vendu, :taille, :verrou)');
+            $query = $db->prepare('INSERT INTO objet(idutilisateur, numitem, idfoire, description, baisse, prix, nbitem, vendu, taille, verrou) VALUES (:iduser, :numitem, :idfoire, :descr, :baisse, :prix, :nbitem, :vendu, :taille, :verrou)');
             $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
             $query->bindValue(':numitem', $this->numItem(), PDO::PARAM_INT);
             $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
             $query->bindValue(':descr', $this->desc());
             $query->bindValue(':baisse', $this->baisse(), PDO::PARAM_BOOL);
             $query->bindValue(':prix', $this->prix());
+            $query->bindValue(':nbitem', $this->nbItems(), PDO::PARAM_INT);
             $query->bindValue(':vendu', $this->vendu(), PDO::PARAM_BOOL);
             $query->bindValue(':taille', $this->taille());
             $query->bindValue(':verrou', $this->verrou());
