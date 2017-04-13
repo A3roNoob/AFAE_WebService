@@ -27,7 +27,7 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
 
     <script>
         setTimeout(function () {
-            window.location.replace("index.php");
+            window.location.replace("/");
         }, 1000);
     </script>
 

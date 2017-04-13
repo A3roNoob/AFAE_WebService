@@ -6,7 +6,7 @@
  * Time: 18:49
  */
 ?>
-<form action="saisirobjet.php" method="POST" class="col-xs-6">
+<form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="POST" class="col-xs-6">
     <div class="form-group <?php hasError($descErr); ?>">
         <label class="control-label" for="desc">Description&nbsp;: </label>
         <input type="text" class="form-control" id="desc" name="desc"/>

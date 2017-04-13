@@ -31,7 +31,7 @@ if(isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::lo
         if(!empty($foireMan->foires())) {
 
             ?>
-            <form action="inscriptionfoire.php" method="POST" class="form-inline">
+            <form action="/enregistrement/foire/" method="POST" class="form-inline">
                 <div class="form-group">
                     <label for="foire">S'inscrire &agrave;&nbsp;: </label>
                     <select id="foire" name="foire" class="form-control">

@@ -30,35 +30,35 @@
 
                 if (!isset($_SESSION['userobject']) || isset($_GET['deco'])) {
                     ?>
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="connexion.php">Se connecter</a></li>
-                    <li><a href="inscription.php">S'inscrire</a></li>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/connexion/">Se connecter</a></li>
+                    <li><a href="/inscription/">S'inscrire</a></li>
                     <?php
 
                 } else {
                     $_SESSION['userobject']->checkUser();
                     ?>
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="saisirobjet.php">Saisir des objets</a></li>
-                    <li><a href="listeobjet.php">Vos objets</a></li>
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/saisir/objet/">Saisir des objets</a></li>
+                    <li><a href="/liste/objet/">Vos objets</a></li>
                     <?php
                     if ($_SESSION['userobject']->checkRank(Rank::loadFromName("Super Administrateur"))) {
                         ?>
-                        <li><a href="listeutilisateur.php"> Liste utilisateur </a></li>
+                        <li><a href="/liste/utilisateur/"> Liste utilisateur </a></li>
                         <?php
                     } else if ($_SESSION['userobject']->checkRank(Rank::loadFromName("Administrateur de foire"))) {
                         ?>
-                        <li><a href="listeutilisateur.php">Liste des vendeurs</a></li>
+                        <li><a href="/liste/vendeur/">Liste des vendeurs</a></li>
                         <?php
                     }
                     if ($_SESSION['userobject']->checkRank(Rank::loadFromName("Administrateur de foire"))) {
                         ?>
-                        <li><a href="saisiefoire.php">Cr&eacute;er une foire</a></li>
+                        <li><a href="/saisir/foire/">Cr&eacute;er une foire</a></li>
                         <?php
                     }
                     ?>
-                    <li><a href="inscriptionfoire.php">S'inscrire à une foire</a></li>
-                    <li><a href="deconnexion.php?deco=1"> Se d&eacute;connecter </a></li>
+                    <li><a href="/enregistrement/foire">S'inscrire à une foire</a></li>
+                    <li><a href="/deconnexion/"> Se d&eacute;connecter </a></li>
                     <?php
 
                 }

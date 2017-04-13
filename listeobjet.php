@@ -18,7 +18,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
 
         ?>
-        <form action="listeobjet.php" method="GET" class="form-inline">
+        <form  method="GET" class="form-inline">
             <div class="form-group">
                 <label for="foire">S&eacute;lectionner&nbsp;: </label>
                 <select id="foire" name="foire" class="form-control">
@@ -30,7 +30,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     ?>
                 </select>
             </div>
-            <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
+            <input type="button" class="btn btn-default" onclick="window.location.href= '/liste/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
         </form>
         <?php
         $idFoire = test_input($_GET['foire']);
@@ -116,7 +116,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
 
             ?>
-            <form action="listeobjet.php" method="GET" class="form-inline">
+            <form method="GET" class="form-inline">
                 <div class="form-group">
                     <label for="foire">S&eacute;lectionner&nbsp;: </label>
                     <select id="foire" name="foire" class="form-control">
@@ -128,7 +128,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         ?>
                     </select>
                 </div>
-                <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
+                <input type="button" class="btn btn-default" onclick="window.location.href= '/liste/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
             </form>
             <?php
         }else {

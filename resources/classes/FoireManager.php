@@ -104,11 +104,11 @@ class FoireManager
     {
         $foireList = array();
         $db = connectToDb();
-        $query = $db->prepare("SELECT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND :iduser NOT IN (SELECT idutilisateur FROM participant H WHERE H.idfoire=F.idfoire)");
+        $query = $db->prepare("SELECT DISTINCT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND :iduser NOT IN (SELECT idutilisateur FROM participant H WHERE H.idfoire=F.idfoire)");
         $query->bindValue(':iduser', $idpart, PDO::PARAM_INT);
         try{
             $query->execute();
-            $data = $query->fetchAll();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
         }
         catch(PDOException $e)
         {

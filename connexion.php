@@ -52,7 +52,7 @@ if (isset($_SESSION['userobject'])) {
                 <h1>Vous &ecirc;tes connect&eacute;, <?php echo $user->name() . " " . $user->fname(); ?></h1>
                 <script>
                     setTimeout(function () {
-                        window.location.replace("index.php");
+                        window.location.replace("/");
                     }, 200);
                 </script>
             </div>

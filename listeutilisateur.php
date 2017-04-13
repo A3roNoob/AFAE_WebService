@@ -29,7 +29,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         $foireList->loadFoiresFromFoireAdmin($_SESSION['userobject']);
         ?>
 
-        <form class="form-inline" action="listeutilisateur.php" method="POST">
+        <form class="form-inline" method="GET">
             <div class="form-group">
                 <label for="foire">Sélectionner une foire&nbsp;:</label>
                 <select name="foire" id="foire">
@@ -40,11 +40,11 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     ?>
                 </select>
             </div>
-            <input type="submit" class="btn btn-default" value="Selectionner"/>
+            <input type="button" class="btn btn-default" onclick="window.location.href= '/liste/vendeur/foire/'+ document.getElementById('foire').value + '/'" value="Selectionner"/>
         </form>
         <?php
-        if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['foire'])) {
-            $foire = test_input($_POST['foire']);
+        if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire']) && !isset($_GET['iduser'])) {
+            $foire = test_input($_GET['foire']);
             $userList->loadUsersFromFoire($foire);
             $f = Foire::loadFromDb($foire);
             echo "<span id='nomfoire'>" . (is_null($f)) ? "" : $f->nomFoire() . "</span>";
@@ -132,10 +132,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         echo '<td>';
                         $part = Participant::loadFromDb($idFoire, $user->id());
                         if (!$part->valide()) {
-                            echo '<form method="GET" action="listeutilisateur.php">
-                                <input name="iduser" value="' . $user->id() . '" type="hidden"/>
-                                <input name="idfoire" value="' . $idFoire . '" type="hidden" />
-                                <input type="submit" class="btn btn-default" value="Valider"/>
+                            echo '<form>
+                                <input id="iduser" name="iduser" value="' . $user->id() . '" type="hidden"/>
+                                <input id="idfoire" name="idfoire" value="' . $idFoire . '" type="hidden" />
+                                <input type="button" class="btn btn-default" onclick="window.location.href= \'/liste/vendeur/\' + document.getElementById(\'iduser\').value + \'/\' + document.getElementById(\'idfoire\').value + \'/\'" value="Valider"/>
                           </form>';
                         }else
                         {

@@ -1,0 +1,24 @@
+RewriteEngine On
+RewriteRule ^connexion/?$ connexion.php
+RewriteRule ^inscription/?$ inscription.php
+RewriteRule ^saisir/objet/?$ saisirobjet.php
+RewriteRule ^saisir/foire/?$ saisiefoire.php
+RewriteRule ^liste/utilisateur/?$ listetutilisateur.php
+RewriteRule ^enregistrement/foire/?$ inscriptionfoire.php
+RewriteRule ^deconnexion/?$ deconnexion.php?deco=1
+
+#RewriteCond %{THE_REQUEST} /liste/vendeur/foire/\foire=([0-9]+)
+#RewriteRule ^liste/vendeur/foire/%1?
+
+#liste vendeur
+RewriteRule ^liste/vendeur/(foire)?/?$ listeutilisateur.php
+RewriteRule ^liste/vendeur/foire/([0-9]+)/?$ listeutilisateur.php?foire=$1
+RewriteRule ^liste/vendeur/([0-9])/([0-9])/?$ listeutilisateur.php?iduser=$1&idfoire=$2
+
+#saisir objet
+RewriteRule ^saisir/objet/(foire)?/?$ saisirobjet.php
+RewriteRule ^saisir/objet/foire/([0-9]+)/?$ saisirobjet.php?foire=$1
+
+#liste objet
+RewriteRule ^liste/objet/(foire)?/?$ listeobjet.php
+RewriteRule ^liste/objet/foire/([0-9]+)/?$ listeobjet.php?foire=$1

@@ -30,7 +30,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire'])) {
 
         ?>
-        <form action="saisirobjet.php" method="GET" class="form-inline">
+        <form method="GET" class="form-inline">
             <div class="form-group">
                 <label for="foire">S&eacute;lectionner&nbsp;: </label>
                 <select id="foire" name="foire" class="form-control">
@@ -43,7 +43,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     ?>
                 </select>
             </div>
-            <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
+            <input type="button" class="btn btn-default" onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
         </form>
         <?php
         $idFoire = test_input($_GET['foire']);
@@ -59,7 +59,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
 
             ?>
-            <form action="saisirobjet.php" method="GET" class="form-inline">
+            <form method="GET" class="form-inline">
                 <div class="form-group">
                     <label for="foire">S&eacute;lectionner&nbsp;: </label>
                     <select id="foire" name="foire" class="form-control">
@@ -71,7 +71,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         ?>
                     </select>
                 </div>
-                <input type="submit" class="btn btn-default" value="S&eacute;lectionner"/>
+                <input type="button" class="btn btn-default" onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
             </form>
 
             <?php
@@ -116,6 +116,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         echo '<div class="alert alert-danger">Une erreur est survenue pendant l\'insertion de l\'objet.<br />Veuillez r&eacute;essayez plus tard.</div>';
                     }
                 } else {
+
                     include(TEMPLATES_PATH . '/frmSaisirObjet.php');
                 }
 
