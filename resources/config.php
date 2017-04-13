@@ -23,6 +23,7 @@ $config = array(
 
 define("TEMPLATES_PATH", realpath(dirname(__FILE__). '/templates'));
 define("CLASS_PATH",  realpath(dirname(__FILE__). '/classes'));
+define("ERROR_PATH",  realpath(dirname(__FILE__). '/errors'));
 
 //Autoloader si on instancie une classe non déclarée
 function autoloader($class)
