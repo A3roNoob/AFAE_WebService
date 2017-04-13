@@ -13,7 +13,7 @@ RewriteRule ^deconnexion/?$ deconnexion.php?deco=1
 #liste vendeur
 RewriteRule ^liste/vendeur/(foire)?/?$ listeutilisateur.php
 RewriteRule ^liste/vendeur/foire/([0-9]+)/?$ listeutilisateur.php?foire=$1
-RewriteRule ^liste/vendeur/([0-9])/([0-9])/?$ listeutilisateur.php?iduser=$1&idfoire=$2
+RewriteRule ^liste/vendeur/([0-9]+)/([0-9]+)/?$ listeutilisateur.php?iduser=$1&idfoire=$2
 
 #saisir objet
 RewriteRule ^saisir/objet/(foire)?/?$ saisirobjet.php
