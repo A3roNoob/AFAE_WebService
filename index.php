@@ -17,13 +17,7 @@ include_once(TEMPLATES_PATH.'/header.php');
 
 if(isset($_GET['code']))
 {
-    switch($_GET['code'])
-    {
-        case 403 : include(ERROR_PATH . '/403.php');
-            break;
-        case 404 : include (ERROR_PATH . '/404.php');
-            break;
-    }
+    include(ERROR_PATH . '/' . $_GET['code'] .'.php');
 }
 
 include_once(TEMPLATES_PATH.'/footer.php');
