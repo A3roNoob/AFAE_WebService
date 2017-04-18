@@ -11,7 +11,7 @@
 <form action="/saisir/foire/" method="POST" class="col-xs-6">
     <div class="form-group">
         <label for="name">Nom de la foire&nbsp;:</label>
-        <span class="alert alert-danger">* <?php echo $foireNameErr;?></span>
+        <?php if(!empty($foireNameErr)) echo "<span class=\"alert alert-danger\">" . $foireNameErr . "</span>"?>
         <input type="text" class="form-control" name="name" id="name"/>
     </div>
 

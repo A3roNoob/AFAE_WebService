@@ -97,11 +97,13 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $nbitem = test_input($_POST['nbitem']);
                 else
                     $nbItemErr = true;
+                if(isset($_POST['idfoire']) && !empty($_POST['idfoire']))
+                    $idFoire = test_input($_POST['idfoire']);
                 $baisse = isset($_POST['baisse']);
 
 
                 if (!$descErr && !$tailleErr && !$prixErr && !$nbItemErr) {
-                    $obj = Object::createObject($_SESSION['userobject'], $foire->idFoire(), $desc, $baisse, $prix, false, $taille, $nbitem, false);
+                    $obj = Object::createObject($_SESSION['userobject'], $idFoire, $desc, $baisse, $prix, false, $taille, $nbitem, false);
                     $insert = $obj->insertObjectIntoDb();
                     if (is_bool($insert) && $insert) {
                         ?>

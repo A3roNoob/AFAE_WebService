@@ -34,5 +34,6 @@
                                                                          name="baisse"
                                                                          id="baisse"/></label>
     </div>
+    <input type="hidden" name="idfoire" value="<?php echo $foire->idfoire() ?>"/>
     <input type="submit" class="btn btn-default" value="Ajouter"/>
 </form>

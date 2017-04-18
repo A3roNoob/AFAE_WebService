@@ -60,3 +60,8 @@ modules.xml
 # End of https://www.gitignore.io/api/intellij+iml
 .idea/workspace.xml
 .idea/workspace.xml
+.idea/compiler.xml
+.idea/vcs.xml
+.idea/copyright/profiles_settings.xml
+.idea/php.xml
+.idea/sqldialects.xml
