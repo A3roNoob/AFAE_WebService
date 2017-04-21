@@ -13,7 +13,7 @@ session_start();
 $pagetitle = 'Cr&eacute;ation de foire';
 include_once(TEMPLATES_PATH . '/header.php');
 
-$foireNameErr = "";
+$foireNameErr = "";//Error message if foire name is empty
 if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Administrateur de foire'))) {
 
     if (isset($_POST['name']) && isset($_POST['datedebut']) && isset($_POST['datefin'])) {
