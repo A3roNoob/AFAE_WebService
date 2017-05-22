@@ -94,7 +94,7 @@ if (isset($_SESSION['userobject'])) {
             }
             if (!is_null($user)) {
                 //$_SESSION['userobject'] = $user;
-                echo "<div class='alert alert-success'>Vous avez &eacute;t&eacute; enregistr&eacute;.<a href='connexion.php' class='alert-link'>Connectez-vous !</a></div>";
+                echo "<div class='alert alert-success'>Vous avez &eacute;t&eacute; enregistr&eacute;.<a href='/connexion.php' class='alert-link'> Connectez-vous !</a></div>";
             } else {
                 echo "<div class='alert alert-dander'>Une erreur est survenue. Veuillez r&eacute;essayer plus tard.</div>";
             }
