@@ -24,7 +24,7 @@ RewriteRule ^liste/objet/(foire)?/?$ listeobjet.php
 RewriteRule ^liste/objet/foire/([0-9]+)/?$ listeobjet.php?foire=$1
 
 #interdiction du dossier ressources
-#RewriteRule ^resources - [F,L]
+RewriteRule ^resources - [F,L]
 
 #Errors
 RewriteRule ^(403|404)/?$ /index.php?code=$1

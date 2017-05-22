@@ -80,7 +80,7 @@ class FoireManager
     {
         $foireList = array();
         $db = connectToDb();
-        $query = $db->prepare("SELECT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND P.idutilisateur=:iduser && P.valide=TRUE");
+        $query = $db->prepare("SELECT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebutfoire, F.datefinfoire, F.datedebutsaisie, F.datefinsaisie FROM foire F, participant P WHERE F.idfoire=P.idfoire AND P.idutilisateur=:iduser && P.valide=TRUE");
         $query->bindValue(':iduser', $idpart, PDO::PARAM_INT);
         try{
             $query->execute();
@@ -104,7 +104,7 @@ class FoireManager
     {
         $foireList = array();
         $db = connectToDb();
-        $query = $db->prepare("SELECT DISTINCT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebut, F.datefin FROM foire F, participant P WHERE F.idfoire=P.idfoire AND :iduser NOT IN (SELECT idutilisateur FROM participant H WHERE H.idfoire=F.idfoire)");
+        $query = $db->prepare("SELECT DISTINCT F.idfoire, F.nomfoire, F.idassociation, F.idadmin, F.datedebutfoire, F.datefinfoire, F.datedebutsaisie, F.datefinsaisie FROM foire F, participant P WHERE F.idfoire=P.idfoire AND :iduser NOT IN (SELECT idutilisateur FROM participant H WHERE H.idfoire=F.idfoire)");
         $query->bindValue(':iduser', $idpart, PDO::PARAM_INT);
         try{
             $query->execute();
