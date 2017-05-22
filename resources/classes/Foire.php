@@ -12,8 +12,10 @@ class Foire
     private $_nomFoire;
     private $_idAssociation;
     private $_idAdmin;
-    private $_dateDebut;
-    private $_dateFin;
+    private $_dateDebutSaisie;
+    private $_dateFinSaisie;
+    private $_dateDebutFoire;
+    private $_dateFinFoire;
 
     public function idFoire()
     {
@@ -35,16 +37,25 @@ class Foire
         return $this->_idAssociation;
     }
 
-    public function dateDebut()
+    public function dateDebutSaisie()
     {
-        return $this->_dateDebut;
+        return $this->_dateDebutSaisie;
     }
 
-    public function dateFin()
+    public function dateFinSaisie()
     {
-        return $this->_dateFin;
+        return $this->_dateFinSaisie;
     }
 
+    public function dateDebutFoire()
+    {
+        return $this->_dateDebutFoire;
+    }
+
+    public function dateFinFoire()
+    {
+        return $this->_dateFinFoire;
+    }
     public function setIdFoire($id)
     {
         $id = (int)$id;
@@ -68,16 +79,25 @@ class Foire
         $this->_idAdmin = (int) $id;
     }
 
-    public function setDateDebut($date)
+    public function setDateDebutFoire($date)
     {
-        $this->_dateDebut = $date;
+        $this->_dateDebutFoire = $date;
     }
 
-    public function setDateFin($date)
+    public function setDateFinFoire($date)
     {
-        $this->_dateFin = $date;
+        $this->_dateFinFoire = $date;
     }
 
+    public function setDateDebutSaisie($date)
+    {
+        $this->_dateDebutSaisie = $date;
+    }
+
+    public function setDateFinSaisie($date)
+    {
+        $this->_dateFinSaisie = $date;
+    }
     public function hydrate(array $data)
     {
         if(!isset($data['result']))
@@ -90,21 +110,29 @@ class Foire
                 $this->setNomFoire($data['nomfoire']);
             if(isset($data['idadmin']))
                 $this->setIdAdmin($data['idadmin']);
-            if(isset($data['datedebut']))
-                $this->setDateDebut($data['datedebut']);
-            if(isset($data['datefin']))
-                $this->setDateFin($data['datefin']);
+            if (isset($data['datedebutfoire']))
+                $this->setDateDebutFoire($data['datedebutfoire']);
+            if (isset($data['datefinfoire']))
+                $this->setDateFinFoire($data['datefinfoire']);
+            if (isset($data['datedebutsaisie']))
+                $this->setDateDebutSaisie($data['datedebutsaisie']);
+            if (isset($data['datefinsaisie']))
+                $this->setDateFinSaisie($data['datefinsaisie']);
         }
     }
 
-    public static function createFoire($nomFoire, $idAssoc, $idAdmin, $datedebut, $datefin)
+    public static function createFoire($nomFoire, $idAssoc, $idAdmin, $dateDebutFoire, $dateFinFoire, $dataDebutSaisie, $dateFinSaisie)
     {
         $obj = new self();
         $obj->setNomFoire($nomFoire);
         $obj->setIdAssoc($idAssoc);
         $obj->setIdAdmin($idAdmin);
-        $obj->setDateDebut($datedebut);
-        $obj->setDateFin($datefin);
+        $obj->setDateDebutFoire($dateDebutFoire);
+        $obj->setDateFinFoire($dateFinFoire);
+        $obj->setDateDebutSaisie($dataDebutSaisie);
+        $obj->setDateFinSaisie($dateFinSaisie);
+
+
         return $obj;
     }
 
@@ -118,17 +146,17 @@ class Foire
             $data = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo $e->getMessage();
-        }
-        $query->closeCursor();
-        if(is_bool($data))
-        {
-            echo "Cette foire n'existe pas.";
-            return null;
-        }
+        } finally {
+            $query->closeCursor();
+            if (is_bool($data)) {
+                echo "Cette foire n'existe pas.";
+                return null;
+            }
 
             $objFoire = new self();
             $objFoire->hydrate($data);
             return $objFoire;
+        }
     }
 
     public function insertIntoDb()
@@ -137,13 +165,15 @@ class Foire
         $f->loadFoiresFromDb();
         $this->setIdFoire($f->getLastItem() + 1);
         $db = connectToDb();
-        $query = $db->prepare("INSERT INTO foire(nomfoire, idfoire, idadmin, idassociation, datedebut, datefin) VALUES (:nomfoire, :idfoire, :idadmin, :idassoc, :dd, :df);");
+        $query = $db->prepare("INSERT INTO foire(nomfoire, idfoire, idadmin, idassociation, datedebutfoire, datefinfoire, datedebutsaisie, datefinsaisie) VALUES (:nomfoire, :idfoire, :idadmin, :idassoc, :ddf, :dff, :dds, :dfs);");
         $query->bindValue(':nomfoire', $this->nomFoire());
         $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
         $query->bindValue(':idadmin', $this->idAdmin(), PDO::PARAM_INT);
         $query->bindValue(':idassoc', $this->idAssoc(), PDO::PARAM_INT);
-        $query->bindValue(':dd', $this->dateDebut());
-        $query->bindValue(':df', $this->dateFin());
+        $query->bindValue(':ddf', $this->dateDebutFoire());
+        $query->bindValue(':dff', $this->dateFinFoire());
+        $query->bindValue(':dds', $this->dateDebutSaisie());
+        $query->bindValue(':dfs', $this->dateFinSaisie());
         try {
             $query->execute();
         } catch (PDOException $e) {

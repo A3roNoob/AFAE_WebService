@@ -50,33 +50,35 @@ CREATE TABLE association (
 );
 
 CREATE TABLE foire (
-  idfoire       INT          NOT NULL,
-  nomfoire      VARCHAR(255) NOT NULL,
-  idassociation INT          NOT NULL,
-  idadmin INT NOT NULL,
-  datedebut        DATE,
-  datefin          DATE,
+  idfoire         INT          NOT NULL,
+  nomfoire        VARCHAR(255) NOT NULL,
+  idassociation   INT          NOT NULL,
+  idadmin         INT          NOT NULL,
+  datedebutfoire  DATE,
+  datefinfoire    DATE,
+  datedebutsaisie DATE,
+  datefinsaisie   DATE,
   CONSTRAINT pk_foire PRIMARY KEY (idfoire),
   CONSTRAINT fk_foire FOREIGN KEY (idassociation) REFERENCES association (idassociation)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_foire_admin FOREIGN KEY (idadmin) REFERENCES utilisateur (idutilisateur)
-  ON DELETE NO ACTION
-  ON UPDATE CASCADE
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE objet (
-  idobjet       INT           NOT NULL          AUTO_INCREMENT UNIQUE,
+  idobjet       INT            NOT NULL          AUTO_INCREMENT UNIQUE,
   numitem       INT,
-  idfoire       INT           NOT NULL,
+  idfoire       INT            NOT NULL,
   idutilisateur INT,
-  description   VARCHAR(255)  NOT NULL,
-  baisse        BOOLEAN       NOT NULL          DEFAULT 0,
+  description   VARCHAR(255)   NOT NULL,
+  baisse        BOOLEAN        NOT NULL          DEFAULT 0,
   prix          DECIMAL(10, 2) NOT NULL,
-  vendu         BOOLEAN       NOT NULL          DEFAULT 0,
+  vendu         BOOLEAN        NOT NULL          DEFAULT 0,
   taille        VARCHAR(32),
-  nbitem        INT           NOT NULL,
-  verrou        BOOLEAN       NOT NULL          DEFAULT 0,
+  nbitem        INT            NOT NULL,
+  verrou        BOOLEAN        NOT NULL          DEFAULT 0,
   CONSTRAINT pk_objet PRIMARY KEY (numitem, idutilisateur),
   CONSTRAINT fk_objet FOREIGN KEY (idutilisateur) REFERENCES utilisateur (idutilisateur)
     ON DELETE NO ACTION
