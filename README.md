@@ -9,9 +9,9 @@ Nous sommes des étudiants de l'IUT informatique d'Orsay. Dans le cadre du proje
 ## Contributeurs
 
 Les membres du projet sont :
-⋅⋅⋅+ Guillaume Boutry, guillaume.boutry@u-psud.fr
-⋅⋅⋅+ Adam Desiles, adam.desiles@u-psud.fr
-⋅⋅⋅+ Victor Leignadier, victor.leignadier@u-psud.fr
-⋅⋅⋅+ Mehdi Mjahad, mehdi-gabriel.mjahad@u-psud.fr
+* Guillaume Boutry, guillaume.boutry@u-psud.fr
+* Adam Desiles, adam.desiles@u-psud.fr
+* Victor Leignadier, victor.leignadier@u-psud.fr
+* Mehdi Mjahad, mehdi-gabriel.mjahad@u-psud.fr
 
 Le projet est tutoré par M. Julien Ciaffi, jciaffi@gmail.com
