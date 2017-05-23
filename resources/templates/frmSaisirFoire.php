@@ -7,6 +7,7 @@
  */
 
 ?>
+<?php if (!empty($dateErr)) echo "<span class=\"alert alert-danger\">" . $dateErr . "</span>" ?>
 
 <form action="/saisir/foire/" method="POST" class="col-xs-6">
     <div class="form-group">
@@ -65,18 +66,36 @@
     }
     ?>
     <div>
-        <label for="datedebut">Date d&eacute;but&nbsp;:</label>
+        <label for="datedebutfoire">Date début de la foire&nbsp;:</label>
         <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control" id="datedebut" name="datedebut">
+            <input type="text" class="form-control" id="datedebutfoire" name="datedebutfoire">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </div>
         </div>
     </div>
     <div>
-        <label for="datefin">Date fin&nbsp;:</label>
+        <label for="datefinfoire">Date fin de la foire&nbsp;:</label>
         <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control" id="datefin" name="datefin">
+            <input type="text" class="form-control" id="datefinfoire" name="datefinfoire">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="datedebut">Date d&eacute;but des saisies&nbsp;:</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datedebutsaisie" name="datedebutsaisie">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label for="datefin">Date fin des saisies&nbsp;:</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datefinsaisie" name="datefinsaisie">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </div>

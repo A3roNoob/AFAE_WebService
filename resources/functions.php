@@ -29,3 +29,9 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+
+function convertDateToSql($date)
+{
+    $date = DateTime::createFromFormat('m/d/Y H:i:s', $date . ' 00:00:00');
+    return $date->format('Y-m-d H:i:s');
+}
