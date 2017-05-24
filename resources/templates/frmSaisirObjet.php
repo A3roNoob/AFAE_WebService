@@ -30,6 +30,9 @@
         <?php spanError($nbItemErr); ?>
     </div>
     <div class="form-group">
+        <?php
+        ///TODO baisse objet > baisse globale (si baisse globale checked, baisse locale check par défaut (aide visuelle)
+        ?>
         <label class="control-label" for="baisse">Baisse du prix ?<input type="checkbox" class="checkbox"
                                                                          name="baisse"
                                                                          id="baisse"/></label>

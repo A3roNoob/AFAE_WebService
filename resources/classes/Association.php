@@ -6,6 +6,8 @@
  * Date: 04/04/2017
  * Time: 00:44
  */
+///TODO gestion assoc
+
 class Association
 {
     private $_idAssoc;

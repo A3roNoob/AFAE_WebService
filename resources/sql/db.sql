@@ -26,7 +26,6 @@ CREATE TABLE utilisateur (
   ville             VARCHAR(64)  NOT NULL,
   telephone         NUMERIC(10),
   baisse            BOOLEAN      NOT NULL,
-  changelock        BOOLEAN,
   login             VARCHAR(64)  NOT NULL UNIQUE,
   motdepasse        VARCHAR(255) NOT NULL,
   email             VARCHAR(255) NOT NULL UNIQUE,

@@ -9,6 +9,8 @@
 require_once(dirname(__FILE__) . "/../config.php");
 require_once(dirname(__FILE__) . "/../functions.php");
 
+//TODO gestion des opérateurs
+
 class User
 {
     private $_idUser;

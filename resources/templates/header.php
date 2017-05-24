@@ -1,3 +1,4 @@
+<?php ///TODO générations des documents ?>
 <!DOCTYPE html>
 <html>
 <head>

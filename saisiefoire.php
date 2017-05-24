@@ -6,10 +6,16 @@
  * Time: 17:15
  */
 
+///@TODO nbMaxObjets
+///@TODO prix minimum où la baisse est applicable
+///@TODO nbmaxobjets par assoc
+///
+
 require_once("resources/config.php");
 require_once("resources/functions.php");
 session_start();
-//TEST DU COMMIT GITHUB DEPUIS IDEA
+
+
 $pagetitle = 'Cr&eacute;ation de foire';
 include_once(TEMPLATES_PATH . '/header.php');
 

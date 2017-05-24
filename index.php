@@ -11,7 +11,9 @@ require_once("resources/config.php");
 require(CLASS_PATH."/User.php");
 session_start();
 
-
+///TODO faire apparaitre les prochaines foires prévues
+///TODO un vendeur revendique association -> générations d'un user association avec mdp par défaut
+///TODO créer page modifications infos perso modifs tout sauf username
 $pagetitle = 'Accueil';
 include_once(TEMPLATES_PATH.'/header.php');
 
