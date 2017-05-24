@@ -24,9 +24,17 @@ RewriteRule ^liste/objet/(foire)?/?$ listeobjet.php
 RewriteRule ^liste/objet/foire/([0-9]+)/?$ listeobjet.php?foire=$1
 
 #interdiction du dossier ressources
-RewriteRule ^resources - [F,L]
+RewriteRule ^resources/classes - [F,L]
+RewriteRule ^resources/sql - [F,L]
+RewriteRule ^resources/templates - [F,L]
+RewriteRule ^resources/functions.php - [F,L]
+RewriteRule ^resources/config.php - [F,L]
+
 
 #Errors
 RewriteRule ^(403|404)/?$ /index.php?code=$1
 ErrorDocument 403 /403
 ErrorDocument 404 /404
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

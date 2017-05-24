@@ -19,8 +19,13 @@
     </div>
     <div class="form-group <?php hasError($prixErr); ?>">
         <label class="control-label" for="prix">Prix&nbsp;: </label>
-        <input type="number" class="form-control" placeholder="0.00" min="0.00" step="0.01" id="prix"
-               name="prix"/>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="0.00" min="0.00" step="0.01" id="prix"
+                   name="prix"/>
+            <span class="input-group-addon">€</span>
+        </div>
+
+
         <?php spanError($prixErr); ?>
     </div>
     <div class="form-group <?php hasError($nbItemErr); ?>">
