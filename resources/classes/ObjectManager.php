@@ -91,6 +91,27 @@ class ObjectManager
             return end($this->_objets)->numItem();
     }
 
+    public static function deleteItem($iduser, $idfoire, $numItem){
+        $db = connectToDb();
+
+        $query = $db->prepare("SELECT idobjet FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire AND numitem=:numitem");
+        $query->bindValue(':iduser', $iduser, PDO::PARAM_INT);
+        $query->bindValue(':idfoire', $idfoire, PDO::PARAM_INT);
+        $query->bindValue(':numitem', $numItem, PDO::PARAM_INT);
+
+        $data = null;
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+            ObjectManager::deleteObject($data['idobjet']);
+
+        }catch(Exception $e){
+            return "Cet objet n'existe pas !";
+        }
+
+        return true;
+    }
+
     public static function deleteObject($idObject)
     {
         $db = connectToDb();

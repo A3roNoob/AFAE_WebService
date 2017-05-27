@@ -44,6 +44,20 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         <?php
         $idFoire = test_input($_GET['foire']);
         $foire = Foire::loadFromDb($idFoire);
+
+        if(isset($_GET['objet']) && $foire->dateFinSaisie() > today()){
+            try{
+
+                $retour = ObjectManager::deleteItem($_SESSION['userobject']->id(), (int) $idFoire, (int) test_input($_GET['objet']));
+                echo "<div class='alert alert-success'>Votre objet a &eacute;t&eacute; supprim&eacute; avec succ&eacute;</div>";
+            }catch(TypeError $e){
+                echo "<div class='alert alert-danger'>Votre objet n'a pas pu &ecirc;tre supprim&eacute;</div>";
+            }
+        }
+        else if(isset($_GET['objet']) && $foire->dateFinSaisie() < today()){
+            echo "<div class='alert alert-warning'>Les saisies sont termin&eacute;es, vous ne pouvez plus supprimer d'objet.</div>";
+        }
+
         if (!is_null($foire)) {
             echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
 
@@ -107,7 +121,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         echo "</td>";
 
                         echo "<td>";
-                        echo ($userObject->verrou()) ? "" : "<button type='button' class='btn btn-primary'>Supprimer</button>";
+                        echo ($userObject->verrou()) ? "" : "<button type='button' onclick=\"window.location.href = '/liste/objet/foire/" . $userObject->idFoire() . "/supprimer/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Supprimer</button>";
                         echo "</td>";
                         echo "</tr>";
                     }
