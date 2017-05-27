@@ -35,3 +35,7 @@ function convertDateToSql($date)
     $date = DateTime::createFromFormat('m/d/Y H:i:s', $date . ' 00:00:00');
     return $date->format('Y-m-d H:i:s');
 }
+
+function today(){
+    return convertDateToSql(date("m/d/Y"));
+}

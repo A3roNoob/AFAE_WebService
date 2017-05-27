@@ -29,18 +29,27 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         $foireList->loadFoiresFromFoireAdmin($_SESSION['userobject']);
         ?>
 
-        <form class="form-inline" method="GET">
+        <form method="GET" class="form-inline">
             <div class="form-group">
-                <label for="foire">Sélectionner une foire&nbsp;:</label>
-                <select name="foire" id="foire">
+                <label for="foire">S&eacute;lectionner&nbsp;: </label>
+                <select id="foire" name="foire" class="form-control">
                     <?php
-                    foreach ($foireList->foires() as $foire) {
-                        echo "<option value='" . $foire->idFoire() . "'>" . $foire->nomFoire() . "</option>";
+                    $foireMan = new FoireManager();
+                    $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
+                    foreach ($foireMan->foires() as $foire) {
+                        if($foire->idFoire() == test_input($_GET['foire']))
+                            $selec = "selected";
+                        else
+                            $selec = "";
+
+                        echo '<option value="' . $foire->idFoire() . '" '.$selec.'>' . $foire->nomFoire() . '</option>';
                     }
                     ?>
                 </select>
             </div>
-            <input type="button" class="btn btn-default" onclick="window.location.href= '/liste/vendeur/foire/'+ document.getElementById('foire').value + '/'" value="Selectionner"/>
+            <input type="button" class="btn btn-default"
+                   onclick="window.location.href= '/liste/vendeur/foire/'+ document.getElementById('foire').value + '/'""
+            value="S&eacute;lectionner"/>
         </form>
         <?php
         if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire']) && !isset($_GET['iduser'])) {
@@ -71,6 +80,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
     }
     if ($userList->users() != NULL) {
         ?>
+        <br />
         <table class="table table-striped">
             <tr>
                 <th>Id</th>

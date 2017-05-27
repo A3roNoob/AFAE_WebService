@@ -40,19 +40,32 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $foireMan = new FoireManager();
                     $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
                     foreach ($foireMan->foires() as $foire) {
-                        echo '<option value="' . $foire->idFoire() . '">' . $foire->nomFoire() . '</option>';
+                        if($foire->idFoire() == test_input($_GET['foire']))
+                            $selec = "selected";
+                        else
+                            $selec = "";
+
+                        echo '<option value="' . $foire->idFoire() . '" '.$selec.'>' . $foire->nomFoire() . '</option>';
                     }
                     ?>
                 </select>
             </div>
-            <input type="button" class="btn btn-default" onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
+            <input type="button" class="btn btn-default"
+                   onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'""
+            value="S&eacute;lectionner"/>
+            <br />
         </form>
         <?php
         $idFoire = test_input($_GET['foire']);
         $foire = Foire::loadFromDb($idFoire);
         if (!is_null($foire)) {
             echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
-            include(TEMPLATES_PATH . '/frmSaisirObjet.php');
+            if (today() > $foire->dateFinSaisie())
+                echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
+            else if(today() < $foire->dateDebutSaisie())
+                echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
+            else
+                include(TEMPLATES_PATH . '/frmSaisirObjet.php');
         }
     } else {
         $foireMan = new FoireManager();
@@ -73,7 +86,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                         ?>
                     </select>
                 </div>
-                <input type="button" class="btn btn-default" onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'"" value="S&eacute;lectionner"/>
+                <input type="button" class="btn btn-default"
+                       onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'""
+                value="S&eacute;lectionner"/>
+                <br />
             </form>
 
             <?php
@@ -82,54 +98,58 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
         }
 
-            if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                if (isset($_POST['desc']) && !empty($_POST['desc']))
-                    $desc = test_input($_POST['desc']);
-                else
-                    $descErr = true;
-                if (isset($_POST['taille']) && !empty($_POST['taille']))
-                    $taille = test_input($_POST['taille']);
-                else
-                    $tailleErr = true;
-                if (isset($_POST['prix']) && !empty($_POST['prix']))
-                    $prix = test_input($_POST['prix']);
-                else
-                    $prixErr = true;
-                if (isset($_POST['nbitem']) && !empty($_POST['nbitem']))
-                    $nbitem = test_input($_POST['nbitem']);
-                else
-                    $nbItemErr = true;
-                if(isset($_POST['idfoire']) && !empty($_POST['idfoire']))
-                    $idFoire = test_input($_POST['idfoire']);
-                $baisse = isset($_POST['baisse']);
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if (isset($_POST['desc']) && !empty($_POST['desc']))
+                $desc = test_input($_POST['desc']);
+            else
+                $descErr = true;
+            if (isset($_POST['taille']) && !empty($_POST['taille']))
+                $taille = test_input($_POST['taille']);
+            else
+                $tailleErr = true;
+            if (isset($_POST['prix']) && !empty($_POST['prix']))
+                $prix = test_input($_POST['prix']);
+            else
+                $prixErr = true;
+            if (isset($_POST['nbitem']) && !empty($_POST['nbitem']))
+                $nbitem = test_input($_POST['nbitem']);
+            else
+                $nbItemErr = true;
+            if (isset($_POST['idfoire']) && !empty($_POST['idfoire']))
+                $idFoire = test_input($_POST['idfoire']);
+            $baisse = isset($_POST['baisse']);
 
 
-                if (!$descErr && !$tailleErr && !$prixErr && !$nbItemErr) {
-                    $obj = Object::createObject($_SESSION['userobject'], $idFoire, $desc, $baisse, $prix, false, $taille, $nbitem, false);
-                    $insert = $obj->insertObjectIntoDb();
-                    if (is_bool($insert) && $insert) {
-                        ?>
-                        <div class="alert alert-success">Objet ajout&eacute; avec succ&egrave;s !</div>
-                        <p><b>Description&nbsp;: </b><?php echo $obj->desc(); ?></p>
-                        <p><b>Taille&nbsp;: </b><?php echo $obj->taille(); ?></p>
-                        <p><b>Prix&nbsp;: </b><?php echo $obj->prix(); ?></p>
-                        <p><b>Nombre d'objets&nbsp;: </b><?php echo $obj->nbItems(); ?></p>
-                        <p><b>Baisse&nbsp;: </b><?php echo ($obj->baisse()) ? "Oui" : "Non"; ?></p>
-                        <?php
-                    } else {
-                        echo '<div class="alert alert-danger">Une erreur est survenue pendant l\'insertion de l\'objet.<br />Veuillez r&eacute;essayez plus tard.</div>';
-                    }
+            if (!$descErr && !$tailleErr && !$prixErr && !$nbItemErr) {
+                $obj = Object::createObject($_SESSION['userobject'], $idFoire, $desc, $baisse, $prix, false, $taille, $nbitem, false);
+                $insert = $obj->insertObjectIntoDb();
+                if (is_bool($insert) && $insert) {
+                    ?>
+                    <div class="alert alert-success">Objet ajout&eacute; avec succ&egrave;s !</div>
+                    <p><b>Description&nbsp;: </b><?php echo $obj->desc(); ?></p>
+                    <p><b>Taille&nbsp;: </b><?php echo $obj->taille(); ?></p>
+                    <p><b>Prix&nbsp;: </b><?php echo $obj->prix(); ?></p>
+                    <p><b>Nombre d'objets&nbsp;: </b><?php echo $obj->nbItems(); ?></p>
+                    <p><b>Baisse&nbsp;: </b><?php echo ($obj->baisse()) ? "Oui" : "Non"; ?></p>
+                    <?php
                 } else {
+                    echo '<div class="alert alert-danger">Une erreur est survenue pendant l\'insertion de l\'objet.<br />Veuillez r&eacute;essayez plus tard.</div>';
+                }
+            } else {
+                if (today() > $foire->dateFinSaisie())
+                    echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
+                else if(today() < $foire->dateDebutSaisie())
+                    echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
+                else
 
                     include(TEMPLATES_PATH . '/frmSaisirObjet.php');
-                }
-
-
             }
+
+
         }
     }
-else {
-        accessForbidden();
-    }
-    include_once(TEMPLATES_PATH . '/footer.php');
-    ?>
+} else {
+    accessForbidden();
+}
+include_once(TEMPLATES_PATH . '/footer.php');
+?>

@@ -11,7 +11,7 @@ require(CLASS_PATH . "/Rank.php");
 require(CLASS_PATH."/Object.php");
 session_start();
 
-
+/*
 for($i = 0; $i< 30; $i++)
 {
     $objet = Object::createObject($_SESSION['userobject']->id(), 2, "Petite robe $i", false, $i+ 0.20, false, $i." ans", 1, false);
@@ -50,3 +50,6 @@ catch (PDOException $e) {
 
 /*$oui = convertDateToSql("27/03/1998") > convertDateToSql("26/03/1998");
 var_dump($oui);*/
+
+echo today();
+
