@@ -49,7 +49,7 @@ CREATE TABLE association (
 );
 
 CREATE TABLE foire (
-  idfoire         INT          NOT NULL,
+  idfoire         INT          AUTO_INCREMENT,
   nomfoire        VARCHAR(255) NOT NULL,
   idassociation   INT          NOT NULL,
   idadmin         INT          NOT NULL,
@@ -57,6 +57,9 @@ CREATE TABLE foire (
   datefinfoire    DATE,
   datedebutsaisie DATE,
   datefinsaisie   DATE,
+  prixbaisse      DECIMAL(5,2),
+  maxobj          NUMERIC(3),
+  maxobjassoc     NUMERIC(3),
   CONSTRAINT pk_foire PRIMARY KEY (idfoire),
   CONSTRAINT fk_foire FOREIGN KEY (idassociation) REFERENCES association (idassociation)
     ON DELETE CASCADE
@@ -69,16 +72,16 @@ CREATE TABLE foire (
 CREATE TABLE objet (
   idobjet       INT            NOT NULL          AUTO_INCREMENT UNIQUE,
   numitem       INT,
-  idfoire       INT            NOT NULL,
+  idfoire       INT,
   idutilisateur INT,
   description   VARCHAR(255)   NOT NULL,
   baisse        BOOLEAN        NOT NULL          DEFAULT 0,
-  prix          DECIMAL(10, 2) NOT NULL,
+  prix          DECIMAL(5, 2) NOT NULL,
   vendu         BOOLEAN        NOT NULL          DEFAULT 0,
   taille        VARCHAR(32),
   nbitem        INT            NOT NULL,
   verrou        BOOLEAN        NOT NULL          DEFAULT 0,
-  CONSTRAINT pk_objet PRIMARY KEY (numitem, idutilisateur),
+  CONSTRAINT pk_objet PRIMARY KEY (numitem, idfoire, idutilisateur),
   CONSTRAINT fk_objet FOREIGN KEY (idutilisateur) REFERENCES utilisateur (idutilisateur)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
@@ -174,12 +177,12 @@ INSERT INTO rang (nomrang) VALUES ('Administrateur de foire');
 INSERT INTO rang (nomrang) VALUES ('Super Administrateur');
 
 
-INSERT INTO utilisateur (nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, login, motdepasse, email, rang)
+INSERT INTO utilisateur (nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, login, motdepasse, email, rang)
 VALUES
-  ('SUPER', 'ADMIN', '127.0.0.1', '404', 'Internet', '8', TRUE, FALSE, 'superadmin', 'aa36dc6e81e2ac7ad03e12fedcb6a2c0',
+  ('SUPER', 'ADMIN', '127.0.0.1', '404', 'Internet', '8', TRUE, 'superadmin', 'aa36dc6e81e2ac7ad03e12fedcb6a2c0',
             'superadmin@localhost', 4);
-INSERT INTO utilisateur (nomutilisateur, adresse, codepostal, ville, baisse, changelock, login, motdepasse, email, rang)
-VALUES ('AFAE', '16 Boulevard AbelCornaton', 91290, 'Arpajon', FALSE, FALSE, 'afae', 'b272dbd564ebd3898c2ecd69fcd94b67',
+INSERT INTO utilisateur (nomutilisateur, adresse, codepostal, ville, baisse, login, motdepasse, email, rang)
+VALUES ('AFAE', '16 Boulevard AbelCornaton', 91290, 'Arpajon', FALSE, 'afae', 'b272dbd564ebd3898c2ecd69fcd94b67',
         'afae@free.fr', 3);
 
 

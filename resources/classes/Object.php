@@ -25,8 +25,8 @@ class Object
     {
         $obj = new self();
         $obj->setUtilisateur($user);
-        $obj->createNumItem();
         $obj->setIdFoire($idfoire);
+        $obj->createNumItem();
         $obj->setDesc($desc);
         $obj->setBaisse($baisse);
         $obj->setPrix($prix);
@@ -96,10 +96,10 @@ class Object
     {
         if (isset($data['idobjet']))
             $this->setIdObjet($data['idobjet']);
-        if (isset($data['numitem']))
-            $this->setNumItem($data['numitem']);
         if (isset($data['idfoire']))
             $this->setIdFoire($data['idfoire']);
+        if (isset($data['numitem']))
+            $this->setNumItem($data['numitem']);
         if (isset($data['idutilisateur']))
             $this->setUtilisateur($data['idutilisateur']);
         if (isset($data['description']))
@@ -182,9 +182,8 @@ class Object
 
     public function createNumItem()
     {
-
         $objMan = new ObjectManager();
-        $objMan->loadObjectsFromUser($this->user());
+        $objMan->loadObjectsFromUserFoire($this->user(), $this->idFoire());
         $this->_numItem = $objMan->getLastItem() + 1;
     }
 
@@ -233,7 +232,6 @@ class Object
 
     public function insertObjectIntoDb()
     {
-        global $config;
         $db = connectToDb();
 
         $query = $db->prepare("SELECT COUNT(numitem) AS NbItems FROM objet WHERE idfoire=:idfoire AND idutilisateur=:iduser");
@@ -249,10 +247,11 @@ class Object
         }
 
         $assoc = Association::loadFromAdmin($this->user()->id());
+        $foire = Foire::loadFromDb($this->idFoire());
         if(!is_bool($assoc))
-            $max = $config['max_object_assoc'];
+            $max = $foire->maxObjAssoc();
         else
-            $max = $config['max_object_user'];
+            $max = $foire->maxObj();
 
         if((int)$data['NbItems'] < $max) {
 
@@ -275,7 +274,7 @@ class Object
         }
         else
         {
-            return '<div class="alert alert-warning">'.$this.' non ins&eacute;s&eacute;r&eacute;. Vous avez atteint le quota pour cette foire.';
+            return '<div class="alert alert-warning">'.$this.' non ins&eacute;r&eacute;. Vous avez atteint le quota pour cette foire.';
         }
         return true;
     }

@@ -76,11 +76,12 @@ if (isset($_SESSION['userobject'])) {
             $phoneErr = true;
 
         if (!$nameErr && !$fNameErr && !$loginErr && !$passwordErr && !$addressErr && !$cpErr && !$cityErr && !$phoneErr && !$emailErr) {
-            $user = User::createUser($name, $fName, $address, $cp, $city, $phone, false, false, $config['default_user'], $email);
+            $user = User::createUser($name, $fName, $address, $cp, $city, $phone, false, $config['default_user'], $email);
             try {
                 $user->insertIntoDb($login, $password);
-            } catch (Exception $e) {
+            } catch (PDOException $e) {
                 //ON essaye d'entrer un login/email déjà existant
+                $msg = $e->getMessage();
                 if ($e->getCode() == 23000) {
                     $error = explode("'", $e->getMessage());
                     if ($error[3] == "login") {
@@ -89,7 +90,7 @@ if (isset($_SESSION['userobject'])) {
                         echo "<div class='alert alert-danger'>Cet email existe d&eacute;j&agrave;</div>";
                     }
                 } else {
-                    echo "<div class='alert alert-danger'>$e->getMessage();</div>";
+                    echo "<div class='alert alert-danger'>$msg</div>";
                 }
             }
             if (!is_null($user)) {

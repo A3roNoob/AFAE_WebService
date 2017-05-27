@@ -6,11 +6,6 @@
  * Time: 17:15
  */
 
-///@TODO nbMaxObjets
-///@TODO prix minimum où la baisse est applicable
-///@TODO nbmaxobjets par assoc
-///
-
 require_once("resources/config.php");
 require_once("resources/functions.php");
 session_start();
@@ -45,7 +40,21 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
         } else {
             $foireName = test_input($_POST['name']);
-            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, convertDateToSql($_POST['datedebutfoire']), convertDateToSql($_POST['datefinfoire']), convertDateToSql($_POST['datedebutsaisie']), convertDateToSql($_POST['datefinsaisie']));
+            if(!empty($_POST['prixbaisse']))
+                $prixbaisse = test_input($_POST['prixbaisse']);
+            else
+                $prixbaisse = 10;
+
+            if(!empty($_POST['maxobj']))
+                $maxobj = test_input($_POST['maxobj']);
+            else
+                $maxobj = $config['max_object_user'];
+            if(!empty($_POST['maxobjassoc']))
+                $maxobjassoc = test_input($_POST['maxobjassoc']);
+            else
+                $maxobjassoc = $config['max_object_assoc'];
+
+            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, convertDateToSql($_POST['datedebutfoire']), convertDateToSql($_POST['datefinfoire']), convertDateToSql($_POST['datedebutsaisie']), convertDateToSql($_POST['datefinsaisie']), $prixbaisse, $maxobj, $maxobjassoc);
             $foire->insertIntoDb();
             ?>
             <div id="container">
@@ -53,6 +62,9 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <p><b>Association&nbsp;:&nbsp;</b><?php echo Association::loadFromDb($foire->idAssoc())->nomAssoc(); ?>
                 </p>
                 <p><b>Administrateur&nbsp;:&nbsp;</b><?php echo User::loadUserWithId($foire->idAdmin())->name(); ?></p>
+                <p><b>Prix minimum de baisse&nbsp;:&nbsp;</b><?php echo $prixbaisse;?></p>
+                <p><b>Max objets par vendeur&nbsp;:&nbsp;</b><?php echo $maxobj; ?></p>
+                <p><b>Max objets par association&nbsp;:&nbsp;</b><?php echo $maxobjassoc; ?></p>
                 <p><b>Date d&eacute;but de la foire&nbsp;:&nbsp;</b><?php echo $_POST['datedebutfoire']; ?></p>
                 <p><b>Date fin de la foire&nbsp;&nbsp;</b><?php echo $_POST['datefinfoire']; ?></p>
                 <p><b>Date d&eacute;but des saisies&nbsp;:&nbsp;</b><?php echo $_POST['datedebutsaisie']; ?></p>

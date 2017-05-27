@@ -58,6 +58,7 @@ class ObjectManager
 
     public function loadObjectsFromUserFoire($user, $foire)
     {
+        $foire = Foire::loadFromDb($foire);
         $db = connectToDb();
         $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire');
         $query->bindValue(':iduser', $user->id(), PDO::PARAM_INT);
@@ -90,15 +91,16 @@ class ObjectManager
             return end($this->_objets)->numItem();
     }
 
-    public function deleteObject($object)
+    public static function deleteObject($idObject)
     {
         $db = connectToDb();
-        $obj = Object::loadObjectFromId($object->idObjet());
-        $query = $db->query("SELECT verrou FROM objet WHERE idobjet=" . $object->idObjet());
+        $obj = Object::loadObjectFromId($idObject);
+        $query = $db->query("SELECT verrou FROM objet WHERE idobjet=" .$idObject);
         $query = $query->fetch(PDO::FETCH_ASSOC);
 
         if (isset($query['verrou']) && !((bool)$query['verrou'])) {
-            $query = $db->prepare("DELETE FROM objet WHERE idobjet=" . $object->idObjet());
+            $query = $db->prepare("DELETE FROM objet WHERE idobjet=:idobj");
+            $query->bindValue(':idobj', $idObject, PDO::PARAM_INT);
             $query->execute();
             $obj->goUpInTable($db);
             $query->closeCursor();

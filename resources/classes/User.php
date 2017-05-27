@@ -21,7 +21,6 @@ class User
     private $_city;
     private $_phone;
     private $_drop;
-    private $_lock;
     private $_rank;
     private $_email;
     private $_password;
@@ -44,8 +43,6 @@ class User
             $this->setPhone($data['telephone']);
         if (isset($data['baisse']))
             $this->setDrop($data['baisse']);
-        if (isset($data['changelock']))
-            $this->setLock($data['changelock']);
         if (isset($data['rang']))
             $this->setRank($data['rang']);
         if (isset($data['email']))
@@ -57,7 +54,7 @@ class User
     public static function loadFromBd($login, $password)
     {
         $db = connectTodb();
-        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE login=:login");
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE login=:login");
         $query->bindValue(':login', $login);
         try {
             $query->execute();
@@ -76,7 +73,7 @@ class User
     public static function loadUserWithId($id)
     {
         $db = connectTodb();
-        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, motdepasse, rang FROM utilisateur WHERE idutilisateur=:id");
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE idutilisateur=:id");
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         try {
             $query->execute();
@@ -96,7 +93,7 @@ class User
     {
         if (is_a($this, 'User')) {
             $db = connectToDb();
-            $query = $db->prepare("INSERT INTO utilisateur(nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, changelock, login, motdepasse, email, rang) VALUES (:nameuser, :fname, :address, :cp, :city, :phone, :baisse, :cl, :login, :password, :email, :rank)");
+            $query = $db->prepare("INSERT INTO utilisateur(nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, login, motdepasse, email, rang) VALUES (:nameuser, :fname, :address, :cp, :city, :phone, :baisse, :login, :password, :email, :rank)");
             $query->bindValue(':nameuser', $this->name());
             $query->bindValue(':fname', $this->fname());
             $query->bindValue(':address', $this->address());
@@ -104,7 +101,6 @@ class User
             $query->bindValue(':city', $this->city());
             $query->bindValue(':phone', $this->phone(), PDO::PARAM_INT);
             $query->bindValue(':baisse', $this->drop(), PDO::PARAM_BOOL);
-            $query->bindValue(':cl', $this->lock(), PDO::PARAM_BOOL);
             $query->bindValue(':login', $login);
             $query->bindValue(':password', md5($password));
             $query->bindValue(':email', $this->email());
@@ -116,7 +112,7 @@ class User
 
     }
 
-    public static function createUser($name, $fname, $address, $cp, $city, $phone, $drop, $lock, $rank, $email)
+    public static function createUser($name, $fname, $address, $cp, $city, $phone, $drop, $rank, $email)
     {
         $user = new self();
         $array = array(
@@ -128,7 +124,6 @@ class User
             "ville" => $city,
             "telephone" => $phone,
             "baisse" => $drop,
-            "changelock" => $lock,
             "rang" => $rank,
             "email" => $email
         );
@@ -202,11 +197,6 @@ class User
         return $this->_drop;
     }
 
-    public function lock()
-    {
-        return $this->_lock;
-    }
-
     public function rank()
     {
         if (is_int($this->_rank))
@@ -260,12 +250,6 @@ class User
     {
         $phone = (int)$phone;
         $this->_phone = $phone;
-    }
-
-    public function setLock($lk)
-    {
-        $lk = (bool)$lk;
-        $this->_lock = $lk;
     }
 
     public function setDrop($dp)

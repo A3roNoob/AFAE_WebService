@@ -66,21 +66,25 @@
     }
     ?>
     <div>
-        <label for="datedebutfoire">Date début de la foire&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control" id="datedebutfoire" name="datedebutfoire">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </div>
+        <label class="control-label" for="prixbaisse">Prix minimum de baisse&nbsp;: </label>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="0.00" min="0.00" step="0.01" id="prixbaisse"
+                   name="prixbaisse"/>
+            <span class="input-group-addon">€</span>
         </div>
     </div>
     <div>
-        <label for="datefinfoire">Date fin de la foire&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control" id="datefinfoire" name="datefinfoire">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </div>
+        <label class="control-label" for="maxobj">Nombre d'objets max par vendeur&nbsp;: </label>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="0" min="0" step="1" id="maxobj"
+                   name="maxobj"/>
+        </div>
+    </div>
+    <div>
+        <label class="control-label" for="maxobjassoc">Nombre d'objets max par association&nbsp;: </label>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="0" min="0" step="1" id="maxobjassoc"
+                   name="maxobjassoc"/>
         </div>
     </div>
     <div>
@@ -101,13 +105,25 @@
             </div>
         </div>
     </div>
-    <!--<div>
-        <label for="datedebut">Date d&eacute;but&nbsp;:</label>
-        <input type="datetime-local" id="datedebut" name="datedebut" />
+    <div>
+        <label for="datedebutfoire">Date début de la foire&nbsp;:</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datedebutfoire" name="datedebutfoire">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
     </div>
     <div>
-        <label for="datefin">Date fin&nbsp;:</label>
-        <input type="datetime-local" id="datefin" name="datefin"/>
-    </div>-->
+        <label for="datefinfoire">Date fin de la foire&nbsp;:</label>
+        <div class="input-group date" data-provide="datepicker">
+            <input type="text" class="form-control" id="datefinfoire" name="datefinfoire">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+
+    <br />
     <input type="submit" class="btn btn-default" value="Cr&eacute;er foire"/>
 </form>
