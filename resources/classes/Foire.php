@@ -216,7 +216,7 @@ class Foire
             echo $e->getMessage();
         }
 
-        $query = $db->prepare("SELECT idFoire FROM FOIRE WHERE nomfoire=:nomfoire AND datedebutfoire=:ddf AND datefinfoire=:dff AND idadmin=:idadmin");
+        $query = $db->prepare("SELECT idFoire FROM foire WHERE nomfoire=:nomfoire AND datedebutfoire=:ddf AND datefinfoire=:dff AND idadmin=:idadmin");
         $query->bindValue(':nomfoire', $this->nomFoire());
         $query->bindValue(':idadmin', $this->idAdmin(), PDO::PARAM_INT);
         $query->bindValue(':ddf', $this->dateDebutFoire());
