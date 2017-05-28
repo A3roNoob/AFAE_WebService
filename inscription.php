@@ -74,9 +74,12 @@ if (isset($_SESSION['userobject'])) {
             $phone = test_input($_POST['phone']);
         else
             $phoneErr = true;
+        $baisse = isset($_POST['baisse']);
+
+
 
         if (!$nameErr && !$fNameErr && !$loginErr && !$passwordErr && !$addressErr && !$cpErr && !$cityErr && !$phoneErr && !$emailErr) {
-            $user = User::createUser($name, $fName, $address, $cp, $city, $phone, false, $config['default_user'], $email);
+            $user = User::createUser($name, $fName, $address, $cp, $city, $phone, $baisse, $config['default_rank'], $email);
             try {
                 $user->insertIntoDb($login, $password);
             } catch (PDOException $e) {
@@ -97,7 +100,7 @@ if (isset($_SESSION['userobject'])) {
                 //$_SESSION['userobject'] = $user;
                 echo "<div class='alert alert-success'>Vous avez &eacute;t&eacute; enregistr&eacute;.<a href='/connexion.php' class='alert-link'> Connectez-vous !</a></div>";
             } else {
-                echo "<div class='alert alert-dander'>Une erreur est survenue. Veuillez r&eacute;essayer plus tard.</div>";
+                echo "<div class='alert alert-danger'>Une erreur est survenue. Veuillez r&eacute;essayer plus tard.</div>";
             }
         } else {
             include(TEMPLATES_PATH . '/frmInscription.php');

@@ -26,6 +26,11 @@ RewriteRule ^liste/objet/foire/([0-9]+)/?$ listeobjet.php?foire=$1
 #Supprimer objet
 RewriteRule ^liste/objet/foire/([0-9]+)/supprimer/([0-9]+)/?$ listeobjet.php?foire=$1&objet=$2
 
+#Infos Perso
+RewriteRule ^perso/?$ modifperso.php
+RewriteRule ^perso/infos/?$ modifperso.php?infos=1
+RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
+
 #interdiction du dossier ressources
 RewriteRule ^resources/classes - [F,L]
 RewriteRule ^resources/sql - [F,L]

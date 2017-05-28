@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 13/04/2017
- * Time: 04:07
- */
-
-?>
 <?php if (!empty($dateErr)) echo "<span class=\"alert alert-danger\">" . $dateErr . "</span>" ?>
 
 <form action="/saisir/foire/" method="POST" class="col-xs-6">
@@ -89,7 +80,7 @@
     </div>
     <div>
         <label for="datedebut">Date d&eacute;but des saisies&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
+        <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
             <input type="text" class="form-control" id="datedebutsaisie" name="datedebutsaisie">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
@@ -98,7 +89,7 @@
     </div>
     <div>
         <label for="datefin">Date fin des saisies&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
+        <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
             <input type="text" class="form-control" id="datefinsaisie" name="datefinsaisie">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
@@ -107,7 +98,7 @@
     </div>
     <div>
         <label for="datedebutfoire">Date début de la foire&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
+        <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
             <input type="text" class="form-control" id="datedebutfoire" name="datedebutfoire">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
@@ -116,7 +107,7 @@
     </div>
     <div>
         <label for="datefinfoire">Date fin de la foire&nbsp;:</label>
-        <div class="input-group date" data-provide="datepicker">
+        <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
             <input type="text" class="form-control" id="datefinfoire" name="datefinfoire">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>

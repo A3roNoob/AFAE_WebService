@@ -23,6 +23,7 @@ class User
     private $_drop;
     private $_rank;
     private $_email;
+    private $_login;
     private $_password;
 
     public function hydrate(array $data)
@@ -49,12 +50,14 @@ class User
             $this->setEmail($data['email']);
         if (isset($data['motdepasse']))
             $this->_password = $data['motdepasse'];
+        if(isset($date['login']))
+            $this->setLogin($data['login']);
     }
 
     public static function loadFromBd($login, $password)
     {
         $db = connectTodb();
-        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE login=:login");
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, email, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE login=:login");
         $query->bindValue(':login', $login);
         try {
             $query->execute();
@@ -63,6 +66,7 @@ class User
             echo $e->getMessage();
         }
         $user = new self();
+        $user->setLogin($login);
         if(md5($password)==$data['motdepasse'])
             $user->hydrate($data);
         $query->closeCursor();
@@ -134,7 +138,7 @@ class User
     public function checkUser()
     {
         $db = connectToDb();
-        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, email, adresse, motdepasse FROM utilisateur WHERE idutilisateur=:id AND motdepasse=:pwd");
+        $query = $db->prepare('SELECT idutilisateur, nomutilisateur, email, adresse, motdepasse FROM utilisateur WHERE idutilisateur=:id AND motdepasse=:pwd');
         $query->bindValue(':id', $this->id(), PDO::PARAM_INT);
         $query->bindValue(':pwd', $this->_password);
         $data = null;
@@ -155,6 +159,53 @@ class User
     {
         if (is_a($rank, "Rank"))
             return ($this->rank()->id() >= $rank->id());
+    }
+
+    public function updatePassword($password){
+        $db = connectToDb();
+        $query = $db->prepare('UPDATE utilisateur SET motdepasse=:pwd WHERE login=:login;');
+        $query->bindValue(':login', $this->login());
+        $query->bindValue(':pwd', md5($password));
+        try{
+            $query->execute();
+        }catch(PDOException $e){
+            $query->closeCursor();
+            return false;
+        }
+        $query->closeCursor();
+        return true;
+    }
+
+    public function updateUser($name, $fName, $address, $cp, $city, $phone, $email, $baisse){
+        $db = connectToDb();
+        $query = $db->prepare('UPDATE utilisateur SET nomutilisateur=:name, prenomutilisateur=:fname, adresse=:address, codepostal=:cp, ville=:city, telephone=:phone, email=:email, baisse=:baisse WHERE login=:login;');
+        $query->bindValue(':login', $this->login());
+        $query->bindValue(':name', $name);
+        $query->bindValue(':fname', $fName);
+        $query->bindValue(':address', $address);
+        $query->bindValue(':cp', $cp);
+        $query->bindValue(':city', $city);
+        $query->bindValue(':phone', $phone);
+        $query->bindValue(':email', $email);
+        $query->bindValue(':baisse', $baisse, PDO::PARAM_BOOL);
+
+        $this->setName($name);
+        $this->setFName($fName);
+        $this->setAddress($address);
+        $this->setCodePostal($cp);
+        $this->setCity($city);
+        $this->setPhone($phone);
+        $this->setEmail($email);
+        $this->setDrop($baisse);
+
+        try{
+            $query->execute();
+        }catch(PDOException $e){
+            $query->closeCursor();
+            return false;
+        }
+        $query->closeCursor();
+        return true;
     }
 
     public function id()
@@ -195,6 +246,10 @@ class User
     public function drop()
     {
         return $this->_drop;
+    }
+
+    public function login(){
+        return $this->_login;
     }
 
     public function rank()
@@ -248,7 +303,6 @@ class User
 
     public function setPhone($phone)
     {
-        $phone = (int)$phone;
         $this->_phone = $phone;
     }
 
@@ -266,9 +320,16 @@ class User
         $this->_rank = $rank;
     }
 
+    public function setLogin($login){
+        $this->_login = $login;
+    }
+
     public function setEmail($email)
     {
-        if (is_string($email))
-            $this->_email = $email;
+        $this->_email = $email;
+    }
+
+    public function setPassword($pass){
+        $this->_password = $pass;
     }
 }

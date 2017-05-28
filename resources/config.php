@@ -16,7 +16,7 @@ $config = array(
         "password" => "afae",
         "host" => "localhost"
     ),
-    "default_user" => "1",
+    "default_rank" => "1",
     "max_object_user" => 25,
     "max_object_assoc" => 200
 );

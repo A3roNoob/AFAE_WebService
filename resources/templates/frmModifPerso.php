@@ -1,9 +1,9 @@
-<form action="/inscription/" method="POST" class="col-xs-6 ">
+<form action="/perso/infos/" method="POST" class="col-xs-6 ">
     <div class="<?php hasError($nameErr); ?> has-feedback form-group">
         <label class="col-sm-12 control-label" for="name">Nom&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $name; ?>"
+                   value="<?php echo $user->name(); ?>"
                    id="name" name="name" placeholder="nom"/>
             <?php spanError($nameErr); ?>
         </div>
@@ -13,29 +13,9 @@
         <label class="col-sm-12 control-label" for="firstname">Pr&eacute;nom&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $fName; ?>"
+                   value="<?php echo $user->fname(); ?>"
                    id="firstname" name="firstname" placeholder="prénom"/>
             <?php spanError($fNameErr); ?>
-        </div>
-    </div>
-
-    <div class="<?php hasError($loginErr); ?> has-feedback form-group">
-        <label class="col-sm-12 control-label" for="login">Identifiant&nbsp;:</label>
-        <div class="col-sm-12">
-            <input class="form-control" type="text"
-                   value="<?php echo $login; ?>"
-                   id="login" name="login" placeholder="identifiant"/>
-            <?php spanError($loginErr); ?>
-        </div>
-    </div>
-
-    <div class="<?php hasError($passwordErr); ?> has-feedback form-group">
-        <label class="col-sm-12 control-label" for="password">Mot de passe&nbsp;:</label>
-        <div class="col-sm-12">
-            <input class="form-control" type="password"
-                   value="<?php echo $password; ?>"
-                   id="password" name="password" placeholder="mot de passe"/>
-            <?php spanError($passwordErr); ?>
         </div>
     </div>
 
@@ -43,7 +23,7 @@
         <label class="col-sm-12 control-label" for="email">E-mail&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $email; ?>"
+                   value="<?php echo $user->email(); ?>"
                    id="email" name="email" placeholder="email"/>
             <?php spanError($emailErr); ?>
         </div>
@@ -53,7 +33,7 @@
         <label class="col-sm-12 control-label" for="address">Num&eacute;ro et voirie&nbsp;</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $address; ?>"
+                   value="<?php echo $user->address(); ?>"
                    id="address" name="address" placeholder="numéro et voirie"/>
             <?php spanError($addressErr); ?>
         </div>
@@ -63,7 +43,7 @@
         <label class="col-sm-12 control-label" for="phone">T&eacute;l&eacute;phone&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $phone; ?>"
+                   value="<?php echo $user->phone(); ?>"
                    id="phone" name="phone" placeholder="téléphone"/>
             <?php spanError($phoneErr); ?>
         </div>
@@ -73,7 +53,7 @@
         <label class="col-sm-12 control-label" for="cp">Code postal&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $cp;?>" id="cp"
+                   value="<?php echo $user->codePostal();?>" id="cp"
                    name="cp" placeholder="code postal"/>
             <?php spanError($cpErr); ?>
         </div>
@@ -83,7 +63,7 @@
         <label class="col-sm-12 control-label" for="city">Ville&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="text"
-                   value="<?php echo $city; ?>"
+                   value="<?php echo $user->city(); ?>"
                    id="city" name="city" placeholder="ville"/>
             <?php spanError($cityErr); ?>
         </div>
@@ -92,11 +72,13 @@
         <label class="col-sm-12 control-label" for="baisse">Baisse du prix autoris&eacute;e&nbsp;:</label>
         <div class="col-sm-12">
             <input class="form-control" type="checkbox"
+                    <?php if ($user->drop()) echo "checked"; ?>
                    id="baisse" name="baisse" placeholder="ville"/>
         </div>
     </div>
     <div class="col-sm-12">
         <br />
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+
+        <button type="submit" class="btn btn-primary">Modifier</button>
     </div>
 </form>

@@ -65,10 +65,11 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <p><b>Prix minimum de baisse&nbsp;:&nbsp;</b><?php echo $prixbaisse;?></p>
                 <p><b>Max objets par vendeur&nbsp;:&nbsp;</b><?php echo $maxobj; ?></p>
                 <p><b>Max objets par association&nbsp;:&nbsp;</b><?php echo $maxobjassoc; ?></p>
-                <p><b>Date d&eacute;but de la foire&nbsp;:&nbsp;</b><?php echo $_POST['datedebutfoire']; ?></p>
-                <p><b>Date fin de la foire&nbsp;&nbsp;</b><?php echo $_POST['datefinfoire']; ?></p>
                 <p><b>Date d&eacute;but des saisies&nbsp;:&nbsp;</b><?php echo $_POST['datedebutsaisie']; ?></p>
                 <p><b>Date fin des saisies&nbsp;&nbsp;</b><?php echo $_POST['datefinsaisie']; ?></p>
+                <p><b>Date d&eacute;but de la foire&nbsp;:&nbsp;</b><?php echo $_POST['datedebutfoire']; ?></p>
+                <p><b>Date fin de la foire&nbsp;&nbsp;</b><?php echo $_POST['datefinfoire']; ?></p>
+
             </div>
             <?php
         }

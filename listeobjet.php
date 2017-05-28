@@ -46,8 +46,8 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         $foire = Foire::loadFromDb($idFoire);
 
         if(isset($_GET['objet']) && $foire->dateFinSaisie() > today()){
+            echo "<br />";
             try{
-
                 $retour = ObjectManager::deleteItem($_SESSION['userobject']->id(), (int) $idFoire, (int) test_input($_GET['objet']));
                 echo "<div class='alert alert-success'>Votre objet a &eacute;t&eacute; supprim&eacute; avec succ&eacute;</div>";
             }catch(TypeError $e){
@@ -55,6 +55,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             }
         }
         else if(isset($_GET['objet']) && $foire->dateFinSaisie() < today()){
+            echo "<br />";
             echo "<div class='alert alert-warning'>Les saisies sont termin&eacute;es, vous ne pouvez plus supprimer d'objet.</div>";
         }
 

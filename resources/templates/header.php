@@ -60,7 +60,8 @@
                         <?php
                     }
                     ?>
-                    <li><a href="/enregistrement/foire">S'inscrire à une foire</a></li>
+                    <li><a href="/enregistrement/foire/">S'inscrire à une foire</a></li>
+                    <li><a href="/perso/">Infos personnelles</a></li>
                     <li><a href="/deconnexion/"> Se d&eacute;connecter </a></li>
                     <?php
 
