@@ -186,8 +186,7 @@ class Foire
         } finally {
             $query->closeCursor();
             if (is_bool($data)) {
-                echo "Cette foire n'existe pas.";
-                return null;
+                return false;
             }
 
             $objFoire = new self();

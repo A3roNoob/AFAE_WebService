@@ -4,7 +4,6 @@ require_once("resources/functions.php");
 session_start();
 
 ///TODO un vendeur revendique association -> générations d'un user association avec mdp par défaut
-///TODO créer page modifications infos perso modifs tout sauf username
 $pagetitle = 'Accueil';
 include_once(TEMPLATES_PATH.'/header.php');
 

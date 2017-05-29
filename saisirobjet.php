@@ -40,12 +40,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $foireMan = new FoireManager();
                     $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
                     foreach ($foireMan->foires() as $foire) {
-                        if($foire->idFoire() == test_input($_GET['foire']))
+                        if ($foire->idFoire() == test_input($_GET['foire']))
                             $selec = "selected";
                         else
                             $selec = "";
 
-                        echo '<option value="' . $foire->idFoire() . '" '.$selec.'>' . $foire->nomFoire() . '</option>';
+                        echo '<option value="' . $foire->idFoire() . '" ' . $selec . '>' . $foire->nomFoire() . '</option>';
                     }
                     ?>
                 </select>
@@ -53,19 +53,31 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             <input type="button" class="btn btn-default"
                    onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'""
             value="S&eacute;lectionner"/>
-            <br />
+            <br/>
         </form>
         <?php
+
+        $parti = Participant::loadFromDb(test_input($_GET['foire']), $_SESSION['userobject']->id());
+
         $idFoire = test_input($_GET['foire']);
         $foire = Foire::loadFromDb($idFoire);
-        if (!is_null($foire)) {
-            echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
-            if (today() > $foire->dateFinSaisie())
-                echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
-            else if(today() < $foire->dateDebutSaisie())
-                echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
-            else
-                include(TEMPLATES_PATH . '/frmSaisirObjet.php');
+        if (is_a($foire, "Foire")) {
+
+
+            if (is_a($parti, "Participant") && $parti->valide()) {
+                echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
+                if (today() > $foire->dateFinSaisie())
+                    echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
+                else if (today() < $foire->dateDebutSaisie())
+                    echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
+                else
+                    include(TEMPLATES_PATH . '/frmSaisirObjet.php');
+
+            } else {
+                echo "<br /><div class='alert alert-warning'>Vous n'avez pas acc&egrave;s &agrave; cette foire.</div>";
+            }
+        } else {
+            echo "<br /><div class='alert alert-danger'>Cette foire n'existe pas.</div>";
         }
     } else {
         $foireMan = new FoireManager();
@@ -89,7 +101,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <input type="button" class="btn btn-default"
                        onclick="window.location.href= '/saisir/objet/foire/'+ document.getElementById('foire').value + '/'""
                 value="S&eacute;lectionner"/>
-                <br />
+                <br/>
             </form>
 
             <?php
@@ -138,7 +150,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             } else {
                 if (today() > $foire->dateFinSaisie())
                     echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
-                else if(today() < $foire->dateDebutSaisie())
+                else if (today() < $foire->dateDebutSaisie())
                     echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
                 else
 
