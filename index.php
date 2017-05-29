@@ -16,12 +16,12 @@ if(isset($_GET['code']))
     $foireMan->loadFoiresFromDb();
 
     foreach($foireMan->foires() as $foire):
-        if(compareDate(convertDateFromSql($foire->dateFinFoire()),today())):
+        if(compareDate($foire->dateFinFoire(),today())):
     ?>
         <div class="well">
             <p><b><?php echo $foire->nomFoire(); ?></b></p>
-            <p><b>D&eacute;but de la foire:&nbsp;</b><?php echo convertDateFromSql($foire->dateDebutFoire());  ?></p>
-            <p><b>Fin de la foire:&nbsp;</b><?php echo convertDateFromSql($foire->dateFinFoire());?></p>
+            <p><b>D&eacute;but de la foire:&nbsp;</b><?php echo $foire->dateDebutFoire();  ?></p>
+            <p><b>Fin de la foire:&nbsp;</b><?php echo $foire->dateFinFoire();?></p>
         </div>
 
 

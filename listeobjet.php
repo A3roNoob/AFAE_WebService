@@ -54,7 +54,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             if (is_a($parti, "Participant") && $parti->valide()) {
 
 
-                if (isset($_GET['objet']) && $foire->dateFinSaisie() > today()) {
+                if (isset($_GET['objet']) && isset($_GET['foire']) && $foire->dateFinSaisie() > today() && Object::appartient(test_input($_POST['objet']), $_SESSION['userobject']->id(), test_input($_POST['foire']))) {
                     echo "<br />";
                     try {
                         $retour = ObjectManager::deleteItem($_SESSION['userobject']->id(), (int)$idFoire, (int)test_input($_GET['objet']));
@@ -62,9 +62,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     } catch (TypeError $e) {
                         echo "<div class='alert alert-danger'>Votre objet n'a pas pu &ecirc;tre supprim&eacute;</div>";
                     }
-                } else if (isset($_GET['objet']) && $foire->dateFinSaisie() < today()) {
+                } else if (isset($_GET['objet']) && isset($_GET['foire']) && $foire->dateFinSaisie() < today()) {
                     echo "<br />";
                     echo "<div class='alert alert-warning'>Les saisies sont termin&eacute;es, vous ne pouvez plus supprimer d'objet.</div>";
+                } else if(isset($_GET['objet']) && isset($_GET['foire']) &&!Object::appartient(test_input($_POST['objet']), $_SESSION['userobject']->id(), test_input($_POST['foire']))){
+                    echo "<br />";
+                    echo "<div class='alert alert-danger'>Cet objet ne vous appartient pas !</div>";
                 }
 
                 echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
@@ -125,7 +128,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                             echo "</td>";
 
                             echo "<td>";
-                            echo ($userObject->verrou()) ? "" : "<button type='button' class='btn btn-primary'>Modifier</button>";
+                            echo ($userObject->verrou()) ? "" : "<button type='button' onclick=\"window.location.href = '/modifier/foire/" . $userObject->idFoire() . "/objet/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Modifier</button>";
                             echo "</td>";
 
                             echo "<td>";

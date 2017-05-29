@@ -1,4 +1,6 @@
-<form action=<?php echo $_SERVER['REQUEST_URI']; ?> method="POST" class="col-xs-6">
+<form action="/modifier/objet/" method="POST" class="col-xs-6">
+    <input type="hidden" name="numitem" value="<?php echo test_input($_GET['objet'])?>" />
+    <input type="hidden" name="idfoire" value="<?php echo test_input($_GET['foire']);?>" />
     <div class="form-group <?php hasError($descErr); ?>">
         <label class="control-label" for="desc">Description&nbsp;: </label>
         <input type="text" class="form-control" id="desc" name="desc"/>
@@ -33,6 +35,5 @@
                     echo "checked"; ?>
                                                                          id="baisse"/></label>
     </div>
-    <input type="hidden" name="idfoire" value="<?php echo $foire->idfoire() ?>"/>
-    <input type="submit" class="btn btn-default" value="Ajouter"/>
+    <input type="submit" class="btn btn-default" value="Modifier"/>
 </form>

@@ -19,6 +19,9 @@ RewriteRule ^liste/vendeur/([0-9]+)/([0-9]+)/?$ listeutilisateur.php?iduser=$1&i
 RewriteRule ^saisir/objet/(foire)?/?$ saisirobjet.php
 RewriteRule ^saisir/objet/foire/([0-9]+)/?$ saisirobjet.php?foire=$1
 
+#Modifier objet
+RewriteRule ^modifier/foire/([0-9]+)/objet/([0-9]+)/?$ modifobjet.php?foire=$1&objet=$2
+RewriteRule ^modifier/objet/?$ modifobjet.php
 #liste objet
 RewriteRule ^liste/objet/(foire)?/?$ listeobjet.php
 RewriteRule ^liste/objet/foire/([0-9]+)/?$ listeobjet.php?foire=$1

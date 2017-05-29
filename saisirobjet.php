@@ -72,12 +72,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
                 else
                     include(TEMPLATES_PATH . '/frmSaisirObjet.php');
-
-            } else {
-                echo "<br /><div class='alert alert-warning'>Vous n'avez pas acc&egrave;s &agrave; cette foire.</div>";
             }
-        } else {
-            echo "<br /><div class='alert alert-danger'>Cette foire n'existe pas.</div>";
+            else{
+                echo "<div class='alert alert-danger'>Vous essayez d'acc&eacute;der &agrave; un objet qui ne vous appartient pas.</div>";
+            }
         }
     } else {
         $foireMan = new FoireManager();

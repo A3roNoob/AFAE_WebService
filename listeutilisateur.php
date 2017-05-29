@@ -56,7 +56,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             $foire = test_input($_GET['foire']);
             $userList->loadUsersFromFoire($foire);
             $f = Foire::loadFromDb($foire);
-            echo "<span id='nomfoire'>" . (is_null($f)) ? "" : $f->nomFoire() . "</span>";
+            echo "<span id='nomfoire'>" . (!is_a($f, "Foire")) ? "" : $f->nomFoire() . "</span>";
             $idFoire = $f->idFoire();
             $_SESSION['userlist'] = $userList;
         }

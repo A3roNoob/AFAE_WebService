@@ -98,22 +98,22 @@ class Foire
 
     public function setDateDebutFoire($date)
     {
-        $this->_dateDebutFoire = $date;
+        $this->_dateDebutFoire = convertDateFromSql($date);
     }
 
     public function setDateFinFoire($date)
     {
-        $this->_dateFinFoire = $date;
+        $this->_dateFinFoire = convertDateFromSql($date);
     }
 
     public function setDateDebutSaisie($date)
     {
-        $this->_dateDebutSaisie = $date;
+        $this->_dateDebutSaisie = convertDateFromSql($date);
     }
 
     public function setDateFinSaisie($date)
     {
-        $this->_dateFinSaisie = $date;
+        $this->_dateFinSaisie = convertDateFromSql($date);
     }
 
     public function setPrixBaise($prix){
