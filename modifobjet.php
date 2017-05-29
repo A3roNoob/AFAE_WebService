@@ -24,13 +24,11 @@ $foire = null;
 if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Vendeur'))) {
     if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['foire']) && isset($_GET['objet'])) {
 
-
         $parti = Participant::loadFromDb(test_input($_GET['foire']), $_SESSION['userobject']->id());
 
         $idFoire = test_input($_GET['foire']);
         $foire = Foire::loadFromDb($idFoire);
         if (is_a($foire, "Foire")) {
-
 
             if (is_a($parti, "Participant") && $parti->valide()) {
                 echo "<div class='page-header'>Nom de la foire&nbsp;:&nbsp" . $foire->nomFoire() . "</div>";
@@ -38,8 +36,13 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
                 else if (today() < $foire->dateDebutSaisie())
                     echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
+                else if(!(Object::appartient(test_input($_GET['objet']), $_SESSION['userobject']->id(), $idFoire)))
+                    echo "<div class='alert alert-warning'>Cet objet n'existe pas.</div>";
                 else
+                {
+                    $obj = Object::loadObjectFromFoire(test_input($_GET['objet']), $_SESSION['userobject']->id(), $idFoire);
                     include(TEMPLATES_PATH . '/frmModifObjets.php');
+                }
 
             } else {
                 echo "<br /><div class='alert alert-warning'>Vous n'avez pas acc&egrave;s &agrave; cette foire.</div>";
@@ -52,6 +55,8 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['numitem']) && isset($_POST['idfoire'])) {
         $numItem = test_input($_POST['numitem']);
         $idFoire = test_input($_POST['idfoire']);
+        $obj = Object::loadObjectFromFoire($numItem, $_SESSION['userobject']->id(), $idFoire);
+
         if (Object::appartient($numItem, $_SESSION['userobject']->id(), $idFoire)) {
 
             if (isset($_POST['desc']) && !empty($_POST['desc']))
@@ -76,7 +81,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
 
             if (!$descErr && !$tailleErr && !$prixErr && !$nbItemErr) {
-                $obj = Object::loadObjectFromFoire($numItem, $_SESSION['userobject']->id(), $idFoire);
                 if (is_a($obj, 'Object')) {
                     if ($obj->updateObject($desc, $baisse, $prix, $taille, $nbitem)) {
                         ?>
@@ -94,11 +98,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "<div class='alert alert-warning'>Cet objet n'existe pas.</div>";
                 }
             } else {
-                if (today() > $foire->dateFinSaisie())
-                    echo "<div class='alert alert-info'>Date de saisie d&eacute;pass&eacute;e.</div>";
-                else if (today() < $foire->dateDebutSaisie())
-                    echo "<div class='alert alert-info'>Les saisies n'ont pas encore d&eacute;but&eacute; pour cette foire.</div>";
-                else
                     include(TEMPLATES_PATH . '/frmModifObjets.php');
             }
         } else {

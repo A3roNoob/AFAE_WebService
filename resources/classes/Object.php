@@ -339,9 +339,12 @@ class Object
         $query->bindValue(':iduser', $idUser, PDO::PARAM_INT);
         try {
             $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return false;
         }
+        if(is_bool($data))
+            return false;
         return true;
     }
 
