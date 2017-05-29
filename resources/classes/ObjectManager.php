@@ -91,22 +91,21 @@ class ObjectManager
             return end($this->_objets)->numItem();
     }
 
-    public static function deleteItem($iduser, $idfoire, $numItem){
+    public static function deleteItem($iduser, $idfoire, $numItem)
+    {
         $db = connectToDb();
 
         $query = $db->prepare("SELECT idobjet FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire AND numitem=:numitem");
         $query->bindValue(':iduser', $iduser, PDO::PARAM_INT);
         $query->bindValue(':idfoire', $idfoire, PDO::PARAM_INT);
         $query->bindValue(':numitem', $numItem, PDO::PARAM_INT);
-
         $data = null;
-        try{
+        try {
             $query->execute();
             $data = $query->fetch(PDO::FETCH_ASSOC);
             ObjectManager::deleteObject($data['idobjet']);
-
-        }catch(Exception $e){
-            return "Cet objet n'existe pas !";
+        } catch (Exception $e) {
+            return false;
         }
 
         return true;
@@ -116,17 +115,27 @@ class ObjectManager
     {
         $db = connectToDb();
         $obj = Object::loadObjectFromId($idObject);
-        $query = $db->query("SELECT verrou FROM objet WHERE idobjet=" .$idObject);
-        $query = $query->fetch(PDO::FETCH_ASSOC);
-
+        $query = $db->prepare("SELECT verrou FROM objet WHERE idobjet=:idobjet;");
+        $query->bindValue(':idobjet', $idObject, PDO::PARAM_INT);
+        try {
+            $query->execute();
+            $query = $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return false;
+        }
         if (isset($query['verrou']) && !((bool)$query['verrou'])) {
             $query = $db->prepare("DELETE FROM objet WHERE idobjet=:idobj");
             $query->bindValue(':idobj', $idObject, PDO::PARAM_INT);
-            $query->execute();
-            $obj->goUpInTable($db);
-            $query->closeCursor();
+            try {
+                $query->execute();
+                $obj->goUpInTable($db);
+                $query->closeCursor();
+            } Catch (PDOException $e) {
+                return false;
+            }
         } else {
-            throw new Exception("Objet verrouillé, impossible de le supprimer");
+            return false;
         }
+        return true;
     }
 }

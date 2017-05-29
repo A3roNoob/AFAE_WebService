@@ -234,7 +234,8 @@ class Object
 
     }
 
-    public function updateObject($desc, $baisse, $prix, $taille, $nbItem){
+    public function updateObject($desc, $baisse, $prix, $taille, $nbItem)
+    {
         $db = connectToDb();
         $query = $db->prepare("UPDATE objet SET description=:descr, baisse=:baisse, prix=:prix, taille=:taille, nbitem=:nbitem WHERE idutilisateur=:iduser AND idfoire=:idfoire AND numitem=:numitem;");
         $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
@@ -252,9 +253,9 @@ class Object
         $this->setTaille($taille);
         $this->setNbItems($nbItem);
 
-        try{
+        try {
             $query->execute();
-        }catch(PDOException $e){
+        } catch (PDOException $e) {
             return false;
         }
 
@@ -263,19 +264,24 @@ class Object
 
     public function goUpInTable($db)
     {
-        try {
-            do {
-                $query = $db->prepare("UPDATE objet SET numitem=:numitem WHERE numitem=:numitemnext AND idutilisateur=:iduser");
-                $query->bindValue(':numitem', $this->_numItem++, PDO::PARAM_INT);
-                $query->bindValue(':numitemnext', $this->_numItem, PDO::PARAM_INT);
-                $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
-                $query->execute();
+        if ($this->numItem() != 1) {
+            try {
+                do {
+                    $query = $db->prepare("UPDATE objet SET numitem=:numitem WHERE numitem=:numitemnext AND idutilisateur=:iduser");
+                    $query->bindValue(':numitem', $this->_numItem++, PDO::PARAM_INT);
+                    $query->bindValue(':numitemnext', $this->_numItem, PDO::PARAM_INT);
+                    $query->bindValue(':iduser', $this->user()->id(), PDO::PARAM_INT);
+                    $query->execute();
 
-            } while ($query->rowCount() > 0);
-        } catch (PDOException $e) {
+                } while ($query->rowCount() > 0);
+            } catch (PDOException $e) {
 
-            echo "<br>" . $e->getMessage();
+                return false;
+            }
         }
+
+        return true;
+
     }
 
 
@@ -343,7 +349,7 @@ class Object
         } catch (PDOException $e) {
             return false;
         }
-        if(is_bool($data))
+        if (is_bool($data))
             return false;
         return true;
     }
