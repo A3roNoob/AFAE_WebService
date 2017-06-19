@@ -61,6 +61,13 @@
                     }
                     ?>
                     <li><a href="/enregistrement/foire/">S'inscrire à une foire</a></li>
+                    <?php
+                    if($_SESSION['userobject']->checkRank(Rank::loadFromName("Operateur"))) {
+                        ?>
+                        <li><a href="/gestion/">Gestion des foires</a></li>
+                        <?php
+                    }
+                    ?>
                     <li><a href="/perso/">Infos personnelles</a></li>
                     <li><a href="/deconnexion/"> Se d&eacute;connecter </a></li>
                     <?php

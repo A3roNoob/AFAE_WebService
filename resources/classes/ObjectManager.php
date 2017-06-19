@@ -51,11 +51,10 @@ class ObjectManager
 
     public function loadObjectsFromUserFoire($user, $foire)
     {
-        $foire = Foire::loadFromDb($foire);
         $db = connectToDb();
         $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire');
         $query->bindValue(':iduser', $user->id(), PDO::PARAM_INT);
-        $query->bindValue(':idfoire', $foire->idFoire(), PDO::PARAM_INT);
+        $query->bindValue(':idfoire', $foire, PDO::PARAM_INT);
 
         try {
             $query->execute();
@@ -77,6 +76,39 @@ class ObjectManager
 
         $this->setObjets($arrObject);
     }
+
+    /**
+     * @param $foire
+     * @throws Exception
+     */
+    public function loadObjectsFromFoire($foire)
+    {
+        $db = connectToDb();
+        $query = $db->prepare('SELECT * FROM objet WHERE idfoire=:idfoire');
+        $query->bindValue(':idfoire', $foire, PDO::PARAM_INT);
+
+        $data = null;
+        try {
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+        if (is_bool($data))
+            throw new Exception("Erreur lors de la selection sur la table objet pour la foire $foire <br> Function Name: loadObjectsFromFoire");
+        $query->closeCursor();
+
+        $arrObject = array();
+        foreach ($data as $value) {
+            $obj = new Object();
+            $obj->hydrate($value);
+            array_push($arrObject, $obj);
+        }
+
+        $this->setObjets($arrObject);
+    }
+
 
     public function getLastItem()
     {
@@ -130,5 +162,17 @@ class ObjectManager
             return false;
         }
         return true;
+    }
+
+    public function searchObjects($desc){
+        if(!empty($desc)) {
+            $desc = strtoupper($desc);
+            $obj = array();
+            foreach ($this->objets() as $objet) {
+                if (strpos(strtoupper($objet->desc()), $desc) || strtoupper($objet->desc()) == $desc)
+                    array_push($obj, $objet);
+            }
+            $this->setObjets($obj);
+        }
     }
 }
