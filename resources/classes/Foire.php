@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 21:00
- */
 class Foire
 {
     private $_idFoire;
@@ -98,22 +91,34 @@ class Foire
 
     public function setDateDebutFoire($date)
     {
-        $this->_dateDebutFoire = convertDateFromSql($date);
+        if(is_a($date, "DateTime"))
+            $this->_dateDebutFoire = $date;
+        else
+            $this->_dateDebutFoire = convertDateFromSql($date);
     }
 
     public function setDateFinFoire($date)
     {
-        $this->_dateFinFoire = convertDateFromSql($date);
+        if(is_a($date, "DateTime"))
+            $this->_dateFinFoire = $date;
+        else
+            $this->_dateFinFoire = convertDateFromSql($date);
     }
 
     public function setDateDebutSaisie($date)
     {
-        $this->_dateDebutSaisie = convertDateFromSql($date);
+        if(is_a($date, "DateTime"))
+            $this->_dateDebutSaisie = $date;
+        else
+            $this->_dateDebutSaisie = convertDateFromSql($date);
     }
 
     public function setDateFinSaisie($date)
     {
-        $this->_dateFinSaisie = convertDateFromSql($date);
+        if(is_a($date, "DateTime"))
+            $this->_dateFinSaisie = $date;
+        else
+            $this->_dateFinSaisie = convertDateFromSql($date);
     }
 
     public function setPrixBaise($prix){
@@ -202,10 +207,10 @@ class Foire
         $query->bindValue(':nomfoire', $this->nomFoire());
         $query->bindValue(':idadmin', $this->idAdmin(), PDO::PARAM_INT);
         $query->bindValue(':idassoc', $this->idAssoc(), PDO::PARAM_INT);
-        $query->bindValue(':ddf', $this->dateDebutFoire());
-        $query->bindValue(':dff', $this->dateFinFoire());
-        $query->bindValue(':dds', $this->dateDebutSaisie());
-        $query->bindValue(':dfs', $this->dateFinSaisie());
+        $query->bindValue(':ddf', convertDateToSql($this->dateDebutFoire()));
+        $query->bindValue(':dff', convertDateToSql($this->dateFinFoire()));
+        $query->bindValue(':dds', convertDateToSql($this->dateDebutSaisie()));
+        $query->bindValue(':dfs', convertDateToSql($this->dateFinSaisie()));
         $query->bindValue(':prix', $this->prixBaisse());
         $query->bindValue(':maxobj', $this->maxObj(), PDO::PARAM_INT);
         $query->bindValue(':maxobjassoc', $this->maxObjAssoc(), PDO::PARAM_INT);
@@ -218,13 +223,14 @@ class Foire
         $query = $db->prepare("SELECT idFoire FROM foire WHERE nomfoire=:nomfoire AND datedebutfoire=:ddf AND datefinfoire=:dff AND idadmin=:idadmin");
         $query->bindValue(':nomfoire', $this->nomFoire());
         $query->bindValue(':idadmin', $this->idAdmin(), PDO::PARAM_INT);
-        $query->bindValue(':ddf', $this->dateDebutFoire());
-        $query->bindValue(':dff', $this->dateFinFoire());
+        $query->bindValue(':ddf', convertDateToSql($this->dateDebutFoire()));
+        $query->bindValue(':dff', convertDateToSql($this->dateFinFoire()));
 
         try {
             $query->execute();
             $data = $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+
             echo $e->getMessage();
         }
         $query = $db->prepare('INSERT INTO participant(idutilisateur, idfoire, valide) VALUES (:idadmin, :idfoire, TRUE);');

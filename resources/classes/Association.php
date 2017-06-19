@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 04/04/2017
- * Time: 00:44
- */
 ///TODO gestion assoc
 
 class Association

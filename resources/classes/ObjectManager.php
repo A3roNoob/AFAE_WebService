@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 10:19
- */
 require_once(dirname(__FILE__) . "/../config.php");
 require_once('User.php');
 

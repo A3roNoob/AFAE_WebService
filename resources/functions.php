@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 11:38
- */
 require_once(dirname(__FILE__) . "/config.php");
 function connectToDb()
 {
@@ -34,14 +28,40 @@ function test_input($data)
 
 function convertDateToSql($date)
 {
-    $date = DateTime::createFromFormat('d/m/Y', $date);
-    return $date->format('Y-m-d');
+    Try {
+        if(!is_a($date, "DateTime")){
+            if(strpos($date, '/'))
+                $date = DateTime::createFromFormat("d/m/Y", $date);
+            else if(strpos($date, '-'))
+                $date = DateTime::createFromFormat("d-m-Y", $date);
+        }
+        $date = $date->format("Y-m-d");
+
+    }
+    catch(Exception $e)
+    {
+        echo $e->getMessage();
+    }
+
+    return $date;
 }
 
 function convertDateFromSql($date)
 {
-    $date = DateTime::createFromFormat('Y-m-d', $date);
-    return $date->format('d-m-Y');
+    Try{
+        if(!is_a($date, "DateTime")){
+            if(strpos($date, '/'))
+                $date = DateTime::createFromFormat("d/m/Y", $date);
+            else if(strpos($date, '-'))
+                $date = DateTime::createFromFormat("Y-m-d", $date);
+        }
+        $date = $date->format("d-m-Y");
+    }
+    catch ( Exception $e)
+    {
+        echo $e->getMessage();
+    }
+    return $date;
 }
 
 function today()
@@ -51,6 +71,7 @@ function today()
 
 function compareDate($date1, $date2)
 {
+    echo "<br />";
     $d1ex = explode("-", $date1);
     $d2ex = explode("-", $date2);
 

@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 20:56
- */
 class Banque
 {
     private $_idBanque;

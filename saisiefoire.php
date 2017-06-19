@@ -25,7 +25,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             $idAdmin = $_SESSION['userobject']->id();
             $idAssoc = Association::loadFromAdmin($_SESSION['userobject']->id())->idAssoc();
         }
-
         if (empty($_POST['name']) || convertDateToSql($_POST['datedebutfoire']) > convertDateToSql($_POST['datefinfoire']) || convertDateToSql($_POST['datedebutsaisie']) > convertDateToSql($_POST['datefinsaisie']) || convertDateToSql($_POST['datefinsaisie']) > convertDateToSql($_POST['datedebutfoire'])) {
 
             if (empty($_POST['name']))
@@ -53,8 +52,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 $maxobjassoc = test_input($_POST['maxobjassoc']);
             else
                 $maxobjassoc = $config['max_object_assoc'];
-
-            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, convertDateToSql($_POST['datedebutfoire']), convertDateToSql($_POST['datefinfoire']), convertDateToSql($_POST['datedebutsaisie']), convertDateToSql($_POST['datefinsaisie']), $prixbaisse, $maxobj, $maxobjassoc);
+            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, $_POST['datedebutfoire'], $_POST['datefinfoire'], $_POST['datedebutsaisie'], $_POST['datefinsaisie'], $prixbaisse, $maxobj, $maxobjassoc);
             $foire->insertIntoDb();
             ?>
             <div id="container">
