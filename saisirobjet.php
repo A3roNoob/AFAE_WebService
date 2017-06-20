@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 15:59
- */
 require_once("resources/config.php");
 require_once("resources/functions.php");
 session_start();

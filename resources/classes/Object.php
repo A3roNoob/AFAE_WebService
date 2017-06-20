@@ -1,11 +1,5 @@
 <?php
 ///TODO transactions
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 03/04/2017
- * Time: 10:18
- */
 require_once(dirname(__FILE__) . "/../config.php");
 
 class Object

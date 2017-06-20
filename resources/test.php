@@ -51,6 +51,8 @@ catch (PDOException $e) {
 /*$oui = convertDateToSql("27/03/1998") > convertDateToSql("26/03/1998");
 var_dump($oui);*/
 
-$test = compareDate( today(), "08-06-2017");
+$d = "20/06/2017";
 
-var_dump($test);
+$date = DateTime::createFromFormat("d/m/Y", $d);
+$date = $date->format("Y-m-d");
+var_dump($date);

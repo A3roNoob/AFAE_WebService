@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 05/04/2017
- * Time: 11:59
- */
 class FoireManager
 {
     private $_foires;
