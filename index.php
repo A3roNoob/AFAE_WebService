@@ -27,7 +27,7 @@ if(isset($_GET['code']))
            <?php endif;
             EndForEach;
             ?>
-        <h2>A propos de ce site</h2>
+        <h2>&Agrave; propos de ce site</h2>
             <p>Ce site à été créé pour l'Association des familles d'Arpajon et ses environs (AFAE). Sa réalisation entre dans le cadre du projet tutoré de S2 de l'IUT d'Orsay.</p>
             <p>Le maître d'ouvrage du projet de ce site est l'AFAE. <br>
             Le maître d'oeuvre est le groupe composé des personnes suivantes: <br></p>
