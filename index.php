@@ -17,12 +17,16 @@ if(isset($_GET['code']))
 
     foreach($foireMan->foires() as $foire):
         if(compareDate($foire->dateFinFoire(),today())):
+
     ?>
         <div class="well">
             <p><b><?php echo $foire->nomFoire(); ?></b></p>
             <p><b>D&eacute;but de la foire:&nbsp;</b><?php echo $foire->dateDebutFoire();  ?></p>
             <p><b>Fin de la foire:&nbsp;</b><?php echo $foire->dateFinFoire();?></p>
         </div>
+           <?php endif;
+            EndForEach;
+            ?>
         <h2>A propos de ce site</h2>
             <p>Ce site à été créé pour l'Association des familles d'Arpajon et ses environs (AFAE). Sa réalisation entre dans le cadre du projet tutoré de S2 de l'IUT d'Orsay.</p>
             <p>Le maître d'ouvrage du projet de ce site est l'AFAE. <br>
@@ -45,8 +49,7 @@ if(isset($_GET['code']))
             </ul>
 
     <?php
-            endif;
-    EndForEach;
+
 }
 
 include_once(TEMPLATES_PATH.'/footer.php');
