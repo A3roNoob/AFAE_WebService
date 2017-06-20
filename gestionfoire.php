@@ -45,8 +45,8 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <?php
 
                 foreach ($objMan->objets() as $objet) {
-                    if(isset($desc)){
-                        if(!(strpos(strtoupper($objet->desc()), strtoupper($desc)) || strtoupper($objet->desc()) == strtoupper($desc))) {
+                    if(isset($desc) && !empty($desc)){
+                        if(!(strpos(strtoupper('#'.$objet->desc()), strtoupper($desc)) || strtoupper($objet->desc()) == strtoupper($desc))) {
                             echo "<tr style='display: none;'>";
                         }
                     }else

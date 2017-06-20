@@ -1,14 +1,16 @@
-﻿CREATE TABLE banque (
-  idbanque   INT NOT NULL  AUTO_INCREMENT,
-  nombanque  VARCHAR(50),
-  codebanque VARCHAR(10),
-  CONSTRAINT pk_banque PRIMARY KEY (idbanque)
-);
+﻿SELECT SYSDATE() FROM DUAL;
 
 CREATE TABLE paiement (
   idpaiement  INT         NOT NULL  AUTO_INCREMENT,
   nompaiement VARCHAR(15) NOT NULL,
   CONSTRAINT pk_paiement PRIMARY KEY (idpaiement)
+);
+
+CREATE TABLE banque (
+  idbanque   INT AUTO_INCREMENT,
+  nombanque  VARCHAR(50),
+  codebanque VARCHAR(10),
+  CONSTRAINT pk_banque PRIMARY KEY (idbanque)
 );
 
 CREATE TABLE rang (
@@ -49,7 +51,7 @@ CREATE TABLE association (
 );
 
 CREATE TABLE foire (
-  idfoire         INT          AUTO_INCREMENT,
+  idfoire         INT AUTO_INCREMENT,
   nomfoire        VARCHAR(255) NOT NULL,
   idassociation   INT          NOT NULL,
   idadmin         INT          NOT NULL,
@@ -57,7 +59,7 @@ CREATE TABLE foire (
   datefinfoire    DATE,
   datedebutsaisie DATE,
   datefinsaisie   DATE,
-  prixbaisse      DECIMAL(5,2),
+  prixbaisse      DECIMAL(5, 2),
   maxobj          NUMERIC(3),
   maxobjassoc     NUMERIC(3),
   CONSTRAINT pk_foire PRIMARY KEY (idfoire),
@@ -70,17 +72,17 @@ CREATE TABLE foire (
 );
 
 CREATE TABLE objet (
-  idobjet       INT            NOT NULL          AUTO_INCREMENT UNIQUE,
+  idobjet       INT           NOT NULL          AUTO_INCREMENT UNIQUE,
   numitem       INT,
   idfoire       INT,
   idutilisateur INT,
-  description   VARCHAR(255)   NOT NULL,
-  baisse        BOOLEAN        NOT NULL          DEFAULT 0,
+  description   VARCHAR(255)  NOT NULL,
+  baisse        BOOLEAN       NOT NULL          DEFAULT 0,
   prix          DECIMAL(5, 2) NOT NULL,
-  vendu         BOOLEAN        NOT NULL          DEFAULT 0,
+  vendu         BOOLEAN       NOT NULL          DEFAULT 0,
   taille        VARCHAR(32),
-  nbitem        INT            NOT NULL,
-  verrou        BOOLEAN        NOT NULL          DEFAULT 0,
+  nbitem        INT           NOT NULL,
+  verrou        BOOLEAN       NOT NULL          DEFAULT 0,
   CONSTRAINT pk_objet PRIMARY KEY (numitem, idfoire, idutilisateur),
   CONSTRAINT fk_objet FOREIGN KEY (idutilisateur) REFERENCES utilisateur (idutilisateur)
     ON DELETE NO ACTION
@@ -172,7 +174,7 @@ INSERT INTO paiement (nompaiement) VALUES ('Chèque');
 
 
 INSERT INTO rang (nomrang) VALUES ('Vendeur');
-INSERT INTO rang (nomrang) VALUES ('Opérateur');
+INSERT INTO rang (nomrang) VALUES ('Operateur');
 INSERT INTO rang (nomrang) VALUES ('Administrateur de foire');
 INSERT INTO rang (nomrang) VALUES ('Super Administrateur');
 
@@ -189,4 +191,4 @@ VALUES ('AFAE', '16 Boulevard AbelCornaton', 91290, 'Arpajon', FALSE, 'afae', 'b
 INSERT INTO association (nomassociation, sigleassociation, villeassociation, idadministrateur)
 VALUES ('Association des Familles d\'Arpajon et de ses Environs', 'AFAE', 'Arpajon', (SELECT idutilisateur
                                                                                       FROM utilisateur
-                                                                                      WHERE nomutilisateur = 'AFAE'))
+                                                                                      WHERE nomutilisateur = 'AFAE'));

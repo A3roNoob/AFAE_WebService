@@ -169,7 +169,7 @@ class ObjectManager
             $desc = strtoupper($desc);
             $obj = array();
             foreach ($this->objets() as $objet) {
-                if (strpos(strtoupper($objet->desc()), $desc) || strtoupper($objet->desc()) == $desc)
+                if (strpos(strtoupper("#".$objet->desc()), $desc) || strtoupper($objet->desc()) == $desc)
                     array_push($obj, $objet);
             }
             $this->setObjets($obj);

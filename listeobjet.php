@@ -28,11 +28,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $foireMan = new FoireManager();
                     $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
                     foreach ($foireMan->foires() as $foire) {
-                        if ($foire->idFoire() == test_input($_GET['foire']))
-                            $selec = "selected";
-                        else
-                            $selec = "";
-
+                        $select = $foire->idFoire() == test_input($_GET['foire']) ? "selected" : "";
                         echo '<option value="' . $foire->idFoire() . '" ' . $selec . '>' . $foire->nomFoire() . '</option>';
                     }
                     ?>

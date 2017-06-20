@@ -29,7 +29,6 @@ if(isset($_GET['code']))
             endif;
     EndForEach;
 }
-
 include_once(TEMPLATES_PATH.'/footer.php');
 
 ?>

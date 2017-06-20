@@ -1,21 +1,23 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: Wellan
- * Date: 02/04/2017
- * Time: 23:14
- */
-
-
+$file = "resources\\credentials.json";
+$data = array();
+if (file_exists($file)) {
+    $credentials = file_get_contents($file, FILE_USE_INCLUDE_PATH);
+    $data = json_decode($credentials, true);
+}
+else{
+    echo "Veuillez acc&eacute;der &agrave; <a href='http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']."/install.php' > l'installation.</a>";
+    exit(1);
+}
 
 global $config;
 $config = array(
     "db" => array(
-        "dbname" => "afae",
-        "username" => "afae",
-        "password" => "afae",
-        "host" => "localhost"
-    ),
+        "dbname" => $data['dbname'],
+        "username" => $data['username'],
+        "password" => $data['password'],
+        "host" => $data['dbhost']
+),
     "default_rank" => "1",
     "max_object_user" => 25,
     "max_object_assoc" => 200
