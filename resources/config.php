@@ -1,5 +1,5 @@
 <?php
-$file = "resources\\credentials.json";
+$file = realpath(dirname(__FILE__)."/credentials.json");
 $data = array();
 if (file_exists($file)) {
     $credentials = file_get_contents($file, FILE_USE_INCLUDE_PATH);

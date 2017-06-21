@@ -287,8 +287,7 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-$file = "resources\\credentials.json";
+$file = dirname(__FILE__)."/resources/credentials.json";
 if (file_exists($file)) {
     $credentials = file_get_contents($file, FILE_USE_INCLUDE_PATH);
     $data = json_decode($credentials, true);
@@ -332,10 +331,12 @@ if (file_exists($file)) {
                 $fail = true;
             }
             if (!$fail) {
-                file_put_contents($file, $json);
                 echo "Ex&eacute;cution du script sql pour g&eacute;n&eacute;rer la base de donnée.<br />";
                 $fail = executeQueryFile("resources\\sql\\db.sql", $db);
                 echo strlen($fail) > 0 ? "Une erreur s'est produite, v&eacute;rifiez qu'aucune de vos tables d&eacute;j&agrave; pr&eacute;sentes ne comportent les noms: $fail !" : "Tout s'est d&eacute;roul&eacute; avec succ&eacute;s.<br />L'installation est termin&eacute;e. Veuillez supprimer ce fichier et acc&eacute;der à <a href='/'> l'acceuil</a>";
+                if(strlen($fail) <= 0){
+                    file_put_contents($file, $json);
+                }
             }
 
         } else {
