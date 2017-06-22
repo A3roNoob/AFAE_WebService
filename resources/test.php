@@ -32,10 +32,11 @@ catch (Exception $e)
 {
     echo $e->getMessage();
 }
-
-$i = 149;
-$objet = Object::createObject($_SESSION['userobject']->id(), 2, "petite robe noire $i", false, $i+ 0.20, false, $i." ans", 1, false);
-$objet->insertObjectIntoDb();
+*/
+//for($i = 0; $i < 3; $i++){
+    $objet = Object::createObject(3, 1, "Puma Air Jordans", false, 70, false, 43, 2, false);
+    $objet->insertObjectIntoDb();
+//}
 //$objMan = new ObjectManager($_SESSION['userobject']);
 /*
 $_SESSION['userobject'] = User::createUser("KELHOME", "oui", "NOJFHD90S", "91650", "OUIIUIUI", "0787166117", false, false, 1, "boutryguillaume1@gmail.com");

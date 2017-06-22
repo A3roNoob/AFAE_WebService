@@ -70,7 +70,7 @@ class User
     public static function loadUserWithId($id)
     {
         $db = connectTodb();
-        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE idutilisateur=:id");
+        $query = $db->prepare("SELECT idutilisateur, nomutilisateur, prenomutilisateur, adresse, codepostal, email, ville, telephone, baisse, motdepasse, rang FROM utilisateur WHERE idutilisateur=:id");
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         try {
             $query->execute();
