@@ -1,6 +1,6 @@
 <?php
-require_once("..\\config.php");
-require_once("..\\functions.php");
+require_once(dirname(__FILE__)."/../config.php");
+require_once(dirname(__FILE__)."/../functions.php");
 session_start();
 ?>
 <html>
