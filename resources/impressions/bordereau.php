@@ -158,7 +158,7 @@ if (isset($_SESSION['foire']) && is_a($_SESSION['foire'], "Foire")) {
             <label for="date">Date&nbsp;:&nbsp;</label>
             <select name="date">
                 <?php
-                foreach (Transaction::getDatesFromFoire(1) as $date) {
+                foreach (Transaction::getDatesFromFoire($_SESSION['foire']->idFoire()) as $date) {
                     $dateAff = DateTime::createFromFormat("Y-m-d", $date);
                     $dateAff = $dateAff->format("d/m/Y");
                     echo "<option value=" . $date . ">" . $dateAff . "</option>";

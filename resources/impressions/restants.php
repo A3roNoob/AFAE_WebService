@@ -117,7 +117,7 @@ if (isset($_SESSION['foire']) && is_a($_SESSION['foire'], "Foire")) {
                     <td><?php echo $nbObjets;?></td>
                     <td><?php echo $nbVendus;?></td>
                     <td><?php echo $nbRestants;?></td>
-                    <td><?php echo $totalObjets;?></td>
+                    <td><?php echo $totalObjets." €";?></td>
                 </tr>
                 <?php
                 $totalDepose += $nbObjets;
@@ -139,7 +139,7 @@ if (isset($_SESSION['foire']) && is_a($_SESSION['foire'], "Foire")) {
                 <!-- nb objets vendus total -->
                 <th><?php echo $totalRestants; ?></th>
                 <!-- nb objets restants total -->
-                <th><?php echo $totalPrix; ?></th>
+                <th><?php echo $totalPrix." €"; ?></th>
                 <!-- total argent des objets vendus -->
             </tr>
         </table>
