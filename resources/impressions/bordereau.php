@@ -120,7 +120,7 @@ if (isset($_SESSION['foire']) && is_a($_SESSION['foire'], "Foire")) {
                 </tr>
                 <?php
                 $nbCheque = $totalPrix = 0;
-                foreach (Transaction::getChequesDateFoire(1, test_input($_POST['date'])) as $cheque) {
+                foreach (Transaction::getChequesDateFoire($_SESSION['foire']->idFoire(), test_input($_POST['date'])) as $cheque) {
                     ?>
                     <tr>
                         <td><?php echo Banque::loadFromBd($cheque->getIdBanque())->codeBanque(); ?></td>

@@ -54,13 +54,13 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "<br />";
                     $retour = ObjectManager::deleteItem($_SESSION['userobject']->id(), (int)$idFoire, (int)test_input($_GET['objet']));
                     if ($retour) {
-                        echo "<div class='alert alert-success'>Votre objet a &eacute;t&eacute; supprim&eacute; avec succ&eacute;</div>";
+                        echo "<div class='alert alert-success'>Votre objet a &eacute;t&eacute; supprim&eacute; avec succ&egrave;s</div>";
                     } else {
                         echo "<div class='alert alert-danger'>Votre objet n'a pas pu &ecirc;tre supprim&eacute;</div>";
                     }
                 } else if (isset($_GET['objet']) && isset($_GET['foire']) && $foire->dateFinSaisie() < today()) {
                     echo "<br />";
-                    echo "<div class='alert alert-warning'>Les saisies sont termin&eacute;es, vous ne pouvez plus supprimer d'objet.</div>";
+                    echo "<div class='alert alert-warning'>Les saisies sont termin&eacute;es, vous ne pouvez plus supprimer d'objets.</div>";
                 } else if (isset($_GET['objet']) && isset($_GET['foire']) && !Object::appartient(test_input($_GET['objet']), $_SESSION['userobject']->id(), test_input($_GET['foire']))) {
                     echo "<br />";
                     echo "<div class='alert alert-warning'>Cet objet n'existe pas !</div>";
