@@ -162,6 +162,48 @@ class Transaction
             $this->setNomClient($data['nomclient']);
     }
 
+    public static function getDatesFromFoire($idFoire){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT DISTINCT datetransaction FROM transaction WHERE idfoire=:idfoire;");
+        $query->bindValue(':idfoire', $idFoire, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetchAll();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+        $dates = array();
+
+        foreach($data as $date){
+            array_push($dates, $date['datetransaction']);
+        }
+
+        return $dates;
+    }
+
+    public static function getChequesDateFoire($idFoire, $date){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT * FROM transaction WHERE idfoire=:idfoire AND datetransaction=:datetr AND idpaiement=2;");
+        $query->bindValue(':idfoire', $idFoire, PDO::PARAM_INT);
+        $query->bindValue(':datetr', $date);
+        try{
+            $query->execute();
+            $data = $query->fetchAll();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        $transList = array();
+
+        foreach ($data as $value) {
+            $trans = new Transaction();
+            $trans->hydrate($value);
+            array_push($transList, $trans);
+        }
+
+        return $transList;
+    }
+
 
     public static function createTransaction($idFoire, $idUser, $nomClient, $montant, $idPaiement, $idBanque, $dateTranscation)
     {

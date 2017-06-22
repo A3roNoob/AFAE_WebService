@@ -57,7 +57,7 @@ $d = "20/06/2017";
 $date = DateTime::createFromFormat("d/m/Y", $d);
 $date = $date->format("Y-m-d");
 var_dump($date);*/
-
+/*
 function countItemByValue($iduser)
 {
     $objMan = new ObjectManager();
@@ -87,3 +87,12 @@ function getPriceFromKey(array $array)
 }
 
 var_dump(getPriceFromKey(countItemByValue(2)));
+*/
+
+foreach(Transaction::getDatesFromFoire(1) as $date){
+    echo $date."<br />";
+}
+
+foreach(Transaction::getChequesDateFoire(1, '2017-06-22') as $cheque){
+    var_dump($cheque);
+}

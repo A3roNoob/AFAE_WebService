@@ -10,10 +10,6 @@ session_start();
         @page {
             size: auto;
             margin: 3mm 15mm 4mm 15mm;
-            mso-header: header;
-            @top-center {
-                content: element(header);
-            }
         }
 
         body {
@@ -29,7 +25,6 @@ session_start();
         }
 
         #header {
-            position: running(header);
             width: 210mm;
             border-top: 7px solid black;
             border-bottom: 7px solid black;
@@ -61,8 +56,13 @@ session_start();
         tr {
             text-align: center;
             font-size: 1.25em;
-        }
 
+        }
+        td {
+            page-break-inside: avoid;
+            page-break-after: auto;
+            page-break-before: auto;
+        }
         tr {
             page-break-inside: avoid;
             page-break-after: auto;

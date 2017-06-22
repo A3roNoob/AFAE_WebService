@@ -55,7 +55,7 @@ class Banque
         $query->bindValue(':id', $id, PDO::PARAM_INT);
         try{
             $query->execute();
-            $data = $query->fetchAll();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
         }
         catch(PDOException $e)
         {
