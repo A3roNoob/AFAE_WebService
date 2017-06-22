@@ -76,12 +76,14 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         }
     }
     if ($userList->users() != NULL) {
-        ?>
+
+    ?>
         <br/>
         <form action="/impression/etiquette/" method="post">
             <input type="submit" name="vendeur" value="Etiquette vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
             <input type="submit" name="objet" value="Etiquette objet" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
             <input type="submit" name="note" value="Note vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
+            <input type="button" name="restant" value="Restant" onClick="window.location.href='/impression/restant/'" />
             <table style="margin-top: 10px;" class="table table-striped">
             <tr>
                 <th>Id</th>

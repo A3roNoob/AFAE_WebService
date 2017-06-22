@@ -43,6 +43,7 @@ RewriteRule ^impression/etiquette/?$ resources/impressions/Etiquette.php
 RewriteRule ^impression/etiquette/vendeur/?$ resources/impressions/EtiquetteVendeur.php
 RewriteRule ^impression/etiquette/objet/?$ resources/impressions/EtiquetteObjet.php
 RewriteRule ^impression/note/?$ resources/impressions/notevendeur.php
+RewriteRule ^impression/restant/?$ resources/impressions/restants.php
 #Vente objet
 RewriteRule ^vente/confirmer/?$ confirmervente.php
 RewriteRule ^vente/objet/?$ venteobjet.php
