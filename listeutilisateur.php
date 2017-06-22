@@ -79,8 +79,9 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         ?>
         <br/>
         <form action="/impression/etiquette/" method="post">
-            <input type="submit" name="vendeur" value="Imprimer vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')">
-            <input type="submit" name="objet" value="Imprimer objet" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')">
+            <input type="submit" name="vendeur" value="Etiquette vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
+            <input type="submit" name="objet" value="Etiquette objet" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
+            <input type="submit" name="note" value="Note vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')" />
             <table style="margin-top: 10px;" class="table table-striped">
             <tr>
                 <th>Id</th>
@@ -95,7 +96,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo '<th>Modifier</th>';
                 else {
                     echo '<th>Valider</th>';
-                    echo '<th>Etiquette</th>';
+                    echo '<th>S&eacute;lectionner</th>';
                 } ?>
             </tr>
             <?php

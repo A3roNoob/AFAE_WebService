@@ -25,8 +25,8 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             $idAdmin = $_SESSION['userobject']->id();
             $idAssoc = Association::loadFromAdmin($_SESSION['userobject']->id())->idAssoc();
         }
-        if (empty($_POST['name']) || convertDateToSql($_POST['datedebutfoire']) > convertDateToSql($_POST['datefinfoire']) || convertDateToSql($_POST['datedebutsaisie']) > convertDateToSql($_POST['datefinsaisie']) || convertDateToSql($_POST['datefinsaisie']) > convertDateToSql($_POST['datedebutfoire'])) {
 
+        if (empty($_POST['name']) || convertDateToSql($_POST['datedebutfoire']) > convertDateToSql($_POST['datefinfoire']) || convertDateToSql($_POST['datedebutsaisie']) > convertDateToSql($_POST['datefinsaisie']) || convertDateToSql($_POST['datefinsaisie']) > convertDateToSql($_POST['datedebutfoire'])) {
             if (empty($_POST['name']))
                 $foireNameErr = "Nom obligatoire";
             if (convertDateToSql($_POST['datedebutfoire']) > convertDateToSql($_POST['datefinfoire']))
@@ -52,7 +52,14 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 $maxobjassoc = test_input($_POST['maxobjassoc']);
             else
                 $maxobjassoc = $config['max_object_assoc'];
-            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, $_POST['datedebutfoire'], $_POST['datefinfoire'], $_POST['datedebutsaisie'], $_POST['datefinsaisie'], $prixbaisse, $maxobj, $maxobjassoc);
+
+            if(!empty($_POST['retenue']))
+                $retenue = test_input($_POST['retenue']);
+            else
+                $retenue = 10;
+
+
+            $foire = Foire::createFoire($foireName, $idAssoc, $idAdmin, $_POST['datedebutfoire'], $_POST['datefinfoire'], $_POST['datedebutsaisie'], $_POST['datefinsaisie'], $prixbaisse, $maxobj, $maxobjassoc, $retenue);
             $foire->insertIntoDb();
             ?>
             <div id="container">
@@ -63,6 +70,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <p><b>Prix minimum de baisse&nbsp;:&nbsp;</b><?php echo $prixbaisse;?></p>
                 <p><b>Max objets par vendeur&nbsp;:&nbsp;</b><?php echo $maxobj; ?></p>
                 <p><b>Max objets par association&nbsp;:&nbsp;</b><?php echo $maxobjassoc; ?></p>
+                <p><b>Pourcentage de retenue&nbsp;:&nbsp;</b><?php echo $retenue; ?></p>
                 <p><b>Date d&eacute;but des saisies&nbsp;:&nbsp;</b><?php echo $_POST['datedebutsaisie']; ?></p>
                 <p><b>Date fin des saisies&nbsp;&nbsp;</b><?php echo $_POST['datefinsaisie']; ?></p>
                 <p><b>Date d&eacute;but de la foire&nbsp;:&nbsp;</b><?php echo $_POST['datedebutfoire']; ?></p>

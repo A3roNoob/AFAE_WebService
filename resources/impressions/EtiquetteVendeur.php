@@ -19,29 +19,13 @@ session_start();
             margin: 10mm 15mm 10mm 15mm;
         }
 
-        div.one, div.two {
+        .vendeur {
             width: 45%;
             top: 10mm;
             page-break-inside: avoid;
             page-break-after: auto;
             page-break-before: auto;
-        }
-
-        .container {
-            width: 100%;
-
-        }
-
-        .one {
             float: left;
-            width: 75%;
-            overflow: visible
-            page-break-after: always;
-        }
-
-        .two {
-            float: left;
-            width: 25%;
             overflow: visible
         }
 
@@ -91,13 +75,8 @@ function monthToFrench($m){
 function printUser($userArr){
     $cpt = 0;
     foreach ($userArr as $user) {
-
-        if ($cpt % 2 == 0)
-            $class = "one";
-        else
-            $class = "two";
-        ?>
-        <div class="<?php echo $class ?>">
+?>
+        <div class="vendeur">
             <h4><?php echo $_SESSION['foire']->nomFoire(). " - " . monthToFrench(date("m", strtotime($_SESSION['foire']->dateDebutFoire()))). " " . date("Y", strtotime($_SESSION['foire']->dateDebutFoire())); ?></h4>
             <h1><?php echo $user->id(); ?></h1>
             <h1><?php echo $user->name(); ?></h1>

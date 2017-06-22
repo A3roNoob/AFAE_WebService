@@ -42,7 +42,7 @@ RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
 RewriteRule ^impression/etiquette/?$ resources/impressions/Etiquette.php
 RewriteRule ^impression/etiquette/vendeur/?$ resources/impressions/EtiquetteVendeur.php
 RewriteRule ^impression/etiquette/objet/?$ resources/impressions/EtiquetteObjet.php
-
+RewriteRule ^impression/note/?$ resources/impressions/notevendeur.php
 #Vente objet
 RewriteRule ^vente/confirmer/?$ confirmervente.php
 RewriteRule ^vente/objet/?$ venteobjet.php

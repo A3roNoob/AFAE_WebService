@@ -10,6 +10,7 @@ class Foire
     private $_dateDebutFoire;
     private $_dateFinFoire;
     private $_prixBaisse;
+    private $_retenue;
     private $_maxObj;
     private $_maxObjAssoc;
 
@@ -64,6 +65,10 @@ class Foire
 
     public function maxObjAssoc(){
         return $this->_maxObjAssoc;
+    }
+
+    public function retenue(){
+        return $this->_retenue;
     }
 
     public function setIdFoire($id)
@@ -133,6 +138,10 @@ class Foire
         $this->_maxObjAssoc = $nb;
     }
 
+    public function setRetenue($retenue){
+        $this->_retenue = $retenue;
+    }
+
     public function hydrate(array $data)
     {
         if (!isset($data['result'])) {
@@ -158,10 +167,12 @@ class Foire
                 $this->setMaxObj($data['maxobj']);
             if(isset($data['maxobjassoc']))
                 $this->setMaxObjAssoc($data['maxobjassoc']);
+            if(isset($data['retenue']))
+                $this->setRetenue($data['retenue']);
         }
     }
 
-    public static function createFoire($nomFoire, $idAssoc, $idAdmin, $dateDebutFoire, $dateFinFoire, $dataDebutSaisie, $dateFinSaisie, $prixBaisse, $maxObj, $maxObjAssoc)
+    public static function createFoire($nomFoire, $idAssoc, $idAdmin, $dateDebutFoire, $dateFinFoire, $dataDebutSaisie, $dateFinSaisie, $prixBaisse, $maxObj, $maxObjAssoc, $retenue)
     {
         $obj = new self();
         $obj->setNomFoire($nomFoire);
@@ -174,6 +185,7 @@ class Foire
         $obj->setPrixBaise($prixBaisse);
         $obj->setMaxObj($maxObj);
         $obj->setMaxObjAssoc($maxObjAssoc);
+        $obj->setRetenue($retenue);
 
         return $obj;
     }
@@ -203,7 +215,7 @@ class Foire
     public function insertIntoDb()
     {
         $db = connectToDb();
-        $query = $db->prepare("INSERT INTO foire(nomfoire, idadmin, idassociation, datedebutfoire, datefinfoire, datedebutsaisie, datefinsaisie, prixbaisse, maxobj, maxobjassoc) VALUES (:nomfoire, :idadmin, :idassoc, :ddf, :dff, :dds, :dfs, :prix, :maxobj, :maxobjassoc);");
+        $query = $db->prepare("INSERT INTO foire(nomfoire, idadmin, idassociation, datedebutfoire, datefinfoire, datedebutsaisie, datefinsaisie, prixbaisse, maxobj, maxobjassoc, retenue) VALUES (:nomfoire, :idadmin, :idassoc, :ddf, :dff, :dds, :dfs, :prix, :maxobj, :maxobjassoc, :retenue);");
         $query->bindValue(':nomfoire', $this->nomFoire());
         $query->bindValue(':idadmin', $this->idAdmin(), PDO::PARAM_INT);
         $query->bindValue(':idassoc', $this->idAssoc(), PDO::PARAM_INT);
@@ -214,6 +226,7 @@ class Foire
         $query->bindValue(':prix', $this->prixBaisse());
         $query->bindValue(':maxobj', $this->maxObj(), PDO::PARAM_INT);
         $query->bindValue(':maxobjassoc', $this->maxObjAssoc(), PDO::PARAM_INT);
+        $query->bindValue(':retenue', $this->retenue(), PDO::PARAM_INT);
         try {
             $query->execute();
         } catch (PDOException $e) {

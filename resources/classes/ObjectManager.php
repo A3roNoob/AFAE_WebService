@@ -175,4 +175,14 @@ class ObjectManager
             $this->setObjets($obj);
         }
     }
+
+    public function getAllItemSoldByUserFoire($iduser, $idfoire){
+        $this->loadObjectsFromUserFoire(User::loadUserWithId($iduser), $idfoire);
+        $objetArr = array();
+        foreach($this->objets() as $objet){
+            if($objet->vendu())
+                array_push($objetArr, $objet);
+        }
+        return $objetArr;
+    }
 }

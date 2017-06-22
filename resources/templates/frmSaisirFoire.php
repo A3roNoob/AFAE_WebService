@@ -79,6 +79,13 @@
         </div>
     </div>
     <div>
+        <label class="control-label" for="retenue">Pourcentage de retenue&nbsp;: </label>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="0" min="0" max="100" step="1" id="retenue"
+                   name="retenue"/>
+        </div>
+    </div>
+    <div>
         <label for="datedebut">Date d&eacute;but des saisies&nbsp;:</label>
         <div class="input-group date" data-provide="datepicker" data-date-format="dd/mm/yyyy">
             <input type="text" class="form-control" id="datedebutsaisie" name="datedebutsaisie">

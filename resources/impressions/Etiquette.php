@@ -6,6 +6,9 @@ if ($key == "vendeur") {
     $page = "/impression/etiquette/objet";
 
 }
+elseif($key == "note"){
+    $page = "/impression/note";
+}
 unset($_POST[$key]);
 ?>
 

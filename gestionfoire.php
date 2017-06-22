@@ -30,7 +30,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         <div class="table-responsive">
             <form id="formvendre" action="/vente/confirmer/" method="POST">
                 <input type="submit" id="submitobjet" value="Vendre" />
-                <input type="button" value="D&eacute;s&eacute;lectionner tout" id="clear"/>
+                <input type="button" value="D&eacute;s&eacute;lectionner tout" id="clear">
                 <div class="clear">&nbsp;</div>
             <table class="table table-striped">
                 <tr>
@@ -92,7 +92,6 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "</td>";
 
                     echo "<td>";
-                    ///TODO à faire vente d'objet
                     echo ($objet->vendu()) ? "Vendu" : "<input type='checkbox' class='objet' name='objet_".$objet->idObjet()."' value='".$objet->idObjet()."'/>";
                     echo "</td>";
 

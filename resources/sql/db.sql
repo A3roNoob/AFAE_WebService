@@ -63,6 +63,7 @@ CREATE TABLE foire (
   prixbaisse      DECIMAL(5, 2),
   maxobj          NUMERIC(3),
   maxobjassoc     NUMERIC(3),
+  retenue         NUMERIC(3),
   CONSTRAINT pk_foire PRIMARY KEY (idfoire),
   CONSTRAINT fk_foire FOREIGN KEY (idassociation) REFERENCES association (idassociation)
     ON DELETE CASCADE

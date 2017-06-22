@@ -58,7 +58,32 @@ $date = DateTime::createFromFormat("d/m/Y", $d);
 $date = $date->format("Y-m-d");
 var_dump($date);*/
 
-echo today();
-$today = DateTime::createFromFormat("d-m-Y", today());
-$today = $today->format("d/m/Y");
-echo $today;
+function countItemByValue($iduser)
+{
+    $objMan = new ObjectManager();
+    $objArr = $objMan->getAllItemSoldByUserFoire($iduser, 1);
+    $sortedArr = array();
+
+    foreach ($objArr as $objet) {
+        $sortedArr["prix_" . $objet->prix()] = 0;
+        foreach ($objArr as $objet2) {
+            if ($objet->prix() == $objet2->prix())
+                $sortedArr["prix_" . $objet->prix()] = $sortedArr["prix_" . $objet->prix()] + 1;
+        }
+    }
+
+    return $sortedArr;
+}
+
+function getPriceFromKey(array $array)
+{
+    $keys = array_keys($array);
+    $prices = array();
+    foreach ($keys as $price) {
+        $priceArr = explode("_", $price);
+        array_push($prices, $priceArr[1]);
+    }
+    return $prices;
+}
+
+var_dump(getPriceFromKey(countItemByValue(2)));
