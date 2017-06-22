@@ -11,7 +11,10 @@ if (isset($_SESSION['foireobj']) && is_a($_SESSION['foireobj'], "Foire")) {
     $nbVendeur = $_SESSION['foireobj']->getNbVendeurs();
     $nbObjetsDeposes = $_SESSION['foireobj']->getNbObjets();
     $nbObjetsVendus = $_SESSION['foireobj']->getNbObjetsVendu();
-    $pourcent = ($nbObjetsVendus / $nbObjetsDeposes) * 100;
+    if($nbObjetsDeposes > 0)
+        $pourcent = ($nbObjetsVendus / $nbObjetsDeposes) * 100;
+    else
+        $pourcent = 0;
     $nbTransaction = Transaction::getNbTransactionFromFoires($_SESSION['foireobj']->idFoire());
     $nbCheques = Transaction::getNbPaiementsFoire($_SESSION['foireobj']->idFoire(), 2);
     $totalCheque = Transaction::getTotalPaiment($_SESSION['foireobj']->idFoire(), 2);
