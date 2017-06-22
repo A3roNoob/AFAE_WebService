@@ -6,7 +6,7 @@ session_start();
 $pagetitle = 'Gestion des foires';
 include_once(TEMPLATES_PATH . '/header.php');
 
-if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Vendeur'))) {
+if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::loadFromName('Operateur'))) {
     if (isset($_GET['foire'])) {
         ?>
         <form method="POST" action="/gestion/foire/<?php echo $_GET['foire']; ?>/" class="form-inline">
@@ -27,8 +27,11 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
            $desc = test_input($_POST['objet']);
         }
         ?>
-
         <div class="table-responsive">
+            <form id="formvendre" action="/vente/confirmer/" method="POST">
+                <input type="submit" id="submitobjet" value="Vendre" />
+                <input type="button" value="D&eacute;s&eacute;lectionner tout" id="clear"/>
+                <div class="clear">&nbsp;</div>
             <table class="table table-striped">
                 <tr>
                     <th>Num Objet</th>
@@ -90,17 +93,41 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
                     echo "<td>";
                     ///TODO à faire vente d'objet
-                    echo ($objet->vendu()) ? "" : "<button type='button' " ./* "onclick=\"window.location.href = '/modifier/foire/" . $objet->idFoire() . "/objet/" . $objet->numItem() . "/'\"". */
-                        "class='btn btn-primary'>Vendre</button>";
+                    echo ($objet->vendu()) ? "Vendu" : "<input type='checkbox' class='objet' name='objet_".$objet->idObjet()."' value='".$objet->idObjet()."'/>";
                     echo "</td>";
 
                     echo "</tr>";
                 }
-
+                $_SESSION['foire'] = test_input($_GET['foire']);
                 ?>
             </table>
+        </form>
         </div>
+        <script>
+            document.getElementById("clear").addEventListener("click", function(){
+                var check = document.getElementsByClassName("objet");
+                for(var i = 0; i < check.length; i++){
+                    console.log(i);
+                    check[i].checked = false;
+                }
+            });
 
+            document.getElementById("submitobjet").addEventListener("click", function (e){
+                var check, nbCheck = 0;
+                check = document.getElementsByClassName("objet");
+                for(var i = 0; i < check.length; i++){
+                    if( check[i].checked == true){
+                        nbCheck++;
+                    }
+                }
+                if (nbCheck == 0){
+                    alert("Attention aucun objet coché !");
+                    e.preventDefault();
+                    return false;
+                }
+                return true;
+            });
+        </script>
         <?php
 
     } else {

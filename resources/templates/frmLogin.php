@@ -1,4 +1,4 @@
-<form action="/connexion/" method="post" class="col-xs-6">
+<form action="/connexion/" method="post">
     <div class="form-group">
         <label for="login">Identifiant&nbsp;: </label>
         <?php

@@ -1,4 +1,5 @@
-﻿SELECT SYSDATE() FROM DUAL;
+﻿SELECT SYSDATE()
+FROM DUAL;
 
 CREATE TABLE paiement (
   idpaiement  INT         NOT NULL  AUTO_INCREMENT,
@@ -96,9 +97,10 @@ CREATE TABLE transaction (
   idtransaction   INT  NOT NULL  AUTO_INCREMENT,
   idfoire         INT  NOT NULL,
   idutilisateur   INT,
-  montant         INT  NOT NULL,
+  montant         DECIMAL(7, 2)  NOT NULL,
   idpaiement      INT,
   idbanque        INT,
+  nomclient       VARCHAR(40),
   datetransaction DATE NOT NULL,
   CONSTRAINT pk_transaction PRIMARY KEY (idtransaction),
   CONSTRAINT fk_transaction_foire FOREIGN KEY (idfoire) REFERENCES foire (idfoire)

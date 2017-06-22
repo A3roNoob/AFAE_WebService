@@ -25,7 +25,7 @@ class ObjectManager
     public function loadObjectsFromUser($user)
     {
         $db = connectToDb();
-        $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser');
+        $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser ORDER BY numitem;');
         $query->bindValue(':iduser', $user->id(), PDO::PARAM_INT);
         try {
             $query->execute();
@@ -52,7 +52,7 @@ class ObjectManager
     public function loadObjectsFromUserFoire($user, $foire)
     {
         $db = connectToDb();
-        $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire');
+        $query = $db->prepare('SELECT * FROM objet WHERE idutilisateur=:iduser AND idfoire=:idfoire ORDER BY numitem;');
         $query->bindValue(':iduser', $user->id(), PDO::PARAM_INT);
         $query->bindValue(':idfoire', $foire, PDO::PARAM_INT);
 
@@ -84,7 +84,7 @@ class ObjectManager
     public function loadObjectsFromFoire($foire)
     {
         $db = connectToDb();
-        $query = $db->prepare('SELECT * FROM objet WHERE idfoire=:idfoire');
+        $query = $db->prepare('SELECT * FROM objet WHERE idfoire=:idfoire ORDER BY idutilisateur, numitem;');
         $query->bindValue(':idfoire', $foire, PDO::PARAM_INT);
 
         $data = null;

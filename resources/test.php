@@ -34,7 +34,7 @@ catch (Exception $e)
 }
 */
 //for($i = 0; $i < 3; $i++){
-    $objet = Object::createObject(3, 1, "Puma Air Jordans", false, 70, false, 43, 2, false);
+    /*$objet = Object::createObject(3, 1, "Puma Air Jordans", false, 70, false, 43, 2, false);
     $objet->insertObjectIntoDb();
 //}
 //$objMan = new ObjectManager($_SESSION['userobject']);
@@ -51,9 +51,14 @@ catch (PDOException $e) {
 
 /*$oui = convertDateToSql("27/03/1998") > convertDateToSql("26/03/1998");
 var_dump($oui);*/
-
+/*
 $d = "20/06/2017";
 
 $date = DateTime::createFromFormat("d/m/Y", $d);
 $date = $date->format("Y-m-d");
-var_dump($date);
+var_dump($date);*/
+
+echo today();
+$today = DateTime::createFromFormat("d-m-Y", today());
+$today = $today->format("d/m/Y");
+echo $today;

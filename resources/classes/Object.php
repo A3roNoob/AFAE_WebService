@@ -348,4 +348,16 @@ class Object
         return true;
     }
 
+    public function vendre(){
+        $this->setVendu(true);
+        $db = connectToDb();
+        $query = $db->prepare("UPDATE objet SET vendu=TRUE WHERE idobjet=:idobjet;");
+        $query->bindValue(':idobjet', $this->idObjet(), PDO::PARAM_INT);
+        try{
+            $query->execute();
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
 }

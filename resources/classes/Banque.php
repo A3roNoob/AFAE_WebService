@@ -67,4 +67,27 @@ class Banque
         return $obj;
     }
 
+    public static function getAllBanque(){
+        $banqueList = array();
+        $db = connectToDb();
+        $query = $db->prepare("SELECT * FROM banque");
+        try{
+            $query->execute();
+            $data = $query->fetchAll();
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+        }
+
+        foreach ($data as $value) {
+            $banque = new Banque();
+            $banque->hydrate($value);
+            array_push($banqueList, $banque);
+        }
+
+        $query->closeCursor();
+        return $banqueList;
+    }
+
 }

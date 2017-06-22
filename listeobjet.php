@@ -124,11 +124,11 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                             echo "</td>";
 
                             echo "<td>";
-                            echo ($userObject->verrou()) ? "" : "<button type='button' onclick=\"window.location.href = '/modifier/foire/" . $userObject->idFoire() . "/objet/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Modifier</button>";
+                            echo ($userObject->verrou() || $userObject->vendu() ) ? "" : "<button type='button' onclick=\"window.location.href = '/modifier/foire/" . $userObject->idFoire() . "/objet/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Modifier</button>";
                             echo "</td>";
 
                             echo "<td>";
-                            echo ($userObject->verrou()) ? "" : "<button type='button' onclick=\"window.location.href = '/liste/objet/foire/" . $userObject->idFoire() . "/supprimer/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Supprimer</button>";
+                            echo ($userObject->verrou() || $userObject->vendu()) ? "" : "<button type='button' onclick=\"window.location.href = '/liste/objet/foire/" . $userObject->idFoire() . "/supprimer/" . $userObject->numItem() . "/'\" class='btn btn-primary'>Supprimer</button>";
                             echo "</td>";
                             echo "</tr>";
                         }

@@ -16,6 +16,8 @@ function connectToDb()
 function accessForbidden()
 {
     echo "<div class='alert alert-danger'>Acc&egrave;s interdit</div>";
+    include_once(TEMPLATES_PATH . '/footer.php');
+    exit(403);
 }
 
 function test_input($data)

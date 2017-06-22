@@ -42,6 +42,11 @@ RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
 RewriteRule ^impression/etiquette/?$ resources/impressions/Etiquette.php
 RewriteRule ^impression/etiquette/vendeur/?$ resources/impressions/EtiquetteVendeur.php
 RewriteRule ^impression/etiquette/objet/?$ resources/impressions/EtiquetteObjet.php
+
+#Vente objet
+RewriteRule ^vente/confirmer/?$ confirmervente.php
+RewriteRule ^vente/objet/?$ venteobjet.php
+
 #interdiction du dossier ressources
 RewriteRule ^resources/classes - [F,L]
 RewriteRule ^resources/sql - [F,L]
