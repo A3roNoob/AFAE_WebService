@@ -61,7 +61,6 @@ session_start();
         tr {
             text-align: center;
             font-size: 1.25em;
-            width: 100;
         }
 
         tr {
