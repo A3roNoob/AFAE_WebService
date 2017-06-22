@@ -37,12 +37,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     $foireMan = new FoireManager();
                     $foireMan->loadFromDbParticipant($_SESSION['userobject']->id());
                     foreach ($foireMan->foires() as $foire) {
-                        if($foire->idFoire() == test_input($_GET['foire']))
+                        if ($foire->idFoire() == test_input($_GET['foire']))
                             $selec = "selected";
                         else
                             $selec = "";
 
-                        echo '<option value="' . $foire->idFoire() . '" '.$selec.'>' . $foire->nomFoire() . '</option>';
+                        echo '<option value="' . $foire->idFoire() . '" ' . $selec . '>' . $foire->nomFoire() . '</option>';
                     }
                     ?>
                 </select>
@@ -59,28 +59,27 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
             echo "<span id='nomfoire'>" . (!is_a($f, "Foire")) ? "" : $f->nomFoire() . "</span>";
             $idFoire = $f->idFoire();
             $_SESSION['userlist'] = $userList;
+            $_SESSION['foire'] = $f;
         }
-        if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['idfoire']) && isset($_GET['iduser']))
-        {
+        else if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['idfoire']) && isset($_GET['iduser'])) {
             $idUser = test_input($_GET['iduser']);
             $idFoire = test_input($_GET['idfoire']);
-            if(Participant::validerPart($idUser, $idFoire))
-            {
+            $_SESSION['foire'] = Foire::loadFromDb($idFoire);
+            if (Participant::validerPart($idUser, $idFoire)) {
                 echo '<div class="alert alert-success">Vendeur autoris&eacute; dans cette foire.</div>';
-            }
-            else
-            {
+            } else {
                 echo '<div class="alert alert-danger">Erreur lors de l\'autorisation du vendeur. <br />Veuillez r&eacute;essayer plus tard.</div>';
             }
-            if(isset($_SESSION['userlist']))
-            {
+            if (isset($_SESSION['userlist'])) {
                 $userList = $_SESSION['userlist'];
             }
         }
     }
     if ($userList->users() != NULL) {
         ?>
-        <br />
+        <br/>
+        <form action="/impression/EtiquetteVendeur/" method="post">
+            <input type="submit" value="Imprimer vendeur" onClick="custAlert('Attention, vous n\'avez pas séléctionné de vendeur, vous aurez toute la liste.')">
         <table class="table table-striped">
             <tr>
                 <th>Id</th>
@@ -93,8 +92,10 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                 <th>E-mail</th>
                 <?php if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur')))
                     echo '<th>Modifier</th>';
-                else
-                    echo '<th>Valider</th>' ?>
+                else {
+                    echo '<th>Valider</th>';
+                    echo '<th>Etiquette</th>';
+                } ?>
             </tr>
             <?php
             foreach ($userList->users() as $user) {
@@ -147,10 +148,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                                 <input id="idfoire" name="idfoire" value="' . $idFoire . '" type="hidden" />
                                 <input type="button" class="btn btn-default" onclick="window.location.href= \'/liste/vendeur/\' + document.getElementById(\'iduser\').value + \'/\' + document.getElementById(\'idfoire\').value + \'/\'" value="Valider"/>
                           </form>';
-                        }else
-                        {
+                        } else {
                             echo 'Valid&eacute;';
                         }
+                        echo '</td>';
+                        echo '<td>';
+                        echo '<input type="checkbox" class="vendeur" name="vendeur_'.$user->id().'" value='.$user->id().' />';
                         echo '</td>';
                     }
                 }
@@ -160,7 +163,23 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
             ?>
         </table>
+        </form>
         </div>
+        <script>
+            function custAlert(string)
+            {
+                var check, nbCheck = 0;
+                check = document.getElementsByClassName("vendeur");
+                for(var i = 0; i < check.length; i++){
+                    if( check[i].checked == true){
+                        nbCheck++;
+                    }
+                }
+
+                if (nbCheck == 0)
+                    alert(string)
+            }
+        </script>
         <?php
     }
 } else {

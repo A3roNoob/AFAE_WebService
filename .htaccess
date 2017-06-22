@@ -38,6 +38,9 @@ RewriteRule ^perso/?$ modifperso.php
 RewriteRule ^perso/infos/?$ modifperso.php?infos=1
 RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
 
+#Impression
+RewriteRule ^impression/EtiquetteVendeur/ resources/impressions/EtiquetteVendeur.php
+
 #interdiction du dossier ressources
 RewriteRule ^resources/classes - [F,L]
 RewriteRule ^resources/sql - [F,L]
