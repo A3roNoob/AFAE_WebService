@@ -26,11 +26,13 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
         if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['objet'])) {
            $desc = test_input($_POST['objet']);
         }
+        $_SESSION['foireobj'] = Foire::loadFromDb(test_input($_GET['foire']));
         ?>
         <div class="table-responsive">
             <form id="formvendre" action="/vente/confirmer/" method="POST">
                 <input type="submit" id="submitobjet" value="Vendre" />
                 <input type="button" value="D&eacute;s&eacute;lectionner tout" id="clear">
+                <input type="button" value="Tableau de bord" onClick="window.location.href='/foire/tableaudebord/'" />
                 <div class="clear">&nbsp;</div>
             <table class="table table-striped">
                 <tr>

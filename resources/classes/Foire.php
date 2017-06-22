@@ -262,4 +262,45 @@ class Foire
         return $this->nomFoire();
     }
 
+    public function getNbVendeurs(){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT COUNT(*) AS Nb_Vendeur FROM participant WHERE valide=TRUE AND idfoire=:idfoire;");
+        $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Nb_Vendeur'];
+    }
+
+    public function getNbObjets(){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT COUNT(*) AS Nb_Objets FROM objet WHERE idfoire=:idfoire;");
+        $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Nb_Objets'];
+    }
+
+    public function getNbObjetsVendu(){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT COUNT(*) AS Nb_Objets FROM objet WHERE idfoire=:idfoire and vendu=TRUE;");
+        $query->bindValue(':idfoire', $this->idFoire(), PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Nb_Objets'];
+    }
 }

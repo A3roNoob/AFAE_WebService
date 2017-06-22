@@ -38,6 +38,9 @@ RewriteRule ^perso/?$ modifperso.php
 RewriteRule ^perso/infos/?$ modifperso.php?infos=1
 RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
 
+#tableau de bord
+RewriteRule ^foire/tableaudebord/?$ tableaubord.php
+
 #Impression
 RewriteRule ^impression/etiquette/?$ resources/impressions/Etiquette.php
 RewriteRule ^impression/etiquette/vendeur/?$ resources/impressions/EtiquetteVendeur.php

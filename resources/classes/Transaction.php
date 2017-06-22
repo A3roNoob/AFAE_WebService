@@ -237,4 +237,48 @@ class Transaction
         }
     }
 
+    public static function getNbTransactionFromFoires($idFoire){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT COUNT(*) AS Transactions FROM transaction WHERE idfoire=:idfoire ;");
+        $query->bindValue(':idfoire', $idFoire, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Transactions'];
+    }
+
+
+    public static function getNbPaiementsFoire($idFoire, $type){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT COUNT(*) AS Paiements FROM transaction WHERE idfoire=:idfoire AND idpaiement=:paiement;");
+        $query->bindValue(':idfoire', $idFoire, PDO::PARAM_INT);
+        $query->bindValue(':paiement', $type, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Paiements'];
+    }
+
+    public static function getTotalPaiment($idFoire, $type){
+        $db = connectToDb();
+        $query = $db->prepare("SELECT SUM(montant) AS Total FROM transaction WHERE idfoire=:idfoire AND idpaiement=:paiement;");
+        $query->bindValue(':idfoire', $idFoire, PDO::PARAM_INT);
+        $query->bindValue(':paiement', $type, PDO::PARAM_INT);
+        try{
+            $query->execute();
+            $data = $query->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+        return $data['Total'];
+    }
 }

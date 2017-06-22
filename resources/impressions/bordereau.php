@@ -102,7 +102,10 @@ if (isset($_SESSION['foire']) && is_a($_SESSION['foire'], "Foire")) {
             <div id="header">
                 <div class="head">
                     <h3>Bordereau de ch&egrave;ques</h3>
-                    <h4 class="date">Ch&egrave;ques du 20/06/2017</h4>
+                    <h4 class="date">Ch&egrave;ques du <?php
+                        $today = DateTime::createFromFormat("d-m-Y", today());
+                        $today = $today->format("d/m/Y");
+                        echo $today; ?></h4>
                 </div>
                 <div class="head">
                     <h3>Compte AFAE: Soci&eacute;t&eacute; G&eacute;n&eacute;rale</h3>
