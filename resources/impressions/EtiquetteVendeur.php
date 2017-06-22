@@ -90,7 +90,7 @@ if (isset($_SESSION['foire'])) {
     else{
         $userArr = array();
         foreach($_POST as $user){
-            array_push($userArr, User::loadUserWithId($user));
+            array_push($userArr, User::loadUserWithId(test_input($user)));
         }
         printUser($userArr);
     }
