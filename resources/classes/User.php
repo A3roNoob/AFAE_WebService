@@ -2,8 +2,6 @@
 require_once(dirname(__FILE__) . "/../config.php");
 require_once(dirname(__FILE__) . "/../functions.php");
 
-//TODO gestion des opérateurs
-
 class User
 {
     private $_idUser;
@@ -79,11 +77,15 @@ class User
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+        if($data != false) {
 
-        $query->closeCursor();
-        $user = new self();
-        $user->hydrate($data);
-        return $user;
+
+            $query->closeCursor();
+            $user = new self();
+            $user->hydrate($data);
+            return $user;
+        }
+        return null;
     }
 
     public function insertIntoDb($login, $password)
@@ -190,6 +192,22 @@ class User
         $this->setPhone($phone);
         $this->setEmail($email);
         $this->setDrop($baisse);
+
+        try{
+            $query->execute();
+        }catch(PDOException $e){
+            $query->closeCursor();
+            return false;
+        }
+        $query->closeCursor();
+        return true;
+    }
+
+    public function updateRank(){
+        $db = connectToDb();
+        $query = $db->prepare('UPDATE utilisateur SET rang=:rang WHERE idutilisateur=:iduser;');
+        $query->bindValue(':rang', $this->rank()->id(), PDO::PARAM_INT);
+        $query->bindValue(':iduser', $this->id(), PDO::PARAM_INT);
 
         try{
             $query->execute();

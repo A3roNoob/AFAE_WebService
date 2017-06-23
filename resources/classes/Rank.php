@@ -22,7 +22,7 @@ class Rank
         if (isset($data['idrang']))
             $this->setId($data['idrang']);
         if (isset($data['nomrang']))
-            $this->setName(['idrang']);
+            $this->setName($data['nomrang']);
     }
 
     public function setId($id)
@@ -33,8 +33,7 @@ class Rank
 
     public function setName($name)
     {
-        if (is_string($name))
-            $this->_rankName = $name;
+        $this->_rankName = $name;
     }
 
     //Get a rank from db with its name
@@ -78,5 +77,27 @@ class Rank
         $query->closeCursor();
 
         return $rank;
+    }
+
+    public static function getAllRanks(){
+        $rankList = array();
+        $db = connectToDb();
+        $query = $db->prepare("SELECT * FROM rang");
+        try{
+            $query->execute();
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e)
+        {
+            echo $e->getMessage();
+        }
+        foreach ($data as $value) {
+            $rang = new Rank();
+            $rang->hydrate($value);
+            array_push($rankList, $rang);
+        }
+
+        $query->closeCursor();
+        return $rankList;
     }
 }

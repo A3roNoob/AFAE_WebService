@@ -11,7 +11,7 @@ RewriteRule ^deconnexion/?$ deconnexion.php?deco=1
 #RewriteRule ^liste/vendeur/foire/%1?
 
 #liste vendeur
-RewriteRule ^liste/vendeur/(foire)?/?$ listeutilisateur.php
+RewriteRule ^liste/(vendeur|utilisateur)/(foire)?/?$ listeutilisateur.php
 RewriteRule ^liste/vendeur/foire/([0-9]+)/?$ listeutilisateur.php?foire=$1
 RewriteRule ^liste/vendeur/([0-9]+)/([0-9]+)/?$ listeutilisateur.php?iduser=$1&idfoire=$2
 
@@ -40,6 +40,10 @@ RewriteRule ^perso/mdp/?$ modifperso.php?mdp=1
 
 #tableau de bord
 RewriteRule ^foire/tableaudebord/?$ tableaubord.php
+
+#Modifier user
+RewriteRule ^modif/user/([0-9]+)/?$ modifuser.php?user=$1
+
 
 #Impression
 RewriteRule ^impression/etiquette/?$ resources/impressions/Etiquette.php

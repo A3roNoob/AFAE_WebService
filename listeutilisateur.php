@@ -140,7 +140,7 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
 
                 if ($_SESSION['userobject']->checkRank(Rank::loadFromName('Super Administrateur'))) {
                     echo "<td>";
-                    echo '<input type="button" class="btn btn-default" value="Modifier"/>';
+                    echo '<input type="button" class="btn btn-default" value="Modifier" onClick="window.location.href=\'/modif/user/'.$user->id().'/\'"/>';
                     echo "</td>";
                 } else {
                     if ($idFoire != 0) {

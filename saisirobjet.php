@@ -3,8 +3,6 @@ require_once("resources/config.php");
 require_once("resources/functions.php");
 session_start();
 
-///TODO tant qu'on est en période saisie, droit de modifier objets
-
 $pagetitle = 'Saisie des objets';
 $desc = $taille = $prix = $nbitem = $baisse = "";
 $descErr = $tailleErr = $prixErr = $nbItemErr = false;

@@ -88,11 +88,4 @@ function getPriceFromKey(array $array)
 
 var_dump(getPriceFromKey(countItemByValue(2)));
 */
-
-foreach(Transaction::getDatesFromFoire(1) as $date){
-    echo $date."<br />";
-}
-
-foreach(Transaction::getChequesDateFoire(1, '2017-06-22') as $cheque){
-    var_dump($cheque);
-}
+var_dump(Rank::getAllRanks());

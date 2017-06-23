@@ -62,7 +62,12 @@ if (isset($_SESSION['userobject']) && $_SESSION['userobject']->checkRank(Rank::l
                     echo "</td>";
 
                     echo "<td>";
-                    echo $objet->user()->name() . " " . $objet->user()->fName();
+                    if(!is_null($objet->user())){
+                        echo $objet->user()->name() . " " . $objet->user()->fName();
+                    }
+                    else{
+                        echo "N/A";
+                    }
                     echo "</td>";
 
                     echo "<td class='desc'>";

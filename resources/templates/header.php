@@ -47,7 +47,7 @@
                     <?php
                     if ($_SESSION['userobject']->checkRank(Rank::loadFromName("Super Administrateur"))) {
                         ?>
-                        <li><a href="/liste/utilisateur/"> Liste utilisateur </a></li>
+                        <li><a href="/liste/vendeur/"> Liste utilisateur </a></li>
                         <?php
                     } else if ($_SESSION['userobject']->checkRank(Rank::loadFromName("Administrateur de foire"))) {
                         ?>

@@ -1,5 +1,4 @@
 <?php
-///TODO transactions
 require_once(dirname(__FILE__) . "/../config.php");
 
 class Object
@@ -125,7 +124,9 @@ class Object
             $this->_utilisateur = $user;
         else {
             $user = (int)$user;
-            $this->_utilisateur = User::loadUserWithId($user);
+            $user = User::loadUserWithId($user);
+            if(!is_null($user))
+                $this->_utilisateur = $user;
         }
     }
 
