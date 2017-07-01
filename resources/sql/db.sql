@@ -89,7 +89,7 @@ CREATE TABLE objet (
   CONSTRAINT fk_objet_user FOREIGN KEY (idutilisateur) REFERENCES participant (idutilisateur)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT fk_objet_foire FOREIGN KEY (idfoire) REFERENCES participant (idfoire)
+  CONSTRAINT fk_objet_foire FOREIGN KEY (idfoire) REFERENCES foire (idfoire)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
