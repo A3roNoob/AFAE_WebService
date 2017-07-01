@@ -21,20 +21,20 @@ CREATE TABLE rang (
 );
 
 CREATE TABLE utilisateur (
-  idutilisateur     INT          NOT NULL  AUTO_INCREMENT,
-  nomutilisateur    VARCHAR(64)  NOT NULL,
-  prenomutilisateur VARCHAR(64),
-  adresse           VARCHAR(255) NOT NULL,
-  codepostal        NUMERIC(5)   NOT NULL,
-  ville             VARCHAR(64)  NOT NULL,
+  idutilisateur     INT          AUTO_INCREMENT,
+  nomutilisateur    VARCHAR(64) NOT NULL,
+  prenomutilisateur VARCHAR(64) NOT NULL,
+  adresse           VARCHAR(255),
+  codepostal        NUMERIC(5),
+  ville             VARCHAR(64),
   telephone         NUMERIC(10),
   baisse            BOOLEAN      NOT NULL,
-  login             VARCHAR(64)  NOT NULL UNIQUE,
-  motdepasse        VARCHAR(255) NOT NULL,
-  email             VARCHAR(255) NOT NULL UNIQUE,
+  login             VARCHAR(64)  UNIQUE,
+  motdepasse        VARCHAR(255),
+  email             VARCHAR(255) UNIQUE,
   rang              INT          NOT NULL,
   CONSTRAINT pk_utilisateur PRIMARY KEY (idutilisateur),
-  CONSTRAINT fk_utilisateur FOREIGN KEY (rang) REFERENCES rang (idrang)
+  CONSTRAINT fk_utilisateur_rang FOREIGN KEY (rang) REFERENCES rang (idrang)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
@@ -46,7 +46,7 @@ CREATE TABLE association (
   villeassociation VARCHAR(64)  NOT NULL,
   idadministrateur INT          NOT NULL,
   CONSTRAINT pk_association PRIMARY KEY (idassociation),
-  CONSTRAINT fk_association FOREIGN KEY (idadministrateur) REFERENCES utilisateur (idutilisateur)
+  CONSTRAINT fk_association_user FOREIGN KEY (idadministrateur) REFERENCES utilisateur (idutilisateur)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 );
@@ -65,7 +65,7 @@ CREATE TABLE foire (
   maxobjassoc     NUMERIC(3),
   retenue         NUMERIC(3),
   CONSTRAINT pk_foire PRIMARY KEY (idfoire),
-  CONSTRAINT fk_foire FOREIGN KEY (idassociation) REFERENCES association (idassociation)
+  CONSTRAINT fk_foire_association FOREIGN KEY (idassociation) REFERENCES association (idassociation)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT fk_foire_admin FOREIGN KEY (idadmin) REFERENCES utilisateur (idutilisateur)
@@ -86,10 +86,10 @@ CREATE TABLE objet (
   nbitem        INT           NOT NULL,
   verrou        BOOLEAN       NOT NULL          DEFAULT 0,
   CONSTRAINT pk_objet PRIMARY KEY (numitem, idfoire, idutilisateur),
-  CONSTRAINT fk_objet FOREIGN KEY (idutilisateur) REFERENCES utilisateur (idutilisateur)
+  CONSTRAINT fk_objet_user FOREIGN KEY (idutilisateur) REFERENCES participant (idutilisateur)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
-  CONSTRAINT fk_objFoire FOREIGN KEY (idfoire) REFERENCES foire (idfoire)
+  CONSTRAINT fk_objet_foire FOREIGN KEY (idfoire) REFERENCES participant (idfoire)
     ON DELETE NO ACTION
     ON UPDATE CASCADE
 );

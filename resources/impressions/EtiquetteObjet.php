@@ -146,6 +146,8 @@ session_start();
         .prix .num {
             width: 100%;
             height: 70%;
+            font-size: 1.5em;
+            transform: translateY(25%);
         }
 
         .prix .symb {
